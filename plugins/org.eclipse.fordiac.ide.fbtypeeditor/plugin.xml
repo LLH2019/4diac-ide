@@ -39,6 +39,9 @@
          <propertyCategory
                category="serviceSequence">
          </propertyCategory>
+         <propertyCategory
+               category="attributes">
+         </propertyCategory>
       </propertyContributor>
    </extension>
    <extension
@@ -68,6 +71,11 @@
                id="property.tab.data"
                image="fordiacimage://ICON_Data"
                label="Data">
+         </propertyTab>
+         <propertyTab
+               category="attributes"
+               id="org.eclipse.fordiac.ide.fbtypeeditor.propertyTab.Attributes"
+               label="Attributes">
          </propertyTab>
       </propertyTabs>
    </extension>
@@ -132,6 +140,14 @@
             </input>
             <input
                   type="org.eclipse.fordiac.ide.fbtypeeditor.editparts.CommentEditPart">
+            </input>
+         </propertySection>
+         <propertySection
+               class="org.eclipse.fordiac.ide.fbtypeeditor.properties.AttributeSection"
+               id="org.eclipse.fordiac.ide.fbtypeeditor.propertySection.Attributes"
+               tab="org.eclipse.fordiac.ide.fbtypeeditor.propertyTab.Attributes">
+            <input
+                  type="org.eclipse.fordiac.ide.fbtypeeditor.editparts.InterfaceEditPart">
             </input>
          </propertySection>
       </propertySections>

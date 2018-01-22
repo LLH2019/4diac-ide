@@ -7,34 +7,36 @@
  *
  * SPDX-License-Identifier: EPL-2.0 3
  *******************************************************************************/
-package org.eclipse.fordiac.ide.application.properties;
+package org.eclipse.fordiac.ide.fbtypeeditor.properties;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.fordiac.ide.application.editparts.FBNetworkEditPart;
-import org.eclipse.fordiac.ide.application.editparts.InterfaceEditPart;
+import org.eclipse.fordiac.ide.fbtypeeditor.editors.FBTypeEditor;
+import org.eclipse.fordiac.ide.fbtypeeditor.editparts.InterfaceEditPart;
 import org.eclipse.fordiac.ide.gef.properties.AbstractAttributeSection;
-import org.eclipse.fordiac.ide.model.libraryElement.Application;
-import org.eclipse.fordiac.ide.model.libraryElement.ConfigurableObject;
 import org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement;
+import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.ui.IWorkbenchPart;
 
 public class AttributeSection extends AbstractAttributeSection {
-	protected ConfigurableObject getInputType(Object input) {
-		if(input instanceof FBNetworkEditPart){
-			return ((FBNetworkEditPart) input).getModel().getApplication();
-		}
+	protected IInterfaceElement getInputType(Object input) {
 		if(input instanceof InterfaceEditPart) {
-			return ((InterfaceEditPart) input).getModel();
+			return ((InterfaceEditPart) input).getCastedModel();
 		}
 		return null;
 	}
 
 	@Override
 	protected EObject getType() {
-		if(type instanceof Application){
-			return (Application) type;
-		}
 		if(type instanceof IInterfaceElement){
 			return (IInterfaceElement) type;
+		}
+		return null;
+	}
+	
+	@Override
+	protected CommandStack getCommandStack(IWorkbenchPart part, Object input) {
+		if(part instanceof FBTypeEditor){
+			return ((FBTypeEditor)part).getCommandStack();
 		}
 		return null;
 	}

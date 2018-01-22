@@ -206,6 +206,9 @@
             <input
                   type="org.eclipse.fordiac.ide.application.editparts.FBNetworkEditPart">
             </input>
+            <input
+                  type="org.eclipse.fordiac.ide.application.editparts.InterfaceEditPart">
+            </input>
          </propertySection>
       </propertySections>
    </extension>

@@ -23,6 +23,7 @@ import org.eclipse.fordiac.ide.model.libraryElement.Application;
 import org.eclipse.fordiac.ide.model.libraryElement.Attribute;
 import org.eclipse.fordiac.ide.model.libraryElement.ConfigurableObject;
 import org.eclipse.fordiac.ide.model.libraryElement.Device;
+import org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement;
 import org.eclipse.fordiac.ide.model.libraryElement.Segment;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.viewers.CellEditor;
@@ -228,6 +229,9 @@ public abstract class AbstractAttributeSection extends AbstractSection {
 			}
 			if(inputElement instanceof Segment){
 				return ((Segment)inputElement).getAttributes().toArray();
+			}
+			if(inputElement instanceof IInterfaceElement){
+				return ((IInterfaceElement)inputElement).getAttributes().toArray();
 			}
 			return new Object[] {};
 		}
