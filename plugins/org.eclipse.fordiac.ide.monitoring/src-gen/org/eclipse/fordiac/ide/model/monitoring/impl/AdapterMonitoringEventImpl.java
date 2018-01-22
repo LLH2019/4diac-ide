@@ -27,14 +27,15 @@ import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.fordiac.ide.model.data.DataType;
 import org.eclipse.fordiac.ide.model.libraryElement.Annotation;
+import org.eclipse.fordiac.ide.model.libraryElement.Attribute;
+import org.eclipse.fordiac.ide.model.libraryElement.AttributeDeclaration;
+import org.eclipse.fordiac.ide.model.libraryElement.ConfigurableObject;
 import org.eclipse.fordiac.ide.model.libraryElement.Connection;
 import org.eclipse.fordiac.ide.model.libraryElement.Event;
 import org.eclipse.fordiac.ide.model.libraryElement.FBNetworkElement;
 import org.eclipse.fordiac.ide.model.libraryElement.I4DIACElement;
 import org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement;
 import org.eclipse.fordiac.ide.model.libraryElement.INamedElement;
-import org.eclipse.fordiac.ide.model.libraryElement.InterfaceList;
-import org.eclipse.fordiac.ide.model.libraryElement.LibraryElementFactory;
 import org.eclipse.fordiac.ide.model.libraryElement.LibraryElementPackage;
 import org.eclipse.fordiac.ide.model.libraryElement.Value;
 import org.eclipse.fordiac.ide.model.libraryElement.With;
@@ -54,12 +55,14 @@ import org.eclipse.gef.EditPart;
  *   <li>{@link org.eclipse.fordiac.ide.model.monitoring.impl.AdapterMonitoringEventImpl#getAnnotations <em>Annotations</em>}</li>
  *   <li>{@link org.eclipse.fordiac.ide.model.monitoring.impl.AdapterMonitoringEventImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.fordiac.ide.model.monitoring.impl.AdapterMonitoringEventImpl#getComment <em>Comment</em>}</li>
+ *   <li>{@link org.eclipse.fordiac.ide.model.monitoring.impl.AdapterMonitoringEventImpl#getAttributes <em>Attributes</em>}</li>
  *   <li>{@link org.eclipse.fordiac.ide.model.monitoring.impl.AdapterMonitoringEventImpl#isIsInput <em>Is Input</em>}</li>
  *   <li>{@link org.eclipse.fordiac.ide.model.monitoring.impl.AdapterMonitoringEventImpl#getInputConnections <em>Input Connections</em>}</li>
  *   <li>{@link org.eclipse.fordiac.ide.model.monitoring.impl.AdapterMonitoringEventImpl#getOutputConnections <em>Output Connections</em>}</li>
  *   <li>{@link org.eclipse.fordiac.ide.model.monitoring.impl.AdapterMonitoringEventImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.fordiac.ide.model.monitoring.impl.AdapterMonitoringEventImpl#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.fordiac.ide.model.monitoring.impl.AdapterMonitoringEventImpl#getTypeName <em>Type Name</em>}</li>
+ *   <li>{@link org.eclipse.fordiac.ide.model.monitoring.impl.AdapterMonitoringEventImpl#getAttributeDeclarations <em>Attribute Declarations</em>}</li>
  *   <li>{@link org.eclipse.fordiac.ide.model.monitoring.impl.AdapterMonitoringEventImpl#getWith <em>With</em>}</li>
  * </ul>
  *
@@ -84,7 +87,7 @@ public class AdapterMonitoringEventImpl extends EObjectImpl implements AdapterMo
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String NAME_EDEFAULT = null;
+	protected static final String NAME_EDEFAULT = "";
 
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
@@ -104,7 +107,7 @@ public class AdapterMonitoringEventImpl extends EObjectImpl implements AdapterMo
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String COMMENT_EDEFAULT = null;
+	protected static final String COMMENT_EDEFAULT = "";
 
 	/**
 	 * The cached value of the '{@link #getComment() <em>Comment</em>}' attribute.
@@ -115,6 +118,16 @@ public class AdapterMonitoringEventImpl extends EObjectImpl implements AdapterMo
 	 * @ordered
 	 */
 	protected String comment = COMMENT_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getAttributes() <em>Attributes</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAttributes()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Attribute> attributes;
 
 	/**
 	 * The default value of the '{@link #isIsInput() <em>Is Input</em>}' attribute.
@@ -197,6 +210,16 @@ public class AdapterMonitoringEventImpl extends EObjectImpl implements AdapterMo
 	protected String typeName = TYPE_NAME_EDEFAULT;
 
 	/**
+	 * The cached value of the '{@link #getAttributeDeclarations() <em>Attribute Declarations</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAttributeDeclarations()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<AttributeDeclaration> attributeDeclarations;
+
+	/**
 	 * The cached value of the '{@link #getWith() <em>With</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -277,6 +300,18 @@ public class AdapterMonitoringEventImpl extends EObjectImpl implements AdapterMo
 		comment = newComment;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, MonitoringPackage.ADAPTER_MONITORING_EVENT__COMMENT, oldComment, comment));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Attribute> getAttributes() {
+		if (attributes == null) {
+			attributes = new EObjectContainmentEList.Resolving<Attribute>(Attribute.class, this, MonitoringPackage.ADAPTER_MONITORING_EVENT__ATTRIBUTES);
+		}
+		return attributes;
 	}
 
 	/**
@@ -392,6 +427,18 @@ public class AdapterMonitoringEventImpl extends EObjectImpl implements AdapterMo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<AttributeDeclaration> getAttributeDeclarations() {
+		if (attributeDeclarations == null) {
+			attributeDeclarations = new EObjectContainmentEList.Resolving<AttributeDeclaration>(AttributeDeclaration.class, this, MonitoringPackage.ADAPTER_MONITORING_EVENT__ATTRIBUTE_DECLARATIONS);
+		}
+		return attributeDeclarations;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EList<Connection> getInputConnections() {
 		if (inputConnections == null) {
 			inputConnections = new EObjectWithInverseResolvingEList<Connection>(Connection.class, this, MonitoringPackage.ADAPTER_MONITORING_EVENT__INPUT_CONNECTIONS, LibraryElementPackage.CONNECTION__DESTINATION);
@@ -467,7 +514,34 @@ public class AdapterMonitoringEventImpl extends EObjectImpl implements AdapterMo
 	 * @generated
 	 */
 	public FBNetworkElement getFBNetworkElement() {
-		return (eContainer() instanceof InterfaceList) ? ((InterfaceList)eContainer()).getFBNetworkElement() : null;
+		return org.eclipse.fordiac.ide.model.Annotations.GEN.getFBNetworkElement(this);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAttribute(final String attributeName, final String type, final String value, final String comment) {
+		org.eclipse.fordiac.ide.model.Annotations.GEN.setAttribute(this, attributeName, type, value, comment);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Attribute getAttribute(final String attributeName) {
+		return org.eclipse.fordiac.ide.model.Annotations.GEN.getAttribute(this, attributeName);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getAttributeValue(final String attributeName) {
+		return org.eclipse.fordiac.ide.model.Annotations.GEN.getAttributeValue(this, attributeName);
 	}
 
 	/**
@@ -476,11 +550,7 @@ public class AdapterMonitoringEventImpl extends EObjectImpl implements AdapterMo
 	 * @generated
 	 */
 	public Annotation createAnnotation(final String name) {
-				Annotation annotation = LibraryElementFactory.eINSTANCE
-						.createAnnotation();
-				annotation.setName(name);
-				getAnnotations().add(annotation);
-				return annotation;
+		return org.eclipse.fordiac.ide.model.Annotations.GEN.createAnnotation(this, name);
 	}
 
 	/**
@@ -489,8 +559,7 @@ public class AdapterMonitoringEventImpl extends EObjectImpl implements AdapterMo
 	 * @generated
 	 */
 	public void removeAnnotation(final Annotation annotation) {
-				getAnnotations().remove(annotation);
-		
+		org.eclipse.fordiac.ide.model.Annotations.GEN.removeAnnotation(this, annotation);
 	}
 
 	/**
@@ -518,12 +587,16 @@ public class AdapterMonitoringEventImpl extends EObjectImpl implements AdapterMo
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case MonitoringPackage.ADAPTER_MONITORING_EVENT__ATTRIBUTES:
+				return ((InternalEList<?>)getAttributes()).basicRemove(otherEnd, msgs);
 			case MonitoringPackage.ADAPTER_MONITORING_EVENT__INPUT_CONNECTIONS:
 				return ((InternalEList<?>)getInputConnections()).basicRemove(otherEnd, msgs);
 			case MonitoringPackage.ADAPTER_MONITORING_EVENT__OUTPUT_CONNECTIONS:
 				return ((InternalEList<?>)getOutputConnections()).basicRemove(otherEnd, msgs);
 			case MonitoringPackage.ADAPTER_MONITORING_EVENT__VALUE:
 				return basicSetValue(null, msgs);
+			case MonitoringPackage.ADAPTER_MONITORING_EVENT__ATTRIBUTE_DECLARATIONS:
+				return ((InternalEList<?>)getAttributeDeclarations()).basicRemove(otherEnd, msgs);
 			case MonitoringPackage.ADAPTER_MONITORING_EVENT__WITH:
 				return ((InternalEList<?>)getWith()).basicRemove(otherEnd, msgs);
 		}
@@ -544,6 +617,8 @@ public class AdapterMonitoringEventImpl extends EObjectImpl implements AdapterMo
 				return getName();
 			case MonitoringPackage.ADAPTER_MONITORING_EVENT__COMMENT:
 				return getComment();
+			case MonitoringPackage.ADAPTER_MONITORING_EVENT__ATTRIBUTES:
+				return getAttributes();
 			case MonitoringPackage.ADAPTER_MONITORING_EVENT__IS_INPUT:
 				return isIsInput();
 			case MonitoringPackage.ADAPTER_MONITORING_EVENT__INPUT_CONNECTIONS:
@@ -558,6 +633,8 @@ public class AdapterMonitoringEventImpl extends EObjectImpl implements AdapterMo
 				return basicGetValue();
 			case MonitoringPackage.ADAPTER_MONITORING_EVENT__TYPE_NAME:
 				return getTypeName();
+			case MonitoringPackage.ADAPTER_MONITORING_EVENT__ATTRIBUTE_DECLARATIONS:
+				return getAttributeDeclarations();
 			case MonitoringPackage.ADAPTER_MONITORING_EVENT__WITH:
 				return getWith();
 		}
@@ -583,6 +660,10 @@ public class AdapterMonitoringEventImpl extends EObjectImpl implements AdapterMo
 			case MonitoringPackage.ADAPTER_MONITORING_EVENT__COMMENT:
 				setComment((String)newValue);
 				return;
+			case MonitoringPackage.ADAPTER_MONITORING_EVENT__ATTRIBUTES:
+				getAttributes().clear();
+				getAttributes().addAll((Collection<? extends Attribute>)newValue);
+				return;
 			case MonitoringPackage.ADAPTER_MONITORING_EVENT__IS_INPUT:
 				setIsInput((Boolean)newValue);
 				return;
@@ -602,6 +683,10 @@ public class AdapterMonitoringEventImpl extends EObjectImpl implements AdapterMo
 				return;
 			case MonitoringPackage.ADAPTER_MONITORING_EVENT__TYPE_NAME:
 				setTypeName((String)newValue);
+				return;
+			case MonitoringPackage.ADAPTER_MONITORING_EVENT__ATTRIBUTE_DECLARATIONS:
+				getAttributeDeclarations().clear();
+				getAttributeDeclarations().addAll((Collection<? extends AttributeDeclaration>)newValue);
 				return;
 			case MonitoringPackage.ADAPTER_MONITORING_EVENT__WITH:
 				getWith().clear();
@@ -628,6 +713,9 @@ public class AdapterMonitoringEventImpl extends EObjectImpl implements AdapterMo
 			case MonitoringPackage.ADAPTER_MONITORING_EVENT__COMMENT:
 				setComment(COMMENT_EDEFAULT);
 				return;
+			case MonitoringPackage.ADAPTER_MONITORING_EVENT__ATTRIBUTES:
+				getAttributes().clear();
+				return;
 			case MonitoringPackage.ADAPTER_MONITORING_EVENT__IS_INPUT:
 				setIsInput(IS_INPUT_EDEFAULT);
 				return;
@@ -645,6 +733,9 @@ public class AdapterMonitoringEventImpl extends EObjectImpl implements AdapterMo
 				return;
 			case MonitoringPackage.ADAPTER_MONITORING_EVENT__TYPE_NAME:
 				setTypeName(TYPE_NAME_EDEFAULT);
+				return;
+			case MonitoringPackage.ADAPTER_MONITORING_EVENT__ATTRIBUTE_DECLARATIONS:
+				getAttributeDeclarations().clear();
 				return;
 			case MonitoringPackage.ADAPTER_MONITORING_EVENT__WITH:
 				getWith().clear();
@@ -667,6 +758,8 @@ public class AdapterMonitoringEventImpl extends EObjectImpl implements AdapterMo
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case MonitoringPackage.ADAPTER_MONITORING_EVENT__COMMENT:
 				return COMMENT_EDEFAULT == null ? comment != null : !COMMENT_EDEFAULT.equals(comment);
+			case MonitoringPackage.ADAPTER_MONITORING_EVENT__ATTRIBUTES:
+				return attributes != null && !attributes.isEmpty();
 			case MonitoringPackage.ADAPTER_MONITORING_EVENT__IS_INPUT:
 				return isInput != IS_INPUT_EDEFAULT;
 			case MonitoringPackage.ADAPTER_MONITORING_EVENT__INPUT_CONNECTIONS:
@@ -679,6 +772,8 @@ public class AdapterMonitoringEventImpl extends EObjectImpl implements AdapterMo
 				return value != null;
 			case MonitoringPackage.ADAPTER_MONITORING_EVENT__TYPE_NAME:
 				return TYPE_NAME_EDEFAULT == null ? typeName != null : !TYPE_NAME_EDEFAULT.equals(typeName);
+			case MonitoringPackage.ADAPTER_MONITORING_EVENT__ATTRIBUTE_DECLARATIONS:
+				return attributeDeclarations != null && !attributeDeclarations.isEmpty();
 			case MonitoringPackage.ADAPTER_MONITORING_EVENT__WITH:
 				return with != null && !with.isEmpty();
 		}
@@ -705,6 +800,12 @@ public class AdapterMonitoringEventImpl extends EObjectImpl implements AdapterMo
 				default: return -1;
 			}
 		}
+		if (baseClass == ConfigurableObject.class) {
+			switch (derivedFeatureID) {
+				case MonitoringPackage.ADAPTER_MONITORING_EVENT__ATTRIBUTES: return LibraryElementPackage.CONFIGURABLE_OBJECT__ATTRIBUTES;
+				default: return -1;
+			}
+		}
 		if (baseClass == IInterfaceElement.class) {
 			switch (derivedFeatureID) {
 				case MonitoringPackage.ADAPTER_MONITORING_EVENT__IS_INPUT: return LibraryElementPackage.IINTERFACE_ELEMENT__IS_INPUT;
@@ -713,6 +814,7 @@ public class AdapterMonitoringEventImpl extends EObjectImpl implements AdapterMo
 				case MonitoringPackage.ADAPTER_MONITORING_EVENT__TYPE: return LibraryElementPackage.IINTERFACE_ELEMENT__TYPE;
 				case MonitoringPackage.ADAPTER_MONITORING_EVENT__VALUE: return LibraryElementPackage.IINTERFACE_ELEMENT__VALUE;
 				case MonitoringPackage.ADAPTER_MONITORING_EVENT__TYPE_NAME: return LibraryElementPackage.IINTERFACE_ELEMENT__TYPE_NAME;
+				case MonitoringPackage.ADAPTER_MONITORING_EVENT__ATTRIBUTE_DECLARATIONS: return LibraryElementPackage.IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS;
 				default: return -1;
 			}
 		}
@@ -745,6 +847,12 @@ public class AdapterMonitoringEventImpl extends EObjectImpl implements AdapterMo
 				default: return -1;
 			}
 		}
+		if (baseClass == ConfigurableObject.class) {
+			switch (baseFeatureID) {
+				case LibraryElementPackage.CONFIGURABLE_OBJECT__ATTRIBUTES: return MonitoringPackage.ADAPTER_MONITORING_EVENT__ATTRIBUTES;
+				default: return -1;
+			}
+		}
 		if (baseClass == IInterfaceElement.class) {
 			switch (baseFeatureID) {
 				case LibraryElementPackage.IINTERFACE_ELEMENT__IS_INPUT: return MonitoringPackage.ADAPTER_MONITORING_EVENT__IS_INPUT;
@@ -753,6 +861,7 @@ public class AdapterMonitoringEventImpl extends EObjectImpl implements AdapterMo
 				case LibraryElementPackage.IINTERFACE_ELEMENT__TYPE: return MonitoringPackage.ADAPTER_MONITORING_EVENT__TYPE;
 				case LibraryElementPackage.IINTERFACE_ELEMENT__VALUE: return MonitoringPackage.ADAPTER_MONITORING_EVENT__VALUE;
 				case LibraryElementPackage.IINTERFACE_ELEMENT__TYPE_NAME: return MonitoringPackage.ADAPTER_MONITORING_EVENT__TYPE_NAME;
+				case LibraryElementPackage.IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS: return MonitoringPackage.ADAPTER_MONITORING_EVENT__ATTRIBUTE_DECLARATIONS;
 				default: return -1;
 			}
 		}

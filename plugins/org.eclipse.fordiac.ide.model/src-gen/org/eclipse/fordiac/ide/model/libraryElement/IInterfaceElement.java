@@ -31,13 +31,14 @@ import org.eclipse.fordiac.ide.model.data.DataType;
  *   <li>{@link org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement#getTypeName <em>Type Name</em>}</li>
+ *   <li>{@link org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement#getAttributeDeclarations <em>Attribute Declarations</em>}</li>
  * </ul>
  *
  * @see org.eclipse.fordiac.ide.model.libraryElement.LibraryElementPackage#getIInterfaceElement()
- * @model interface="true" abstract="true"
+ * @model
  * @generated
  */
-public interface IInterfaceElement extends INamedElement {
+public interface IInterfaceElement extends INamedElement, ConfigurableObject {
 	/**
 	 * Returns the value of the '<em><b>Is Input</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -177,6 +178,22 @@ public interface IInterfaceElement extends INamedElement {
 	 * @generated
 	 */
 	void setTypeName(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Attribute Declarations</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.fordiac.ide.model.libraryElement.AttributeDeclaration}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Attribute Declarations</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Attribute Declarations</em>' containment reference list.
+	 * @see org.eclipse.fordiac.ide.model.libraryElement.LibraryElementPackage#getIInterfaceElement_AttributeDeclarations()
+	 * @model containment="true" resolveProxies="true"
+	 * @generated
+	 */
+	EList<AttributeDeclaration> getAttributeDeclarations();
 
 	/**
 	 * <!-- begin-user-doc -->

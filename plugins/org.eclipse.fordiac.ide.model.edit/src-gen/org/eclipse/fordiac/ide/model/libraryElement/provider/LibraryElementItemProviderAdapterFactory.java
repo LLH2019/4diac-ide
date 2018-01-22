@@ -1133,6 +1133,29 @@ public class LibraryElementItemProviderAdapterFactory extends LibraryElementAdap
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected IInterfaceElementItemProvider iInterfaceElementItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createIInterfaceElementAdapter() {
+		if (iInterfaceElementItemProvider == null) {
+			iInterfaceElementItemProvider = new IInterfaceElementItemProvider(this);
+		}
+
+		return iInterfaceElementItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link org.eclipse.fordiac.ide.model.libraryElement.Value} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

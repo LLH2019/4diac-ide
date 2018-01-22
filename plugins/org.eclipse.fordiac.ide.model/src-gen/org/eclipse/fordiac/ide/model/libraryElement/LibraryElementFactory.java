@@ -446,6 +446,15 @@ public interface LibraryElementFactory extends EFactory {
 	ServiceInterface createServiceInterface();
 
 	/**
+	 * Returns a new object of class '<em>IInterface Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>IInterface Element</em>'.
+	 * @generated
+	 */
+	IInterfaceElement createIInterfaceElement();
+
+	/**
 	 * Returns a new object of class '<em>Value</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

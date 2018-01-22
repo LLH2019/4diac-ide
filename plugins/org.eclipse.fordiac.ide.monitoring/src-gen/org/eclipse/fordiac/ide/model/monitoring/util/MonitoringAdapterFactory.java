@@ -18,12 +18,22 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.fordiac.ide.gef.editparts.IEditPartCreator;
+import org.eclipse.fordiac.ide.model.libraryElement.ConfigurableObject;
 import org.eclipse.fordiac.ide.model.libraryElement.Event;
 import org.eclipse.fordiac.ide.model.libraryElement.I4DIACElement;
 import org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement;
 import org.eclipse.fordiac.ide.model.libraryElement.INamedElement;
 import org.eclipse.fordiac.ide.model.libraryElement.VarDeclaration;
 import org.eclipse.fordiac.ide.model.monitoring.*;
+import org.eclipse.fordiac.ide.model.monitoring.AdapterMonitoringEvent;
+import org.eclipse.fordiac.ide.model.monitoring.AdapterMonitoringVarDeclaration;
+import org.eclipse.fordiac.ide.model.monitoring.AdapterPortElement;
+import org.eclipse.fordiac.ide.model.monitoring.Breakpoints;
+import org.eclipse.fordiac.ide.model.monitoring.MonitoringAdapterElement;
+import org.eclipse.fordiac.ide.model.monitoring.MonitoringBaseElement;
+import org.eclipse.fordiac.ide.model.monitoring.MonitoringElement;
+import org.eclipse.fordiac.ide.model.monitoring.MonitoringPackage;
+import org.eclipse.fordiac.ide.model.monitoring.PortElement;
 
 /**
  * <!-- begin-user-doc -->
@@ -124,6 +134,10 @@ public class MonitoringAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseINamedElement(INamedElement object) {
 				return createINamedElementAdapter();
+			}
+			@Override
+			public Adapter caseConfigurableObject(ConfigurableObject object) {
+				return createConfigurableObjectAdapter();
 			}
 			@Override
 			public Adapter caseIInterfaceElement(IInterfaceElement object) {
@@ -308,6 +322,20 @@ public class MonitoringAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createINamedElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.fordiac.ide.model.libraryElement.ConfigurableObject <em>Configurable Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.fordiac.ide.model.libraryElement.ConfigurableObject
+	 * @generated
+	 */
+	public Adapter createConfigurableObjectAdapter() {
 		return null;
 	}
 

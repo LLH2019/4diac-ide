@@ -149,6 +149,7 @@ public class LibraryElementSwitch<T> extends Switch<T> {
 				T result = caseAdapterDeclaration(adapterDeclaration);
 				if (result == null) result = caseVarDeclaration(adapterDeclaration);
 				if (result == null) result = caseIInterfaceElement(adapterDeclaration);
+				if (result == null) result = caseConfigurableObject(adapterDeclaration);
 				if (result == null) result = caseINamedElement(adapterDeclaration);
 				if (result == null) result = caseI4DIACElement(adapterDeclaration);
 				if (result == null) result = defaultCase(theEObject);
@@ -268,6 +269,7 @@ public class LibraryElementSwitch<T> extends Switch<T> {
 				Event event = (Event)theEObject;
 				T result = caseEvent(event);
 				if (result == null) result = caseIInterfaceElement(event);
+				if (result == null) result = caseConfigurableObject(event);
 				if (result == null) result = caseINamedElement(event);
 				if (result == null) result = caseI4DIACElement(event);
 				if (result == null) result = defaultCase(theEObject);
@@ -483,6 +485,7 @@ public class LibraryElementSwitch<T> extends Switch<T> {
 				VarDeclaration varDeclaration = (VarDeclaration)theEObject;
 				T result = caseVarDeclaration(varDeclaration);
 				if (result == null) result = caseIInterfaceElement(varDeclaration);
+				if (result == null) result = caseConfigurableObject(varDeclaration);
 				if (result == null) result = caseINamedElement(varDeclaration);
 				if (result == null) result = caseI4DIACElement(varDeclaration);
 				if (result == null) result = defaultCase(theEObject);
@@ -586,6 +589,7 @@ public class LibraryElementSwitch<T> extends Switch<T> {
 			case LibraryElementPackage.IINTERFACE_ELEMENT: {
 				IInterfaceElement iInterfaceElement = (IInterfaceElement)theEObject;
 				T result = caseIInterfaceElement(iInterfaceElement);
+				if (result == null) result = caseConfigurableObject(iInterfaceElement);
 				if (result == null) result = caseINamedElement(iInterfaceElement);
 				if (result == null) result = caseI4DIACElement(iInterfaceElement);
 				if (result == null) result = defaultCase(theEObject);
@@ -662,6 +666,7 @@ public class LibraryElementSwitch<T> extends Switch<T> {
 				T result = caseAdapterEvent(adapterEvent);
 				if (result == null) result = caseEvent(adapterEvent);
 				if (result == null) result = caseIInterfaceElement(adapterEvent);
+				if (result == null) result = caseConfigurableObject(adapterEvent);
 				if (result == null) result = caseINamedElement(adapterEvent);
 				if (result == null) result = caseI4DIACElement(adapterEvent);
 				if (result == null) result = defaultCase(theEObject);

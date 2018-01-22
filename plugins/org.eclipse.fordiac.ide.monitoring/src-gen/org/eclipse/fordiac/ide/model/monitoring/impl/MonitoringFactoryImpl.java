@@ -19,6 +19,15 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.fordiac.ide.model.monitoring.*;
+import org.eclipse.fordiac.ide.model.monitoring.AdapterMonitoringEvent;
+import org.eclipse.fordiac.ide.model.monitoring.AdapterMonitoringVarDeclaration;
+import org.eclipse.fordiac.ide.model.monitoring.AdapterPortElement;
+import org.eclipse.fordiac.ide.model.monitoring.Breakpoints;
+import org.eclipse.fordiac.ide.model.monitoring.MonitoringAdapterElement;
+import org.eclipse.fordiac.ide.model.monitoring.MonitoringElement;
+import org.eclipse.fordiac.ide.model.monitoring.MonitoringFactory;
+import org.eclipse.fordiac.ide.model.monitoring.MonitoringPackage;
+import org.eclipse.fordiac.ide.model.monitoring.PortElement;
 
 /**
  * <!-- begin-user-doc -->

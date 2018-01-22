@@ -323,10 +323,10 @@ public interface LibraryElementPackage extends EPackage {
 	int EC_TRANSITION = 13;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement <em>IInterface Element</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.fordiac.ide.model.libraryElement.impl.IInterfaceElementImpl <em>IInterface Element</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement
+	 * @see org.eclipse.fordiac.ide.model.libraryElement.impl.IInterfaceElementImpl
 	 * @see org.eclipse.fordiac.ide.model.libraryElement.impl.LibraryElementPackageImpl#getIInterfaceElement()
 	 * @generated
 	 */
@@ -360,13 +360,22 @@ public interface LibraryElementPackage extends EPackage {
 	int IINTERFACE_ELEMENT__COMMENT = INAMED_ELEMENT__COMMENT;
 
 	/**
+	 * The feature id for the '<em><b>Attributes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IINTERFACE_ELEMENT__ATTRIBUTES = INAMED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Is Input</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IINTERFACE_ELEMENT__IS_INPUT = INAMED_ELEMENT_FEATURE_COUNT + 0;
+	int IINTERFACE_ELEMENT__IS_INPUT = INAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Input Connections</b></em>' reference list.
@@ -375,7 +384,7 @@ public interface LibraryElementPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IINTERFACE_ELEMENT__INPUT_CONNECTIONS = INAMED_ELEMENT_FEATURE_COUNT + 1;
+	int IINTERFACE_ELEMENT__INPUT_CONNECTIONS = INAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Output Connections</b></em>' reference list.
@@ -384,7 +393,7 @@ public interface LibraryElementPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IINTERFACE_ELEMENT__OUTPUT_CONNECTIONS = INAMED_ELEMENT_FEATURE_COUNT + 2;
+	int IINTERFACE_ELEMENT__OUTPUT_CONNECTIONS = INAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -393,7 +402,7 @@ public interface LibraryElementPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IINTERFACE_ELEMENT__TYPE = INAMED_ELEMENT_FEATURE_COUNT + 3;
+	int IINTERFACE_ELEMENT__TYPE = INAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' containment reference.
@@ -402,7 +411,7 @@ public interface LibraryElementPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IINTERFACE_ELEMENT__VALUE = INAMED_ELEMENT_FEATURE_COUNT + 4;
+	int IINTERFACE_ELEMENT__VALUE = INAMED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Type Name</b></em>' attribute.
@@ -411,7 +420,16 @@ public interface LibraryElementPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IINTERFACE_ELEMENT__TYPE_NAME = INAMED_ELEMENT_FEATURE_COUNT + 5;
+	int IINTERFACE_ELEMENT__TYPE_NAME = INAMED_ELEMENT_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>Attribute Declarations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS = INAMED_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of structural features of the '<em>IInterface Element</em>' class.
@@ -420,7 +438,7 @@ public interface LibraryElementPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IINTERFACE_ELEMENT_FEATURE_COUNT = INAMED_ELEMENT_FEATURE_COUNT + 6;
+	int IINTERFACE_ELEMENT_FEATURE_COUNT = INAMED_ELEMENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.fordiac.ide.model.libraryElement.impl.EventImpl <em>Event</em>}' class.
@@ -680,6 +698,15 @@ public interface LibraryElementPackage extends EPackage {
 	int VAR_DECLARATION__COMMENT = IINTERFACE_ELEMENT__COMMENT;
 
 	/**
+	 * The feature id for the '<em><b>Attributes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VAR_DECLARATION__ATTRIBUTES = IINTERFACE_ELEMENT__ATTRIBUTES;
+
+	/**
 	 * The feature id for the '<em><b>Is Input</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -732,6 +759,15 @@ public interface LibraryElementPackage extends EPackage {
 	 * @ordered
 	 */
 	int VAR_DECLARATION__TYPE_NAME = IINTERFACE_ELEMENT__TYPE_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Attribute Declarations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VAR_DECLARATION__ATTRIBUTE_DECLARATIONS = IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Array Size</b></em>' attribute.
@@ -797,6 +833,15 @@ public interface LibraryElementPackage extends EPackage {
 	int ADAPTER_DECLARATION__COMMENT = VAR_DECLARATION__COMMENT;
 
 	/**
+	 * The feature id for the '<em><b>Attributes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADAPTER_DECLARATION__ATTRIBUTES = VAR_DECLARATION__ATTRIBUTES;
+
+	/**
 	 * The feature id for the '<em><b>Is Input</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -849,6 +894,15 @@ public interface LibraryElementPackage extends EPackage {
 	 * @ordered
 	 */
 	int ADAPTER_DECLARATION__TYPE_NAME = VAR_DECLARATION__TYPE_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Attribute Declarations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADAPTER_DECLARATION__ATTRIBUTE_DECLARATIONS = VAR_DECLARATION__ATTRIBUTE_DECLARATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Array Size</b></em>' attribute.
@@ -2390,6 +2444,15 @@ public interface LibraryElementPackage extends EPackage {
 	int EVENT__COMMENT = IINTERFACE_ELEMENT__COMMENT;
 
 	/**
+	 * The feature id for the '<em><b>Attributes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVENT__ATTRIBUTES = IINTERFACE_ELEMENT__ATTRIBUTES;
+
+	/**
 	 * The feature id for the '<em><b>Is Input</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2442,6 +2505,15 @@ public interface LibraryElementPackage extends EPackage {
 	 * @ordered
 	 */
 	int EVENT__TYPE_NAME = IINTERFACE_ELEMENT__TYPE_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Attribute Declarations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVENT__ATTRIBUTE_DECLARATIONS = IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS;
 
 	/**
 	 * The feature id for the '<em><b>With</b></em>' containment reference list.
@@ -5034,6 +5106,15 @@ public interface LibraryElementPackage extends EPackage {
 	int ADAPTER_EVENT__COMMENT = EVENT__COMMENT;
 
 	/**
+	 * The feature id for the '<em><b>Attributes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADAPTER_EVENT__ATTRIBUTES = EVENT__ATTRIBUTES;
+
+	/**
 	 * The feature id for the '<em><b>Is Input</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5086,6 +5167,15 @@ public interface LibraryElementPackage extends EPackage {
 	 * @ordered
 	 */
 	int ADAPTER_EVENT__TYPE_NAME = EVENT__TYPE_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Attribute Declarations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADAPTER_EVENT__ATTRIBUTE_DECLARATIONS = EVENT__ATTRIBUTE_DECLARATIONS;
 
 	/**
 	 * The feature id for the '<em><b>With</b></em>' containment reference list.
@@ -7200,6 +7290,17 @@ public interface LibraryElementPackage extends EPackage {
 	EAttribute getIInterfaceElement_TypeName();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement#getAttributeDeclarations <em>Attribute Declarations</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Attribute Declarations</em>'.
+	 * @see org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement#getAttributeDeclarations()
+	 * @see #getIInterfaceElement()
+	 * @generated
+	 */
+	EReference getIInterfaceElement_AttributeDeclarations();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.fordiac.ide.model.libraryElement.Value <em>Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9146,10 +9247,10 @@ public interface LibraryElementPackage extends EPackage {
 		EClass SERVICE_INTERFACE = eINSTANCE.getServiceInterface();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement <em>IInterface Element</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.fordiac.ide.model.libraryElement.impl.IInterfaceElementImpl <em>IInterface Element</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement
+		 * @see org.eclipse.fordiac.ide.model.libraryElement.impl.IInterfaceElementImpl
 		 * @see org.eclipse.fordiac.ide.model.libraryElement.impl.LibraryElementPackageImpl#getIInterfaceElement()
 		 * @generated
 		 */
@@ -9202,6 +9303,14 @@ public interface LibraryElementPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute IINTERFACE_ELEMENT__TYPE_NAME = eINSTANCE.getIInterfaceElement_TypeName();
+
+		/**
+		 * The meta object literal for the '<em><b>Attribute Declarations</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS = eINSTANCE.getIInterfaceElement_AttributeDeclarations();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.fordiac.ide.model.libraryElement.impl.ValueImpl <em>Value</em>}' class.

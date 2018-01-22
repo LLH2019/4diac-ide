@@ -2175,6 +2175,15 @@ public class LibraryElementPackageImpl extends EPackageImpl implements LibraryEl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getIInterfaceElement_AttributeDeclarations() {
+		return (EReference)iInterfaceElementEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getValue() {
 		return valueEClass;
 	}
@@ -2893,6 +2902,7 @@ public class LibraryElementPackageImpl extends EPackageImpl implements LibraryEl
 		createEReference(iInterfaceElementEClass, IINTERFACE_ELEMENT__TYPE);
 		createEReference(iInterfaceElementEClass, IINTERFACE_ELEMENT__VALUE);
 		createEAttribute(iInterfaceElementEClass, IINTERFACE_ELEMENT__TYPE_NAME);
+		createEReference(iInterfaceElementEClass, IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS);
 
 		valueEClass = createEClass(VALUE);
 		createEAttribute(valueEClass, VALUE__VALUE);
@@ -3049,6 +3059,7 @@ public class LibraryElementPackageImpl extends EPackageImpl implements LibraryEl
 		adapterConnectionEClass.getESuperTypes().add(this.getConnection());
 		serviceInterfaceEClass.getESuperTypes().add(this.getINamedElement());
 		iInterfaceElementEClass.getESuperTypes().add(this.getINamedElement());
+		iInterfaceElementEClass.getESuperTypes().add(this.getConfigurableObject());
 		systemConfigurationEClass.getESuperTypes().add(this.getI4DIACElement());
 		iNamedElementEClass.getESuperTypes().add(this.getI4DIACElement());
 		resourceTypeFBEClass.getESuperTypes().add(this.getFB());
@@ -3410,13 +3421,14 @@ public class LibraryElementPackageImpl extends EPackageImpl implements LibraryEl
 
 		initEClass(serviceInterfaceEClass, ServiceInterface.class, "ServiceInterface", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(iInterfaceElementEClass, IInterfaceElement.class, "IInterfaceElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(iInterfaceElementEClass, IInterfaceElement.class, "IInterfaceElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getIInterfaceElement_IsInput(), theXMLTypePackage.getBoolean(), "isInput", null, 0, 1, IInterfaceElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIInterfaceElement_InputConnections(), this.getConnection(), this.getConnection_Destination(), "inputConnections", null, 0, -1, IInterfaceElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIInterfaceElement_OutputConnections(), this.getConnection(), this.getConnection_Source(), "outputConnections", null, 0, -1, IInterfaceElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIInterfaceElement_Type(), theDataPackage.getDataType(), null, "type", null, 1, 1, IInterfaceElement.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIInterfaceElement_Value(), this.getValue(), null, "value", null, 0, 1, IInterfaceElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIInterfaceElement_TypeName(), ecorePackage.getEString(), "typeName", null, 0, 1, IInterfaceElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIInterfaceElement_AttributeDeclarations(), this.getAttributeDeclaration(), null, "attributeDeclarations", null, 0, -1, IInterfaceElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(iInterfaceElementEClass, this.getFBNetworkElement(), "getFBNetworkElement", 1, 1, IS_UNIQUE, IS_ORDERED);
 

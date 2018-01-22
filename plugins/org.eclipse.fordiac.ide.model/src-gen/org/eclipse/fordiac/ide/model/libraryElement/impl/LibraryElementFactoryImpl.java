@@ -50,6 +50,7 @@ import org.eclipse.fordiac.ide.model.libraryElement.FB;
 import org.eclipse.fordiac.ide.model.libraryElement.FBNetwork;
 import org.eclipse.fordiac.ide.model.libraryElement.FBNetworkElement;
 import org.eclipse.fordiac.ide.model.libraryElement.FBType;
+import org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement;
 import org.eclipse.fordiac.ide.model.libraryElement.Identification;
 import org.eclipse.fordiac.ide.model.libraryElement.InputPrimitive;
 import org.eclipse.fordiac.ide.model.libraryElement.InterfaceList;
@@ -174,6 +175,7 @@ public class LibraryElementFactoryImpl extends EFactoryImpl implements
 			case LibraryElementPackage.EVENT_CONNECTION: return createEventConnection();
 			case LibraryElementPackage.ADAPTER_CONNECTION: return createAdapterConnection();
 			case LibraryElementPackage.SERVICE_INTERFACE: return createServiceInterface();
+			case LibraryElementPackage.IINTERFACE_ELEMENT: return createIInterfaceElement();
 			case LibraryElementPackage.VALUE: return createValue();
 			case LibraryElementPackage.SYSTEM_CONFIGURATION: return createSystemConfiguration();
 			case LibraryElementPackage.RESOURCE_TYPE_FB: return createResourceTypeFB();
@@ -639,6 +641,16 @@ public class LibraryElementFactoryImpl extends EFactoryImpl implements
 	public ServiceInterface createServiceInterface() {
 		ServiceInterfaceImpl serviceInterface = new ServiceInterfaceImpl();
 		return serviceInterface;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IInterfaceElement createIInterfaceElement() {
+		IInterfaceElementImpl iInterfaceElement = new IInterfaceElementImpl();
+		return iInterfaceElement;
 	}
 
 	/**

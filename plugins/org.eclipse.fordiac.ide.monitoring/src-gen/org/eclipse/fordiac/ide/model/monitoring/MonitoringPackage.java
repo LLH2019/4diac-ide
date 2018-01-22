@@ -507,13 +507,22 @@ public interface MonitoringPackage extends EPackage {
 	int ADAPTER_MONITORING_EVENT__COMMENT = IEDIT_PART_CREATOR_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Attributes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADAPTER_MONITORING_EVENT__ATTRIBUTES = IEDIT_PART_CREATOR_FEATURE_COUNT + 3;
+
+	/**
 	 * The feature id for the '<em><b>Is Input</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ADAPTER_MONITORING_EVENT__IS_INPUT = IEDIT_PART_CREATOR_FEATURE_COUNT + 3;
+	int ADAPTER_MONITORING_EVENT__IS_INPUT = IEDIT_PART_CREATOR_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Input Connections</b></em>' reference list.
@@ -522,7 +531,7 @@ public interface MonitoringPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ADAPTER_MONITORING_EVENT__INPUT_CONNECTIONS = IEDIT_PART_CREATOR_FEATURE_COUNT + 4;
+	int ADAPTER_MONITORING_EVENT__INPUT_CONNECTIONS = IEDIT_PART_CREATOR_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Output Connections</b></em>' reference list.
@@ -531,7 +540,7 @@ public interface MonitoringPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ADAPTER_MONITORING_EVENT__OUTPUT_CONNECTIONS = IEDIT_PART_CREATOR_FEATURE_COUNT + 5;
+	int ADAPTER_MONITORING_EVENT__OUTPUT_CONNECTIONS = IEDIT_PART_CREATOR_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -540,7 +549,7 @@ public interface MonitoringPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ADAPTER_MONITORING_EVENT__TYPE = IEDIT_PART_CREATOR_FEATURE_COUNT + 6;
+	int ADAPTER_MONITORING_EVENT__TYPE = IEDIT_PART_CREATOR_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' containment reference.
@@ -549,7 +558,7 @@ public interface MonitoringPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ADAPTER_MONITORING_EVENT__VALUE = IEDIT_PART_CREATOR_FEATURE_COUNT + 7;
+	int ADAPTER_MONITORING_EVENT__VALUE = IEDIT_PART_CREATOR_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Type Name</b></em>' attribute.
@@ -558,7 +567,16 @@ public interface MonitoringPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ADAPTER_MONITORING_EVENT__TYPE_NAME = IEDIT_PART_CREATOR_FEATURE_COUNT + 8;
+	int ADAPTER_MONITORING_EVENT__TYPE_NAME = IEDIT_PART_CREATOR_FEATURE_COUNT + 9;
+
+	/**
+	 * The feature id for the '<em><b>Attribute Declarations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADAPTER_MONITORING_EVENT__ATTRIBUTE_DECLARATIONS = IEDIT_PART_CREATOR_FEATURE_COUNT + 10;
 
 	/**
 	 * The feature id for the '<em><b>With</b></em>' containment reference list.
@@ -567,7 +585,7 @@ public interface MonitoringPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ADAPTER_MONITORING_EVENT__WITH = IEDIT_PART_CREATOR_FEATURE_COUNT + 9;
+	int ADAPTER_MONITORING_EVENT__WITH = IEDIT_PART_CREATOR_FEATURE_COUNT + 11;
 
 	/**
 	 * The number of structural features of the '<em>Adapter Monitoring Event</em>' class.
@@ -576,7 +594,7 @@ public interface MonitoringPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ADAPTER_MONITORING_EVENT_FEATURE_COUNT = IEDIT_PART_CREATOR_FEATURE_COUNT + 10;
+	int ADAPTER_MONITORING_EVENT_FEATURE_COUNT = IEDIT_PART_CREATOR_FEATURE_COUNT + 12;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.fordiac.ide.model.monitoring.impl.AdapterMonitoringVarDeclarationImpl <em>Adapter Monitoring Var Declaration</em>}' class.
@@ -616,13 +634,22 @@ public interface MonitoringPackage extends EPackage {
 	int ADAPTER_MONITORING_VAR_DECLARATION__COMMENT = IEDIT_PART_CREATOR_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Attributes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADAPTER_MONITORING_VAR_DECLARATION__ATTRIBUTES = IEDIT_PART_CREATOR_FEATURE_COUNT + 3;
+
+	/**
 	 * The feature id for the '<em><b>Is Input</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ADAPTER_MONITORING_VAR_DECLARATION__IS_INPUT = IEDIT_PART_CREATOR_FEATURE_COUNT + 3;
+	int ADAPTER_MONITORING_VAR_DECLARATION__IS_INPUT = IEDIT_PART_CREATOR_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Input Connections</b></em>' reference list.
@@ -631,7 +658,7 @@ public interface MonitoringPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ADAPTER_MONITORING_VAR_DECLARATION__INPUT_CONNECTIONS = IEDIT_PART_CREATOR_FEATURE_COUNT + 4;
+	int ADAPTER_MONITORING_VAR_DECLARATION__INPUT_CONNECTIONS = IEDIT_PART_CREATOR_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Output Connections</b></em>' reference list.
@@ -640,7 +667,7 @@ public interface MonitoringPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ADAPTER_MONITORING_VAR_DECLARATION__OUTPUT_CONNECTIONS = IEDIT_PART_CREATOR_FEATURE_COUNT + 5;
+	int ADAPTER_MONITORING_VAR_DECLARATION__OUTPUT_CONNECTIONS = IEDIT_PART_CREATOR_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -649,7 +676,7 @@ public interface MonitoringPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ADAPTER_MONITORING_VAR_DECLARATION__TYPE = IEDIT_PART_CREATOR_FEATURE_COUNT + 6;
+	int ADAPTER_MONITORING_VAR_DECLARATION__TYPE = IEDIT_PART_CREATOR_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' containment reference.
@@ -658,7 +685,7 @@ public interface MonitoringPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ADAPTER_MONITORING_VAR_DECLARATION__VALUE = IEDIT_PART_CREATOR_FEATURE_COUNT + 7;
+	int ADAPTER_MONITORING_VAR_DECLARATION__VALUE = IEDIT_PART_CREATOR_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Type Name</b></em>' attribute.
@@ -667,7 +694,16 @@ public interface MonitoringPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ADAPTER_MONITORING_VAR_DECLARATION__TYPE_NAME = IEDIT_PART_CREATOR_FEATURE_COUNT + 8;
+	int ADAPTER_MONITORING_VAR_DECLARATION__TYPE_NAME = IEDIT_PART_CREATOR_FEATURE_COUNT + 9;
+
+	/**
+	 * The feature id for the '<em><b>Attribute Declarations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADAPTER_MONITORING_VAR_DECLARATION__ATTRIBUTE_DECLARATIONS = IEDIT_PART_CREATOR_FEATURE_COUNT + 10;
 
 	/**
 	 * The feature id for the '<em><b>Array Size</b></em>' attribute.
@@ -676,7 +712,7 @@ public interface MonitoringPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ADAPTER_MONITORING_VAR_DECLARATION__ARRAY_SIZE = IEDIT_PART_CREATOR_FEATURE_COUNT + 9;
+	int ADAPTER_MONITORING_VAR_DECLARATION__ARRAY_SIZE = IEDIT_PART_CREATOR_FEATURE_COUNT + 11;
 
 	/**
 	 * The feature id for the '<em><b>Var Initialization</b></em>' containment reference.
@@ -685,7 +721,7 @@ public interface MonitoringPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ADAPTER_MONITORING_VAR_DECLARATION__VAR_INITIALIZATION = IEDIT_PART_CREATOR_FEATURE_COUNT + 10;
+	int ADAPTER_MONITORING_VAR_DECLARATION__VAR_INITIALIZATION = IEDIT_PART_CREATOR_FEATURE_COUNT + 12;
 
 	/**
 	 * The feature id for the '<em><b>Withs</b></em>' reference list.
@@ -694,7 +730,7 @@ public interface MonitoringPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ADAPTER_MONITORING_VAR_DECLARATION__WITHS = IEDIT_PART_CREATOR_FEATURE_COUNT + 11;
+	int ADAPTER_MONITORING_VAR_DECLARATION__WITHS = IEDIT_PART_CREATOR_FEATURE_COUNT + 13;
 
 	/**
 	 * The number of structural features of the '<em>Adapter Monitoring Var Declaration</em>' class.
@@ -703,7 +739,7 @@ public interface MonitoringPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ADAPTER_MONITORING_VAR_DECLARATION_FEATURE_COUNT = IEDIT_PART_CREATOR_FEATURE_COUNT + 12;
+	int ADAPTER_MONITORING_VAR_DECLARATION_FEATURE_COUNT = IEDIT_PART_CREATOR_FEATURE_COUNT + 14;
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.fordiac.ide.model.monitoring.MonitoringBaseElement <em>Base Element</em>}'.
@@ -894,7 +930,7 @@ public interface MonitoringPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>IEdit Part Creator</em>'.
 	 * @see org.eclipse.fordiac.ide.gef.editparts.IEditPartCreator
-	 * @model instanceClass="org.eclipse.fordiac.ide.gef.IEditPartCreator"
+	 * @model instanceClass="org.eclipse.fordiac.ide.gef.editparts.IEditPartCreator"
 	 * @generated
 	 */
 	EClass getIEditPartCreator();
