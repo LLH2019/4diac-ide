@@ -21,6 +21,7 @@ import org.eclipse.fordiac.ide.model.commands.delete.AttributeDeleteCommand;
 import org.eclipse.fordiac.ide.model.data.BaseType1;
 import org.eclipse.fordiac.ide.model.libraryElement.Application;
 import org.eclipse.fordiac.ide.model.libraryElement.Attribute;
+import org.eclipse.fordiac.ide.model.libraryElement.AttributeDeclaration;
 import org.eclipse.fordiac.ide.model.libraryElement.ConfigurableObject;
 import org.eclipse.fordiac.ide.model.libraryElement.Device;
 import org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement;
@@ -54,9 +55,11 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 public abstract class AbstractAttributeSection extends AbstractSection {
+	protected static boolean isInheritable = false;
+	protected final String VALUE = "value"; //$NON-NLS-1$
+	protected final String INITVALUE = "initial value"; //$NON-NLS-1$
 	private TableViewer attributeViewer;
 	private final String NAME = "name"; //$NON-NLS-1$
-	private final String VALUE = "value"; //$NON-NLS-1$
 	private final String TYPE = "type"; //$NON-NLS-1$
 	private final String COMMENT = "comment"; //$NON-NLS-1$
 	private Button attributeNew;
@@ -87,7 +90,7 @@ public abstract class AbstractAttributeSection extends AbstractSection {
 			@Override
 			public void widgetSelected(SelectionEvent event) {	
 				if(type instanceof ConfigurableObject){
-					executeCommand(new AttributeCreateCommand((ConfigurableObject) type));
+					executeCommand(new AttributeCreateCommand((ConfigurableObject) type, isInheritable));
 					attributeViewer.refresh();
 				}
 			}
@@ -129,7 +132,11 @@ public abstract class AbstractAttributeSection extends AbstractSection {
 		TableColumn column2 = new TableColumn(attributeViewer.getTable(), SWT.LEFT);
 		column2.setText(TYPE); 
 		TableColumn column3 = new TableColumn(attributeViewer.getTable(), SWT.LEFT);
-		column3.setText(VALUE); 
+		if(isInheritable) {	
+			column3.setText(INITVALUE); 
+		}else {			
+			column3.setText(VALUE); 
+		}
 		TableColumn column4 = new TableColumn(attributeViewer.getTable(), SWT.LEFT);
 		column4.setText(COMMENT);
 		TableLayout layout = new TableLayout();
@@ -137,8 +144,8 @@ public abstract class AbstractAttributeSection extends AbstractSection {
 		layout.addColumnData(new ColumnWeightData(30, 70));
 		layout.addColumnData(new ColumnWeightData(30, 70));
 		layout.addColumnData(new ColumnWeightData(50, 90));
-		table.setLayout(layout);		
-		attributeViewer.setContentProvider(new InputContentProvider());
+		table.setLayout(layout);	
+		attributeViewer.setContentProvider(new InputContentProvider(isInheritable));
 		attributeViewer.setLabelProvider(new InputLabelProvider());		
 		attributeViewer.setCellEditors(new CellEditor[] {
 				new TextCellEditor(table), 
@@ -146,7 +153,11 @@ public abstract class AbstractAttributeSection extends AbstractSection {
 				new TextCellEditor(table, SWT.MULTI | SWT.V_SCROLL), 
 				new TextCellEditor(table)
 		});
-		attributeViewer.setColumnProperties(new String[] {NAME, TYPE, VALUE, COMMENT});
+		if(isInheritable) {			
+			attributeViewer.setColumnProperties(new String[] {NAME, TYPE, INITVALUE, COMMENT});
+		}else {
+			attributeViewer.setColumnProperties(new String[] {NAME, TYPE, VALUE, COMMENT});
+		}
 		attributeViewer.setCellModifier(new ICellModifier() {
 			public boolean canModify(final Object element, final String property) {
 				if(element instanceof Attribute && property == TYPE && null != ((Attribute)element).getAttributeDeclaration()) {
@@ -155,35 +166,70 @@ public abstract class AbstractAttributeSection extends AbstractSection {
 				return true;
 			}
 			public Object getValue(final Object element, final String property) {
-				switch (property) {
-				case NAME:
-					return ((Attribute) element).getName();
-				case VALUE:
-					return ((Attribute) element).getValue();
-				case TYPE:
-					return ((Attribute) element).getType().getValue();
-				case COMMENT:
-					return ((Attribute) element).getComment();
-				default:
-					return null;
+				if(element instanceof Attribute) {					
+					switch (property) {
+					case NAME:
+						return ((Attribute) element).getName();
+					case VALUE:
+						return ((Attribute) element).getValue();
+					case TYPE:
+						return ((Attribute) element).getType().getValue();
+					case COMMENT:
+						return ((Attribute) element).getComment();
+					default:
+						return null;
+					}
 				}
+				if(element instanceof AttributeDeclaration) {					
+					switch (property) {
+					case NAME:
+						return ((AttributeDeclaration) element).getName();
+					case INITVALUE:
+						return ((AttributeDeclaration) element).getInitialValue();
+					case TYPE:
+						return ((AttributeDeclaration) element).getType().getValue();
+					case COMMENT:
+						return ((AttributeDeclaration) element).getComment();
+					default:
+						return null;
+					}
+				}
+				return null;
 			}
 			public void modify(final Object element, final String property, final Object value) {
-				Attribute data = (Attribute)((TableItem) element).getData();
+				Object data = ((TableItem) element).getData();
 				AttributeChangeCommand cmd = null;
-				switch (property) {
-				case NAME:
-					cmd = new AttributeChangeCommand(data, value.toString(), null, null, null);
-					break;
-				case VALUE:
-					cmd = new AttributeChangeCommand(data, null, value.toString(), null, null);
-					break;
-				case TYPE:
-					cmd = new AttributeChangeCommand(data, null, null, BaseType1.get((Integer)value), null);
-					break;
-				case COMMENT:
-					cmd = new AttributeChangeCommand(data, null, null, null, value.toString());
-					break;
+				if(data instanceof Attribute) {							
+					switch (property) {
+					case NAME:
+						cmd = new AttributeChangeCommand((Attribute)data, value.toString(), null, null, null);
+						break;
+					case VALUE:
+						cmd = new AttributeChangeCommand((Attribute)data, null, value.toString(), null, null);
+						break;
+					case TYPE:
+						cmd = new AttributeChangeCommand((Attribute)data, null, null, BaseType1.get((Integer)value), null);
+						break;
+					case COMMENT:
+						cmd = new AttributeChangeCommand((Attribute)data, null, null, null, value.toString());
+						break;
+					}
+				}
+				if(data instanceof AttributeDeclaration) {							
+					switch (property) {
+					case NAME:
+						cmd = new AttributeChangeCommand((AttributeDeclaration)data, value.toString(), null, null, null);
+						break;
+					case INITVALUE:
+						cmd = new AttributeChangeCommand((AttributeDeclaration)data, null, value.toString(), null, null);
+						break;
+					case TYPE:
+						cmd = new AttributeChangeCommand((AttributeDeclaration)data, null, null, BaseType1.get((Integer)value), null);
+						break;
+					case COMMENT:
+						cmd = new AttributeChangeCommand((AttributeDeclaration)data, null, null, null, value.toString());
+						break;
+					}
 				}
 				executeCommand(cmd);
 				attributeViewer.refresh(data);
@@ -219,26 +265,37 @@ public abstract class AbstractAttributeSection extends AbstractSection {
 	}
 	
 	public class InputContentProvider implements IStructuredContentProvider {
+		private boolean isInheritable;
+		
+		public InputContentProvider(boolean isInheritable) {
+			this.isInheritable = isInheritable;
+		}
+		
 		@Override
 		public Object[] getElements(final Object inputElement) {
-			if(inputElement instanceof Application){
-				return ((Application)inputElement).getAttributes().toArray();
-			}
-			if(inputElement instanceof Device){
-				return ((Device)inputElement).getAttributes().toArray();
-			}
-			if(inputElement instanceof Segment){
-				return ((Segment)inputElement).getAttributes().toArray();
-			}
-			if(inputElement instanceof IInterfaceElement){
-				return ((IInterfaceElement)inputElement).getAttributes().toArray();
+			if(isInheritable) {
+				if(inputElement instanceof IInterfaceElement){
+					return ((IInterfaceElement)inputElement).getAttributeDeclarations().toArray();
+				}
+			}else {				
+				if(inputElement instanceof Application){
+					return ((Application)inputElement).getAttributes().toArray();
+				}
+				if(inputElement instanceof Device){
+					return ((Device)inputElement).getAttributes().toArray();
+				}
+				if(inputElement instanceof Segment){
+					return ((Segment)inputElement).getAttributes().toArray();
+				}
+				if(inputElement instanceof IInterfaceElement){
+					return ((IInterfaceElement)inputElement).getAttributes().toArray();
+				}
 			}
 			return new Object[] {};
 		}
 	}
 	
 	public class InputLabelProvider extends LabelProvider implements ITableLabelProvider {
-
 		@Override
 		public Image getColumnImage(final Object element, final int columnIndex) {
 			return null;
@@ -256,6 +313,20 @@ public abstract class AbstractAttributeSection extends AbstractSection {
 					return ((Attribute) element).getValue();
 				case 3:
 					return ((Attribute) element).getComment() != null ? ((Attribute) element).getComment() : ""; //$NON-NLS-1$
+				default:
+					break;
+				}
+			}
+			if (element instanceof AttributeDeclaration) {
+				switch (columnIndex) {
+				case 0:
+					return ((AttributeDeclaration) element).getName();
+				case 1:
+					return ((AttributeDeclaration) element).getType().getName();
+				case 2:
+					return ((AttributeDeclaration) element).getInitialValue();
+				case 3:
+					return ((AttributeDeclaration) element).getComment() != null ? ((AttributeDeclaration) element).getComment() : ""; //$NON-NLS-1$
 				default:
 					break;
 				}

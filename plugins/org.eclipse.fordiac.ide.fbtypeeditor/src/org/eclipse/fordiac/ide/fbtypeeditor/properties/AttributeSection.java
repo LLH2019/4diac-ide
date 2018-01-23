@@ -15,9 +15,17 @@ import org.eclipse.fordiac.ide.fbtypeeditor.editparts.InterfaceEditPart;
 import org.eclipse.fordiac.ide.gef.properties.AbstractAttributeSection;
 import org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement;
 import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 public class AttributeSection extends AbstractAttributeSection {
+	
+	public void createControls(final Composite parent, final TabbedPropertySheetPage tabbedPropertySheetPage) {
+		isInheritable = true;
+		super.createControls(parent, tabbedPropertySheetPage);	
+	}
+	
 	protected IInterfaceElement getInputType(Object input) {
 		if(input instanceof InterfaceEditPart) {
 			return ((InterfaceEditPart) input).getCastedModel();

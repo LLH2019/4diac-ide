@@ -13,16 +13,21 @@
 package org.eclipse.fordiac.ide.model.commands.create;
 
 import org.eclipse.fordiac.ide.model.libraryElement.Attribute;
+import org.eclipse.fordiac.ide.model.libraryElement.AttributeDeclaration;
 import org.eclipse.fordiac.ide.model.libraryElement.ConfigurableObject;
+import org.eclipse.fordiac.ide.model.libraryElement.InheritableAttribute;
 import org.eclipse.fordiac.ide.model.libraryElement.LibraryElementFactory;
 import org.eclipse.gef.commands.Command;
 
 public class AttributeCreateCommand extends Command {
-	private ConfigurableObject configurableObject;
+	private Object configurableObject;
 	private Attribute attribute;
+	private AttributeDeclaration attributeDeclaration;
+	private boolean isInheritable;
 
-	public AttributeCreateCommand(ConfigurableObject configurableObject) {
+	public AttributeCreateCommand(Object configurableObject, boolean isInheritable) {
 		this.configurableObject = configurableObject;
+		this.isInheritable = isInheritable;
 	}
 	
 	@Override
@@ -32,21 +37,36 @@ public class AttributeCreateCommand extends Command {
 
 	@Override
 	public void execute() {
-		attribute = LibraryElementFactory.eINSTANCE.createAttribute();
-		attribute.setName("name");
-		attribute.setComment("comment");
-		attribute.setValue("value");
+		if(isInheritable) {			
+			attributeDeclaration = LibraryElementFactory.eINSTANCE.createAttributeDeclaration();
+			attributeDeclaration.setName("name");
+			attributeDeclaration.setComment("comment");
+			attributeDeclaration.setInitialValue("value");
+		}else {
+			attribute = LibraryElementFactory.eINSTANCE.createAttribute();
+			attribute.setName("name");
+			attribute.setComment("comment");
+			attribute.setValue("value");
+		}
 		redo();
 	}
 
 	@Override
 	public void undo() {
-		configurableObject.getAttributes().remove(attribute);
+		if(isInheritable) {					
+			((InheritableAttribute)configurableObject).getAttributeDeclarations().remove(attributeDeclaration);
+		}else {
+			((ConfigurableObject)configurableObject).getAttributes().remove(attribute);
+		}
 	}
 
 	@Override
 	public void redo() {
-		configurableObject.getAttributes().add(attribute);
+		if(isInheritable) {					
+			((InheritableAttribute)configurableObject).getAttributeDeclarations().add(attributeDeclaration);	
+		}else {
+			((ConfigurableObject)configurableObject).getAttributes().add(attribute);
+		}
 	}
 
 }

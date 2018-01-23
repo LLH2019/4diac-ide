@@ -75,7 +75,7 @@
          <propertyTab
                category="attributes"
                id="org.eclipse.fordiac.ide.fbtypeeditor.propertyTab.Attributes"
-               label="Attributes">
+               label="Attribute Declarations">
          </propertyTab>
       </propertyTabs>
    </extension>
