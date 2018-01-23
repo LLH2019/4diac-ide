@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.fordiac.ide.model.libraryElement.AttributeDeclaration;
 import org.eclipse.fordiac.ide.model.libraryElement.DeviceType;
 import org.eclipse.fordiac.ide.model.libraryElement.FBNetwork;
+import org.eclipse.fordiac.ide.model.libraryElement.InheritableAttribute;
 import org.eclipse.fordiac.ide.model.libraryElement.LibraryElementPackage;
 import org.eclipse.fordiac.ide.model.libraryElement.Resource;
 import org.eclipse.fordiac.ide.model.libraryElement.ResourceTypeName;
@@ -38,17 +39,27 @@ import org.eclipse.fordiac.ide.model.libraryElement.VarDeclaration;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link org.eclipse.fordiac.ide.model.libraryElement.impl.DeviceTypeImpl#getAttributeDeclarations <em>Attribute Declarations</em>}</li>
  *   <li>{@link org.eclipse.fordiac.ide.model.libraryElement.impl.DeviceTypeImpl#getVarDeclaration <em>Var Declaration</em>}</li>
  *   <li>{@link org.eclipse.fordiac.ide.model.libraryElement.impl.DeviceTypeImpl#getResourceTypeName <em>Resource Type Name</em>}</li>
  *   <li>{@link org.eclipse.fordiac.ide.model.libraryElement.impl.DeviceTypeImpl#getResource <em>Resource</em>}</li>
  *   <li>{@link org.eclipse.fordiac.ide.model.libraryElement.impl.DeviceTypeImpl#getFBNetwork <em>FB Network</em>}</li>
  *   <li>{@link org.eclipse.fordiac.ide.model.libraryElement.impl.DeviceTypeImpl#getProfile <em>Profile</em>}</li>
- *   <li>{@link org.eclipse.fordiac.ide.model.libraryElement.impl.DeviceTypeImpl#getAttributeDeclarations <em>Attribute Declarations</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class DeviceTypeImpl extends CompilableTypeImpl implements DeviceType {
+	/**
+	 * The cached value of the '{@link #getAttributeDeclarations() <em>Attribute Declarations</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAttributeDeclarations()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<AttributeDeclaration> attributeDeclarations;
+
 	/**
 	 * The cached value of the '{@link #getVarDeclaration() <em>Var Declaration</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -108,16 +119,6 @@ public class DeviceTypeImpl extends CompilableTypeImpl implements DeviceType {
 	 * @ordered
 	 */
 	protected String profile = PROFILE_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getAttributeDeclarations() <em>Attribute Declarations</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getAttributeDeclarations()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<AttributeDeclaration> attributeDeclarations;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -243,6 +244,24 @@ public class DeviceTypeImpl extends CompilableTypeImpl implements DeviceType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public void setAttributeDeclaration(final String name, final String type, final String initialValue, final String comment) {
+		org.eclipse.fordiac.ide.model.Annotations.GEN.setAttributeDeclaration((InheritableAttribute)this, name, type, initialValue, comment);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AttributeDeclaration getAttributeDeclaration(final String name) {
+		return org.eclipse.fordiac.ide.model.Annotations.GEN.getAttributeDeclaration((InheritableAttribute)this, name);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EList<AttributeDeclaration> getAttributeDeclarations() {
 		if (attributeDeclarations == null) {
 			attributeDeclarations = new EObjectContainmentEList.Resolving<AttributeDeclaration>(AttributeDeclaration.class, this, LibraryElementPackage.DEVICE_TYPE__ATTRIBUTE_DECLARATIONS);
@@ -258,6 +277,8 @@ public class DeviceTypeImpl extends CompilableTypeImpl implements DeviceType {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case LibraryElementPackage.DEVICE_TYPE__ATTRIBUTE_DECLARATIONS:
+				return ((InternalEList<?>)getAttributeDeclarations()).basicRemove(otherEnd, msgs);
 			case LibraryElementPackage.DEVICE_TYPE__VAR_DECLARATION:
 				return ((InternalEList<?>)getVarDeclaration()).basicRemove(otherEnd, msgs);
 			case LibraryElementPackage.DEVICE_TYPE__RESOURCE_TYPE_NAME:
@@ -266,8 +287,6 @@ public class DeviceTypeImpl extends CompilableTypeImpl implements DeviceType {
 				return ((InternalEList<?>)getResource()).basicRemove(otherEnd, msgs);
 			case LibraryElementPackage.DEVICE_TYPE__FB_NETWORK:
 				return basicSetFBNetwork(null, msgs);
-			case LibraryElementPackage.DEVICE_TYPE__ATTRIBUTE_DECLARATIONS:
-				return ((InternalEList<?>)getAttributeDeclarations()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -280,6 +299,8 @@ public class DeviceTypeImpl extends CompilableTypeImpl implements DeviceType {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case LibraryElementPackage.DEVICE_TYPE__ATTRIBUTE_DECLARATIONS:
+				return getAttributeDeclarations();
 			case LibraryElementPackage.DEVICE_TYPE__VAR_DECLARATION:
 				return getVarDeclaration();
 			case LibraryElementPackage.DEVICE_TYPE__RESOURCE_TYPE_NAME:
@@ -290,8 +311,6 @@ public class DeviceTypeImpl extends CompilableTypeImpl implements DeviceType {
 				return getFBNetwork();
 			case LibraryElementPackage.DEVICE_TYPE__PROFILE:
 				return getProfile();
-			case LibraryElementPackage.DEVICE_TYPE__ATTRIBUTE_DECLARATIONS:
-				return getAttributeDeclarations();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -305,6 +324,10 @@ public class DeviceTypeImpl extends CompilableTypeImpl implements DeviceType {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case LibraryElementPackage.DEVICE_TYPE__ATTRIBUTE_DECLARATIONS:
+				getAttributeDeclarations().clear();
+				getAttributeDeclarations().addAll((Collection<? extends AttributeDeclaration>)newValue);
+				return;
 			case LibraryElementPackage.DEVICE_TYPE__VAR_DECLARATION:
 				getVarDeclaration().clear();
 				getVarDeclaration().addAll((Collection<? extends VarDeclaration>)newValue);
@@ -323,10 +346,6 @@ public class DeviceTypeImpl extends CompilableTypeImpl implements DeviceType {
 			case LibraryElementPackage.DEVICE_TYPE__PROFILE:
 				setProfile((String)newValue);
 				return;
-			case LibraryElementPackage.DEVICE_TYPE__ATTRIBUTE_DECLARATIONS:
-				getAttributeDeclarations().clear();
-				getAttributeDeclarations().addAll((Collection<? extends AttributeDeclaration>)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -339,6 +358,9 @@ public class DeviceTypeImpl extends CompilableTypeImpl implements DeviceType {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case LibraryElementPackage.DEVICE_TYPE__ATTRIBUTE_DECLARATIONS:
+				getAttributeDeclarations().clear();
+				return;
 			case LibraryElementPackage.DEVICE_TYPE__VAR_DECLARATION:
 				getVarDeclaration().clear();
 				return;
@@ -354,9 +376,6 @@ public class DeviceTypeImpl extends CompilableTypeImpl implements DeviceType {
 			case LibraryElementPackage.DEVICE_TYPE__PROFILE:
 				setProfile(PROFILE_EDEFAULT);
 				return;
-			case LibraryElementPackage.DEVICE_TYPE__ATTRIBUTE_DECLARATIONS:
-				getAttributeDeclarations().clear();
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -369,6 +388,8 @@ public class DeviceTypeImpl extends CompilableTypeImpl implements DeviceType {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case LibraryElementPackage.DEVICE_TYPE__ATTRIBUTE_DECLARATIONS:
+				return attributeDeclarations != null && !attributeDeclarations.isEmpty();
 			case LibraryElementPackage.DEVICE_TYPE__VAR_DECLARATION:
 				return varDeclaration != null && !varDeclaration.isEmpty();
 			case LibraryElementPackage.DEVICE_TYPE__RESOURCE_TYPE_NAME:
@@ -379,10 +400,40 @@ public class DeviceTypeImpl extends CompilableTypeImpl implements DeviceType {
 				return fBNetwork != null;
 			case LibraryElementPackage.DEVICE_TYPE__PROFILE:
 				return PROFILE_EDEFAULT == null ? profile != null : !PROFILE_EDEFAULT.equals(profile);
-			case LibraryElementPackage.DEVICE_TYPE__ATTRIBUTE_DECLARATIONS:
-				return attributeDeclarations != null && !attributeDeclarations.isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == InheritableAttribute.class) {
+			switch (derivedFeatureID) {
+				case LibraryElementPackage.DEVICE_TYPE__ATTRIBUTE_DECLARATIONS: return LibraryElementPackage.INHERITABLE_ATTRIBUTE__ATTRIBUTE_DECLARATIONS;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == InheritableAttribute.class) {
+			switch (baseFeatureID) {
+				case LibraryElementPackage.INHERITABLE_ATTRIBUTE__ATTRIBUTE_DECLARATIONS: return LibraryElementPackage.DEVICE_TYPE__ATTRIBUTE_DECLARATIONS;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
 	/**

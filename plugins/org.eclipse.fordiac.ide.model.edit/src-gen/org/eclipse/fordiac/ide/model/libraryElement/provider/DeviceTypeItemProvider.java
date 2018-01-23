@@ -93,10 +93,10 @@ public class DeviceTypeItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
+			childrenFeatures.add(LibraryElementPackage.Literals.INHERITABLE_ATTRIBUTE__ATTRIBUTE_DECLARATIONS);
 			childrenFeatures.add(LibraryElementPackage.Literals.DEVICE_TYPE__RESOURCE_TYPE_NAME);
 			childrenFeatures.add(LibraryElementPackage.Literals.DEVICE_TYPE__RESOURCE);
 			childrenFeatures.add(LibraryElementPackage.Literals.DEVICE_TYPE__FB_NETWORK);
-			childrenFeatures.add(LibraryElementPackage.Literals.DEVICE_TYPE__ATTRIBUTE_DECLARATIONS);
 		}
 		return childrenFeatures;
 	}
@@ -155,10 +155,10 @@ public class DeviceTypeItemProvider
 			case LibraryElementPackage.DEVICE_TYPE__PROFILE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
+			case LibraryElementPackage.DEVICE_TYPE__ATTRIBUTE_DECLARATIONS:
 			case LibraryElementPackage.DEVICE_TYPE__RESOURCE_TYPE_NAME:
 			case LibraryElementPackage.DEVICE_TYPE__RESOURCE:
 			case LibraryElementPackage.DEVICE_TYPE__FB_NETWORK:
-			case LibraryElementPackage.DEVICE_TYPE__ATTRIBUTE_DECLARATIONS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -175,6 +175,11 @@ public class DeviceTypeItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
+
+		newChildDescriptors.add
+			(createChildParameter
+				(LibraryElementPackage.Literals.INHERITABLE_ATTRIBUTE__ATTRIBUTE_DECLARATIONS,
+				 LibraryElementFactory.eINSTANCE.createAttributeDeclaration()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -200,11 +205,6 @@ public class DeviceTypeItemProvider
 			(createChildParameter
 				(LibraryElementPackage.Literals.DEVICE_TYPE__FB_NETWORK,
 				 LibraryElementFactory.eINSTANCE.createFBNetwork()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(LibraryElementPackage.Literals.DEVICE_TYPE__ATTRIBUTE_DECLARATIONS,
-				 LibraryElementFactory.eINSTANCE.createAttributeDeclaration()));
 	}
 
 }

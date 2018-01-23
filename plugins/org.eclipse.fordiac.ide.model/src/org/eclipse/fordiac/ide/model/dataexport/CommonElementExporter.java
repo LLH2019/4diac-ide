@@ -48,6 +48,7 @@ import org.eclipse.fordiac.ide.model.Palette.FBTypePaletteEntry;
 import org.eclipse.fordiac.ide.model.Palette.PaletteEntry;
 import org.eclipse.fordiac.ide.model.Palette.SubApplicationTypePaletteEntry;
 import org.eclipse.fordiac.ide.model.libraryElement.AdapterDeclaration;
+import org.eclipse.fordiac.ide.model.libraryElement.AttributeDeclaration;
 import org.eclipse.fordiac.ide.model.libraryElement.ColorizableElement;
 import org.eclipse.fordiac.ide.model.libraryElement.CompilableType;
 import org.eclipse.fordiac.ide.model.libraryElement.CompilerInfo;
@@ -116,12 +117,22 @@ public abstract class CommonElementExporter {
 		parent.appendChild(colorAttribute);
 	}
 
-	public static Element createAttributeElement(final Document dom, String name, String type, String value,
-			String comment) {
+	public static Element createAttributeElement(final Document dom, String name, String type,
+			String value, String comment) {
 		Element attributeElement = dom.createElement(LibraryElementTags.ATTRIBUTE_ELEMENT);
 		attributeElement.setAttribute(LibraryElementTags.NAME_ATTRIBUTE, name);
 		attributeElement.setAttribute(LibraryElementTags.TYPE_ATTRIBUTE, type);
 		attributeElement.setAttribute(LibraryElementTags.VALUE_ATTRIBUTE, value);
+		attributeElement.setAttribute(LibraryElementTags.COMMENT_ATTRIBUTE, comment);
+		return attributeElement;
+	}
+	
+	public static Element createAttributeDeclarationElement(final Document dom, String name, String type,
+			String initValue, String comment) {
+		Element attributeElement = dom.createElement(LibraryElementTags.ATTRIBUTE_DECLARATION_ELEMENT);
+		attributeElement.setAttribute(LibraryElementTags.NAME_ATTRIBUTE, name);
+		attributeElement.setAttribute(LibraryElementTags.TYPE_ATTRIBUTE, type);
+		attributeElement.setAttribute(LibraryElementTags.INITIALVALUE_ATTRIBUTE, initValue);
 		attributeElement.setAttribute(LibraryElementTags.COMMENT_ATTRIBUTE, comment);
 		return attributeElement;
 	}
@@ -537,15 +548,13 @@ public abstract class CommonElementExporter {
 	 */
 	private void addEvent(final Document dom, final Element parentElement, final Event event) {
 		Element eventElem = dom.createElement(getEventElementName());
-
 		setNameAttribute(eventElem, event.getName());
-
-		// if (event.getType() != null && event.getType() != null) {
 		eventElem.setAttribute(LibraryElementTags.TYPE_ATTRIBUTE, "Event"); //$NON-NLS-1$
-		// }
 		setCommentAttribute(eventElem, event);
-
 		addWith(dom, eventElem, event);
+		for (AttributeDeclaration ad : event.getAttributeDeclarations()) {
+			eventElem.appendChild(createAttributeDeclarationElement(dom, ad.getName(), ad.getType().getName(), ad.getInitialValue(), ad.getComment()));
+		}
 		parentElement.appendChild(eventElem);
 	}
 

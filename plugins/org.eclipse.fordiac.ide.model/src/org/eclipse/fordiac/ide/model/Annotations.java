@@ -15,6 +15,7 @@ import org.eclipse.fordiac.ide.model.libraryElement.AdapterType;
 import org.eclipse.fordiac.ide.model.libraryElement.Annotation;
 import org.eclipse.fordiac.ide.model.libraryElement.Application;
 import org.eclipse.fordiac.ide.model.libraryElement.Attribute;
+import org.eclipse.fordiac.ide.model.libraryElement.AttributeDeclaration;
 import org.eclipse.fordiac.ide.model.libraryElement.AutomationSystem;
 import org.eclipse.fordiac.ide.model.libraryElement.CompositeFBType;
 import org.eclipse.fordiac.ide.model.libraryElement.ConfigurableObject;
@@ -33,6 +34,7 @@ import org.eclipse.fordiac.ide.model.libraryElement.FBNetworkElement;
 import org.eclipse.fordiac.ide.model.libraryElement.FBType;
 import org.eclipse.fordiac.ide.model.libraryElement.I4DIACElement;
 import org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement;
+import org.eclipse.fordiac.ide.model.libraryElement.InheritableAttribute;
 import org.eclipse.fordiac.ide.model.libraryElement.InterfaceList;
 import org.eclipse.fordiac.ide.model.libraryElement.LibraryElement;
 import org.eclipse.fordiac.ide.model.libraryElement.LibraryElementFactory;
@@ -475,6 +477,33 @@ public enum Annotations {
 		}
 		for (Attribute attribute : object.getAttributes()) {
 			if (attribute.getName().equalsIgnoreCase(attributeName)) {
+				return attribute;
+			}
+		}
+		return null;
+	}
+	
+	//*** InheritableAttribute ***//
+	public void setAttributeDeclaration(InheritableAttribute object, final String name, final String type, final String initialValue, final String comment) {
+		AttributeDeclaration attribute = getAttributeDeclaration(object, name);
+		if (attribute == null) {
+			attribute = LibraryElementFactory.eINSTANCE.createAttributeDeclaration();
+			attribute.setName(name);
+			attribute.setInitialValue(initialValue);
+			attribute.setType(BaseType1.getByName(type));
+			attribute.setComment(comment);
+			object.getAttributeDeclarations().add(attribute);
+		} else {
+			attribute.setInitialValue(initialValue);
+		}
+	}
+
+	public AttributeDeclaration getAttributeDeclaration(InheritableAttribute object, final String name) {
+		if (name == null) {
+			return null;
+		}
+		for (AttributeDeclaration attribute : object.getAttributeDeclarations()) {
+			if (attribute.getName().equalsIgnoreCase(name)) {
 				return attribute;
 			}
 		}

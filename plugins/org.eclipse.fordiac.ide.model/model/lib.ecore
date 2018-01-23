@@ -211,7 +211,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="inConnections" upperBound="-1"
         eType="#//Link" eOpposite="#//Link/device"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DeviceType" eSuperTypes="#//CompilableType">
+  <eClassifiers xsi:type="ecore:EClass" name="DeviceType" eSuperTypes="#//CompilableType #//InheritableAttribute">
     <eStructuralFeatures xsi:type="ecore:EReference" name="varDeclaration" upperBound="-1"
         eType="#//VarDeclaration" containment="true" resolveProxies="false">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -245,8 +245,6 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="profile" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="attributeDeclarations"
-        upperBound="-1" eType="#//AttributeDeclaration" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ECAction">
     <eStructuralFeatures xsi:type="ecore:EReference" name="algorithm" eType="#//Algorithm"/>
@@ -945,7 +943,7 @@
     </eOperations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ServiceInterface" eSuperTypes="#//INamedElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="IInterfaceElement" eSuperTypes="#//INamedElement #//ConfigurableObject">
+  <eClassifiers xsi:type="ecore:EClass" name="IInterfaceElement" eSuperTypes="#//INamedElement #//ConfigurableObject #//InheritableAttribute">
     <eOperations name="getFBNetworkElement" lowerBound="1" eType="#//FBNetworkElement">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="return org.eclipse.fordiac.ide.model.Annotations.GEN.getFBNetworkElement(this);"/>
@@ -961,8 +959,6 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//Value"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="typeName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="attributeDeclarations"
-        upperBound="-1" eType="#//AttributeDeclaration" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Value">
     <eOperations name="getVarDeclaration" lowerBound="1" eType="#//VarDeclaration">
@@ -1153,5 +1149,25 @@
   <eClassifiers xsi:type="ecore:EClass" name="TypedElement" abstract="true" interface="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EEnum data.ecore#//BaseType1"
         defaultValueLiteral="STRING"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InheritableAttribute" abstract="true"
+      interface="true">
+    <eOperations name="setAttributeDeclaration">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="org.eclipse.fordiac.ide.model.Annotations.GEN.setAttributeDeclaration((InheritableAttribute)this, name, type, initialValue, comment);"/>
+      </eAnnotations>
+      <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+      <eParameters name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+      <eParameters name="initialValue" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+      <eParameters name="comment" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    </eOperations>
+    <eOperations name="getAttributeDeclaration" eType="#//AttributeDeclaration">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return org.eclipse.fordiac.ide.model.Annotations.GEN.getAttributeDeclaration((InheritableAttribute)this, name);"/>
+      </eAnnotations>
+      <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributeDeclarations"
+        upperBound="-1" eType="#//AttributeDeclaration" containment="true"/>
   </eClassifiers>
 </ecore:EPackage>

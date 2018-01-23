@@ -238,8 +238,8 @@ public class IInterfaceElementItemProvider extends I4DIACElementItemProvider {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(LibraryElementPackage.Literals.CONFIGURABLE_OBJECT__ATTRIBUTES);
+			childrenFeatures.add(LibraryElementPackage.Literals.INHERITABLE_ATTRIBUTE__ATTRIBUTE_DECLARATIONS);
 			childrenFeatures.add(LibraryElementPackage.Literals.IINTERFACE_ELEMENT__VALUE);
-			childrenFeatures.add(LibraryElementPackage.Literals.IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS);
 		}
 		return childrenFeatures;
 	}
@@ -291,8 +291,8 @@ public class IInterfaceElementItemProvider extends I4DIACElementItemProvider {
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case LibraryElementPackage.IINTERFACE_ELEMENT__ATTRIBUTES:
-			case LibraryElementPackage.IINTERFACE_ELEMENT__VALUE:
 			case LibraryElementPackage.IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS:
+			case LibraryElementPackage.IINTERFACE_ELEMENT__VALUE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -317,13 +317,13 @@ public class IInterfaceElementItemProvider extends I4DIACElementItemProvider {
 
 		newChildDescriptors.add
 			(createChildParameter
-				(LibraryElementPackage.Literals.IINTERFACE_ELEMENT__VALUE,
-				 LibraryElementFactory.eINSTANCE.createValue()));
+				(LibraryElementPackage.Literals.INHERITABLE_ATTRIBUTE__ATTRIBUTE_DECLARATIONS,
+				 LibraryElementFactory.eINSTANCE.createAttributeDeclaration()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(LibraryElementPackage.Literals.IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS,
-				 LibraryElementFactory.eINSTANCE.createAttributeDeclaration()));
+				(LibraryElementPackage.Literals.IINTERFACE_ELEMENT__VALUE,
+				 LibraryElementFactory.eINSTANCE.createValue()));
 	}
 
 }

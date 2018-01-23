@@ -38,6 +38,7 @@ import org.eclipse.fordiac.ide.model.libraryElement.ConfigurableObject;
 import org.eclipse.fordiac.ide.model.libraryElement.Connection;
 import org.eclipse.fordiac.ide.model.libraryElement.FBNetworkElement;
 import org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement;
+import org.eclipse.fordiac.ide.model.libraryElement.InheritableAttribute;
 import org.eclipse.fordiac.ide.model.libraryElement.LibraryElementPackage;
 import org.eclipse.fordiac.ide.model.libraryElement.Value;
 
@@ -52,13 +53,13 @@ import org.eclipse.fordiac.ide.model.libraryElement.Value;
  *   <li>{@link org.eclipse.fordiac.ide.model.libraryElement.impl.IInterfaceElementImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.fordiac.ide.model.libraryElement.impl.IInterfaceElementImpl#getComment <em>Comment</em>}</li>
  *   <li>{@link org.eclipse.fordiac.ide.model.libraryElement.impl.IInterfaceElementImpl#getAttributes <em>Attributes</em>}</li>
+ *   <li>{@link org.eclipse.fordiac.ide.model.libraryElement.impl.IInterfaceElementImpl#getAttributeDeclarations <em>Attribute Declarations</em>}</li>
  *   <li>{@link org.eclipse.fordiac.ide.model.libraryElement.impl.IInterfaceElementImpl#isIsInput <em>Is Input</em>}</li>
  *   <li>{@link org.eclipse.fordiac.ide.model.libraryElement.impl.IInterfaceElementImpl#getInputConnections <em>Input Connections</em>}</li>
  *   <li>{@link org.eclipse.fordiac.ide.model.libraryElement.impl.IInterfaceElementImpl#getOutputConnections <em>Output Connections</em>}</li>
  *   <li>{@link org.eclipse.fordiac.ide.model.libraryElement.impl.IInterfaceElementImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.fordiac.ide.model.libraryElement.impl.IInterfaceElementImpl#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.fordiac.ide.model.libraryElement.impl.IInterfaceElementImpl#getTypeName <em>Type Name</em>}</li>
- *   <li>{@link org.eclipse.fordiac.ide.model.libraryElement.impl.IInterfaceElementImpl#getAttributeDeclarations <em>Attribute Declarations</em>}</li>
  * </ul>
  *
  * @generated
@@ -113,6 +114,16 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	 * @ordered
 	 */
 	protected EList<Attribute> attributes;
+
+	/**
+	 * The cached value of the '{@link #getAttributeDeclarations() <em>Attribute Declarations</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAttributeDeclarations()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<AttributeDeclaration> attributeDeclarations;
 
 	/**
 	 * The default value of the '{@link #isIsInput() <em>Is Input</em>}' attribute.
@@ -193,16 +204,6 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	 * @ordered
 	 */
 	protected String typeName = TYPE_NAME_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getAttributeDeclarations() <em>Attribute Declarations</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getAttributeDeclarations()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<AttributeDeclaration> attributeDeclarations;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -473,6 +474,24 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public void setAttributeDeclaration(final String name, final String type, final String initialValue, final String comment) {
+		org.eclipse.fordiac.ide.model.Annotations.GEN.setAttributeDeclaration((InheritableAttribute)this, name, type, initialValue, comment);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AttributeDeclaration getAttributeDeclaration(final String name) {
+		return org.eclipse.fordiac.ide.model.Annotations.GEN.getAttributeDeclaration((InheritableAttribute)this, name);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public void setAttribute(final String attributeName, final String type, final String value, final String comment) {
 		org.eclipse.fordiac.ide.model.Annotations.GEN.setAttribute(this, attributeName, type, value, comment);
 	}
@@ -522,14 +541,14 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 		switch (featureID) {
 			case LibraryElementPackage.IINTERFACE_ELEMENT__ATTRIBUTES:
 				return ((InternalEList<?>)getAttributes()).basicRemove(otherEnd, msgs);
+			case LibraryElementPackage.IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS:
+				return ((InternalEList<?>)getAttributeDeclarations()).basicRemove(otherEnd, msgs);
 			case LibraryElementPackage.IINTERFACE_ELEMENT__INPUT_CONNECTIONS:
 				return ((InternalEList<?>)getInputConnections()).basicRemove(otherEnd, msgs);
 			case LibraryElementPackage.IINTERFACE_ELEMENT__OUTPUT_CONNECTIONS:
 				return ((InternalEList<?>)getOutputConnections()).basicRemove(otherEnd, msgs);
 			case LibraryElementPackage.IINTERFACE_ELEMENT__VALUE:
 				return basicSetValue(null, msgs);
-			case LibraryElementPackage.IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS:
-				return ((InternalEList<?>)getAttributeDeclarations()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -548,6 +567,8 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 				return getComment();
 			case LibraryElementPackage.IINTERFACE_ELEMENT__ATTRIBUTES:
 				return getAttributes();
+			case LibraryElementPackage.IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS:
+				return getAttributeDeclarations();
 			case LibraryElementPackage.IINTERFACE_ELEMENT__IS_INPUT:
 				return isIsInput();
 			case LibraryElementPackage.IINTERFACE_ELEMENT__INPUT_CONNECTIONS:
@@ -562,8 +583,6 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 				return basicGetValue();
 			case LibraryElementPackage.IINTERFACE_ELEMENT__TYPE_NAME:
 				return getTypeName();
-			case LibraryElementPackage.IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS:
-				return getAttributeDeclarations();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -587,6 +606,10 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 				getAttributes().clear();
 				getAttributes().addAll((Collection<? extends Attribute>)newValue);
 				return;
+			case LibraryElementPackage.IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS:
+				getAttributeDeclarations().clear();
+				getAttributeDeclarations().addAll((Collection<? extends AttributeDeclaration>)newValue);
+				return;
 			case LibraryElementPackage.IINTERFACE_ELEMENT__IS_INPUT:
 				setIsInput((Boolean)newValue);
 				return;
@@ -606,10 +629,6 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 				return;
 			case LibraryElementPackage.IINTERFACE_ELEMENT__TYPE_NAME:
 				setTypeName((String)newValue);
-				return;
-			case LibraryElementPackage.IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS:
-				getAttributeDeclarations().clear();
-				getAttributeDeclarations().addAll((Collection<? extends AttributeDeclaration>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -632,6 +651,9 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 			case LibraryElementPackage.IINTERFACE_ELEMENT__ATTRIBUTES:
 				getAttributes().clear();
 				return;
+			case LibraryElementPackage.IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS:
+				getAttributeDeclarations().clear();
+				return;
 			case LibraryElementPackage.IINTERFACE_ELEMENT__IS_INPUT:
 				setIsInput(IS_INPUT_EDEFAULT);
 				return;
@@ -649,9 +671,6 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 				return;
 			case LibraryElementPackage.IINTERFACE_ELEMENT__TYPE_NAME:
 				setTypeName(TYPE_NAME_EDEFAULT);
-				return;
-			case LibraryElementPackage.IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS:
-				getAttributeDeclarations().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -671,6 +690,8 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 				return COMMENT_EDEFAULT == null ? comment != null : !COMMENT_EDEFAULT.equals(comment);
 			case LibraryElementPackage.IINTERFACE_ELEMENT__ATTRIBUTES:
 				return attributes != null && !attributes.isEmpty();
+			case LibraryElementPackage.IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS:
+				return attributeDeclarations != null && !attributeDeclarations.isEmpty();
 			case LibraryElementPackage.IINTERFACE_ELEMENT__IS_INPUT:
 				return isInput != IS_INPUT_EDEFAULT;
 			case LibraryElementPackage.IINTERFACE_ELEMENT__INPUT_CONNECTIONS:
@@ -683,8 +704,6 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 				return value != null;
 			case LibraryElementPackage.IINTERFACE_ELEMENT__TYPE_NAME:
 				return TYPE_NAME_EDEFAULT == null ? typeName != null : !TYPE_NAME_EDEFAULT.equals(typeName);
-			case LibraryElementPackage.IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS:
-				return attributeDeclarations != null && !attributeDeclarations.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -702,6 +721,12 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 				default: return -1;
 			}
 		}
+		if (baseClass == InheritableAttribute.class) {
+			switch (derivedFeatureID) {
+				case LibraryElementPackage.IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS: return LibraryElementPackage.INHERITABLE_ATTRIBUTE__ATTRIBUTE_DECLARATIONS;
+				default: return -1;
+			}
+		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
@@ -715,6 +740,12 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 		if (baseClass == ConfigurableObject.class) {
 			switch (baseFeatureID) {
 				case LibraryElementPackage.CONFIGURABLE_OBJECT__ATTRIBUTES: return LibraryElementPackage.IINTERFACE_ELEMENT__ATTRIBUTES;
+				default: return -1;
+			}
+		}
+		if (baseClass == InheritableAttribute.class) {
+			switch (baseFeatureID) {
+				case LibraryElementPackage.INHERITABLE_ATTRIBUTE__ATTRIBUTE_DECLARATIONS: return LibraryElementPackage.IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS;
 				default: return -1;
 			}
 		}

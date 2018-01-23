@@ -54,6 +54,7 @@ import org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement;
 import org.eclipse.fordiac.ide.model.libraryElement.INamedElement;
 import org.eclipse.fordiac.ide.model.libraryElement.IVarElement;
 import org.eclipse.fordiac.ide.model.libraryElement.Identification;
+import org.eclipse.fordiac.ide.model.libraryElement.InheritableAttribute;
 import org.eclipse.fordiac.ide.model.libraryElement.InputPrimitive;
 import org.eclipse.fordiac.ide.model.libraryElement.InterfaceList;
 import org.eclipse.fordiac.ide.model.libraryElement.LibraryElement;
@@ -150,6 +151,7 @@ public class LibraryElementSwitch<T> extends Switch<T> {
 				if (result == null) result = caseVarDeclaration(adapterDeclaration);
 				if (result == null) result = caseIInterfaceElement(adapterDeclaration);
 				if (result == null) result = caseConfigurableObject(adapterDeclaration);
+				if (result == null) result = caseInheritableAttribute(adapterDeclaration);
 				if (result == null) result = caseINamedElement(adapterDeclaration);
 				if (result == null) result = caseI4DIACElement(adapterDeclaration);
 				if (result == null) result = defaultCase(theEObject);
@@ -231,6 +233,7 @@ public class LibraryElementSwitch<T> extends Switch<T> {
 				DeviceType deviceType = (DeviceType)theEObject;
 				T result = caseDeviceType(deviceType);
 				if (result == null) result = caseCompilableType(deviceType);
+				if (result == null) result = caseInheritableAttribute(deviceType);
 				if (result == null) result = caseLibraryElement(deviceType);
 				if (result == null) result = caseINamedElement(deviceType);
 				if (result == null) result = caseI4DIACElement(deviceType);
@@ -270,6 +273,7 @@ public class LibraryElementSwitch<T> extends Switch<T> {
 				T result = caseEvent(event);
 				if (result == null) result = caseIInterfaceElement(event);
 				if (result == null) result = caseConfigurableObject(event);
+				if (result == null) result = caseInheritableAttribute(event);
 				if (result == null) result = caseINamedElement(event);
 				if (result == null) result = caseI4DIACElement(event);
 				if (result == null) result = defaultCase(theEObject);
@@ -486,6 +490,7 @@ public class LibraryElementSwitch<T> extends Switch<T> {
 				T result = caseVarDeclaration(varDeclaration);
 				if (result == null) result = caseIInterfaceElement(varDeclaration);
 				if (result == null) result = caseConfigurableObject(varDeclaration);
+				if (result == null) result = caseInheritableAttribute(varDeclaration);
 				if (result == null) result = caseINamedElement(varDeclaration);
 				if (result == null) result = caseI4DIACElement(varDeclaration);
 				if (result == null) result = defaultCase(theEObject);
@@ -590,6 +595,7 @@ public class LibraryElementSwitch<T> extends Switch<T> {
 				IInterfaceElement iInterfaceElement = (IInterfaceElement)theEObject;
 				T result = caseIInterfaceElement(iInterfaceElement);
 				if (result == null) result = caseConfigurableObject(iInterfaceElement);
+				if (result == null) result = caseInheritableAttribute(iInterfaceElement);
 				if (result == null) result = caseINamedElement(iInterfaceElement);
 				if (result == null) result = caseI4DIACElement(iInterfaceElement);
 				if (result == null) result = defaultCase(theEObject);
@@ -667,6 +673,7 @@ public class LibraryElementSwitch<T> extends Switch<T> {
 				if (result == null) result = caseEvent(adapterEvent);
 				if (result == null) result = caseIInterfaceElement(adapterEvent);
 				if (result == null) result = caseConfigurableObject(adapterEvent);
+				if (result == null) result = caseInheritableAttribute(adapterEvent);
 				if (result == null) result = caseINamedElement(adapterEvent);
 				if (result == null) result = caseI4DIACElement(adapterEvent);
 				if (result == null) result = defaultCase(theEObject);
@@ -743,6 +750,12 @@ public class LibraryElementSwitch<T> extends Switch<T> {
 			case LibraryElementPackage.TYPED_ELEMENT: {
 				TypedElement typedElement = (TypedElement)theEObject;
 				T result = caseTypedElement(typedElement);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case LibraryElementPackage.INHERITABLE_ATTRIBUTE: {
+				InheritableAttribute inheritableAttribute = (InheritableAttribute)theEObject;
+				T result = caseInheritableAttribute(inheritableAttribute);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1782,6 +1795,21 @@ public class LibraryElementSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseTypedElement(TypedElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Inheritable Attribute</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Inheritable Attribute</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseInheritableAttribute(InheritableAttribute object) {
 		return null;
 	}
 

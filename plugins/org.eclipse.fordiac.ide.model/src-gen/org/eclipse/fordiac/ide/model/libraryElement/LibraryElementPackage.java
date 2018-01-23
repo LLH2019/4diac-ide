@@ -369,13 +369,22 @@ public interface LibraryElementPackage extends EPackage {
 	int IINTERFACE_ELEMENT__ATTRIBUTES = INAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Attribute Declarations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS = INAMED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Is Input</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IINTERFACE_ELEMENT__IS_INPUT = INAMED_ELEMENT_FEATURE_COUNT + 1;
+	int IINTERFACE_ELEMENT__IS_INPUT = INAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Input Connections</b></em>' reference list.
@@ -384,7 +393,7 @@ public interface LibraryElementPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IINTERFACE_ELEMENT__INPUT_CONNECTIONS = INAMED_ELEMENT_FEATURE_COUNT + 2;
+	int IINTERFACE_ELEMENT__INPUT_CONNECTIONS = INAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Output Connections</b></em>' reference list.
@@ -393,7 +402,7 @@ public interface LibraryElementPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IINTERFACE_ELEMENT__OUTPUT_CONNECTIONS = INAMED_ELEMENT_FEATURE_COUNT + 3;
+	int IINTERFACE_ELEMENT__OUTPUT_CONNECTIONS = INAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -402,7 +411,7 @@ public interface LibraryElementPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IINTERFACE_ELEMENT__TYPE = INAMED_ELEMENT_FEATURE_COUNT + 4;
+	int IINTERFACE_ELEMENT__TYPE = INAMED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' containment reference.
@@ -411,7 +420,7 @@ public interface LibraryElementPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IINTERFACE_ELEMENT__VALUE = INAMED_ELEMENT_FEATURE_COUNT + 5;
+	int IINTERFACE_ELEMENT__VALUE = INAMED_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Type Name</b></em>' attribute.
@@ -420,16 +429,7 @@ public interface LibraryElementPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IINTERFACE_ELEMENT__TYPE_NAME = INAMED_ELEMENT_FEATURE_COUNT + 6;
-
-	/**
-	 * The feature id for the '<em><b>Attribute Declarations</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS = INAMED_ELEMENT_FEATURE_COUNT + 7;
+	int IINTERFACE_ELEMENT__TYPE_NAME = INAMED_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of structural features of the '<em>IInterface Element</em>' class.
@@ -707,6 +707,15 @@ public interface LibraryElementPackage extends EPackage {
 	int VAR_DECLARATION__ATTRIBUTES = IINTERFACE_ELEMENT__ATTRIBUTES;
 
 	/**
+	 * The feature id for the '<em><b>Attribute Declarations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VAR_DECLARATION__ATTRIBUTE_DECLARATIONS = IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Is Input</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -759,15 +768,6 @@ public interface LibraryElementPackage extends EPackage {
 	 * @ordered
 	 */
 	int VAR_DECLARATION__TYPE_NAME = IINTERFACE_ELEMENT__TYPE_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Attribute Declarations</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VAR_DECLARATION__ATTRIBUTE_DECLARATIONS = IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Array Size</b></em>' attribute.
@@ -842,6 +842,15 @@ public interface LibraryElementPackage extends EPackage {
 	int ADAPTER_DECLARATION__ATTRIBUTES = VAR_DECLARATION__ATTRIBUTES;
 
 	/**
+	 * The feature id for the '<em><b>Attribute Declarations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADAPTER_DECLARATION__ATTRIBUTE_DECLARATIONS = VAR_DECLARATION__ATTRIBUTE_DECLARATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Is Input</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -894,15 +903,6 @@ public interface LibraryElementPackage extends EPackage {
 	 * @ordered
 	 */
 	int ADAPTER_DECLARATION__TYPE_NAME = VAR_DECLARATION__TYPE_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Attribute Declarations</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ADAPTER_DECLARATION__ATTRIBUTE_DECLARATIONS = VAR_DECLARATION__ATTRIBUTE_DECLARATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Array Size</b></em>' attribute.
@@ -1941,13 +1941,22 @@ public interface LibraryElementPackage extends EPackage {
 	int DEVICE_TYPE__COMPILER_INFO = COMPILABLE_TYPE__COMPILER_INFO;
 
 	/**
+	 * The feature id for the '<em><b>Attribute Declarations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEVICE_TYPE__ATTRIBUTE_DECLARATIONS = COMPILABLE_TYPE_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Var Declaration</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DEVICE_TYPE__VAR_DECLARATION = COMPILABLE_TYPE_FEATURE_COUNT + 0;
+	int DEVICE_TYPE__VAR_DECLARATION = COMPILABLE_TYPE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Resource Type Name</b></em>' containment reference list.
@@ -1956,7 +1965,7 @@ public interface LibraryElementPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DEVICE_TYPE__RESOURCE_TYPE_NAME = COMPILABLE_TYPE_FEATURE_COUNT + 1;
+	int DEVICE_TYPE__RESOURCE_TYPE_NAME = COMPILABLE_TYPE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Resource</b></em>' containment reference list.
@@ -1965,7 +1974,7 @@ public interface LibraryElementPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DEVICE_TYPE__RESOURCE = COMPILABLE_TYPE_FEATURE_COUNT + 2;
+	int DEVICE_TYPE__RESOURCE = COMPILABLE_TYPE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>FB Network</b></em>' containment reference.
@@ -1974,7 +1983,7 @@ public interface LibraryElementPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DEVICE_TYPE__FB_NETWORK = COMPILABLE_TYPE_FEATURE_COUNT + 3;
+	int DEVICE_TYPE__FB_NETWORK = COMPILABLE_TYPE_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Profile</b></em>' attribute.
@@ -1983,16 +1992,7 @@ public interface LibraryElementPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DEVICE_TYPE__PROFILE = COMPILABLE_TYPE_FEATURE_COUNT + 4;
-
-	/**
-	 * The feature id for the '<em><b>Attribute Declarations</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DEVICE_TYPE__ATTRIBUTE_DECLARATIONS = COMPILABLE_TYPE_FEATURE_COUNT + 5;
+	int DEVICE_TYPE__PROFILE = COMPILABLE_TYPE_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Device Type</em>' class.
@@ -2453,6 +2453,15 @@ public interface LibraryElementPackage extends EPackage {
 	int EVENT__ATTRIBUTES = IINTERFACE_ELEMENT__ATTRIBUTES;
 
 	/**
+	 * The feature id for the '<em><b>Attribute Declarations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVENT__ATTRIBUTE_DECLARATIONS = IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Is Input</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2505,15 +2514,6 @@ public interface LibraryElementPackage extends EPackage {
 	 * @ordered
 	 */
 	int EVENT__TYPE_NAME = IINTERFACE_ELEMENT__TYPE_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Attribute Declarations</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EVENT__ATTRIBUTE_DECLARATIONS = IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS;
 
 	/**
 	 * The feature id for the '<em><b>With</b></em>' containment reference list.
@@ -5115,6 +5115,15 @@ public interface LibraryElementPackage extends EPackage {
 	int ADAPTER_EVENT__ATTRIBUTES = EVENT__ATTRIBUTES;
 
 	/**
+	 * The feature id for the '<em><b>Attribute Declarations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADAPTER_EVENT__ATTRIBUTE_DECLARATIONS = EVENT__ATTRIBUTE_DECLARATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Is Input</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5167,15 +5176,6 @@ public interface LibraryElementPackage extends EPackage {
 	 * @ordered
 	 */
 	int ADAPTER_EVENT__TYPE_NAME = EVENT__TYPE_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Attribute Declarations</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ADAPTER_EVENT__ATTRIBUTE_DECLARATIONS = EVENT__ATTRIBUTE_DECLARATIONS;
 
 	/**
 	 * The feature id for the '<em><b>With</b></em>' containment reference list.
@@ -5503,6 +5503,34 @@ public interface LibraryElementPackage extends EPackage {
 	int TYPED_ELEMENT_FEATURE_COUNT = 1;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.fordiac.ide.model.libraryElement.InheritableAttribute <em>Inheritable Attribute</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.fordiac.ide.model.libraryElement.InheritableAttribute
+	 * @see org.eclipse.fordiac.ide.model.libraryElement.impl.LibraryElementPackageImpl#getInheritableAttribute()
+	 * @generated
+	 */
+	int INHERITABLE_ATTRIBUTE = 70;
+
+	/**
+	 * The feature id for the '<em><b>Attribute Declarations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INHERITABLE_ATTRIBUTE__ATTRIBUTE_DECLARATIONS = 0;
+
+	/**
+	 * The number of structural features of the '<em>Inheritable Attribute</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INHERITABLE_ATTRIBUTE_FEATURE_COUNT = 1;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.fordiac.ide.model.libraryElement.Language <em>Language</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5510,7 +5538,7 @@ public interface LibraryElementPackage extends EPackage {
 	 * @see org.eclipse.fordiac.ide.model.libraryElement.impl.LibraryElementPackageImpl#getLanguage()
 	 * @generated
 	 */
-	int LANGUAGE = 70;
+	int LANGUAGE = 71;
 
 
 	/**
@@ -5521,7 +5549,7 @@ public interface LibraryElementPackage extends EPackage {
 	 * @see org.eclipse.fordiac.ide.model.libraryElement.impl.LibraryElementPackageImpl#getIProject()
 	 * @generated
 	 */
-	int IPROJECT = 71;
+	int IPROJECT = 72;
 
 
 	/**
@@ -5942,17 +5970,6 @@ public interface LibraryElementPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getDeviceType_Profile();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.fordiac.ide.model.libraryElement.DeviceType#getAttributeDeclarations <em>Attribute Declarations</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Attribute Declarations</em>'.
-	 * @see org.eclipse.fordiac.ide.model.libraryElement.DeviceType#getAttributeDeclarations()
-	 * @see #getDeviceType()
-	 * @generated
-	 */
-	EReference getDeviceType_AttributeDeclarations();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.fordiac.ide.model.libraryElement.ECAction <em>EC Action</em>}'.
@@ -7290,17 +7307,6 @@ public interface LibraryElementPackage extends EPackage {
 	EAttribute getIInterfaceElement_TypeName();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement#getAttributeDeclarations <em>Attribute Declarations</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Attribute Declarations</em>'.
-	 * @see org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement#getAttributeDeclarations()
-	 * @see #getIInterfaceElement()
-	 * @generated
-	 */
-	EReference getIInterfaceElement_AttributeDeclarations();
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.fordiac.ide.model.libraryElement.Value <em>Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7788,6 +7794,27 @@ public interface LibraryElementPackage extends EPackage {
 	EAttribute getTypedElement_Type();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.fordiac.ide.model.libraryElement.InheritableAttribute <em>Inheritable Attribute</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Inheritable Attribute</em>'.
+	 * @see org.eclipse.fordiac.ide.model.libraryElement.InheritableAttribute
+	 * @generated
+	 */
+	EClass getInheritableAttribute();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.fordiac.ide.model.libraryElement.InheritableAttribute#getAttributeDeclarations <em>Attribute Declarations</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Attribute Declarations</em>'.
+	 * @see org.eclipse.fordiac.ide.model.libraryElement.InheritableAttribute#getAttributeDeclarations()
+	 * @see #getInheritableAttribute()
+	 * @generated
+	 */
+	EReference getInheritableAttribute_AttributeDeclarations();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.fordiac.ide.model.libraryElement.Attribute <em>Attribute</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8215,14 +8242,6 @@ public interface LibraryElementPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute DEVICE_TYPE__PROFILE = eINSTANCE.getDeviceType_Profile();
-
-		/**
-		 * The meta object literal for the '<em><b>Attribute Declarations</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference DEVICE_TYPE__ATTRIBUTE_DECLARATIONS = eINSTANCE.getDeviceType_AttributeDeclarations();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.fordiac.ide.model.libraryElement.impl.ECActionImpl <em>EC Action</em>}' class.
@@ -9305,14 +9324,6 @@ public interface LibraryElementPackage extends EPackage {
 		EAttribute IINTERFACE_ELEMENT__TYPE_NAME = eINSTANCE.getIInterfaceElement_TypeName();
 
 		/**
-		 * The meta object literal for the '<em><b>Attribute Declarations</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS = eINSTANCE.getIInterfaceElement_AttributeDeclarations();
-
-		/**
 		 * The meta object literal for the '{@link org.eclipse.fordiac.ide.model.libraryElement.impl.ValueImpl <em>Value</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -9717,6 +9728,24 @@ public interface LibraryElementPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute TYPED_ELEMENT__TYPE = eINSTANCE.getTypedElement_Type();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.fordiac.ide.model.libraryElement.InheritableAttribute <em>Inheritable Attribute</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.fordiac.ide.model.libraryElement.InheritableAttribute
+		 * @see org.eclipse.fordiac.ide.model.libraryElement.impl.LibraryElementPackageImpl#getInheritableAttribute()
+		 * @generated
+		 */
+		EClass INHERITABLE_ATTRIBUTE = eINSTANCE.getInheritableAttribute();
+
+		/**
+		 * The meta object literal for the '<em><b>Attribute Declarations</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INHERITABLE_ATTRIBUTE__ATTRIBUTE_DECLARATIONS = eINSTANCE.getInheritableAttribute_AttributeDeclarations();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.fordiac.ide.model.libraryElement.impl.AttributeImpl <em>Attribute</em>}' class.

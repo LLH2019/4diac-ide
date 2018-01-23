@@ -22,6 +22,7 @@ import org.eclipse.fordiac.ide.model.libraryElement.Event;
 import org.eclipse.fordiac.ide.model.libraryElement.I4DIACElement;
 import org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement;
 import org.eclipse.fordiac.ide.model.libraryElement.INamedElement;
+import org.eclipse.fordiac.ide.model.libraryElement.InheritableAttribute;
 import org.eclipse.fordiac.ide.model.libraryElement.VarDeclaration;
 import org.eclipse.fordiac.ide.model.monitoring.*;
 import org.eclipse.fordiac.ide.model.monitoring.AdapterMonitoringEvent;
@@ -146,6 +147,7 @@ public class MonitoringSwitch<T> extends Switch<T> {
 				if (result == null) result = caseEvent(adapterMonitoringEvent);
 				if (result == null) result = caseIInterfaceElement(adapterMonitoringEvent);
 				if (result == null) result = caseConfigurableObject(adapterMonitoringEvent);
+				if (result == null) result = caseInheritableAttribute(adapterMonitoringEvent);
 				if (result == null) result = caseINamedElement(adapterMonitoringEvent);
 				if (result == null) result = caseI4DIACElement(adapterMonitoringEvent);
 				if (result == null) result = defaultCase(theEObject);
@@ -158,6 +160,7 @@ public class MonitoringSwitch<T> extends Switch<T> {
 				if (result == null) result = caseVarDeclaration(adapterMonitoringVarDeclaration);
 				if (result == null) result = caseIInterfaceElement(adapterMonitoringVarDeclaration);
 				if (result == null) result = caseConfigurableObject(adapterMonitoringVarDeclaration);
+				if (result == null) result = caseInheritableAttribute(adapterMonitoringVarDeclaration);
 				if (result == null) result = caseINamedElement(adapterMonitoringVarDeclaration);
 				if (result == null) result = caseI4DIACElement(adapterMonitoringVarDeclaration);
 				if (result == null) result = defaultCase(theEObject);
@@ -344,6 +347,21 @@ public class MonitoringSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseConfigurableObject(ConfigurableObject object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Inheritable Attribute</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Inheritable Attribute</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseInheritableAttribute(InheritableAttribute object) {
 		return null;
 	}
 
