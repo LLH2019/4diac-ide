@@ -15,8 +15,11 @@ package org.eclipse.fordiac.ide.model.dataexport;
 import java.util.List;
 
 import org.eclipse.fordiac.ide.model.LibraryElementTags;
+import org.eclipse.fordiac.ide.model.libraryElement.AdapterDeclaration;
 import org.eclipse.fordiac.ide.model.libraryElement.AdapterFBType;
+import org.eclipse.fordiac.ide.model.libraryElement.Attribute;
 import org.eclipse.fordiac.ide.model.libraryElement.Connection;
+import org.eclipse.fordiac.ide.model.libraryElement.Event;
 import org.eclipse.fordiac.ide.model.libraryElement.FB;
 import org.eclipse.fordiac.ide.model.libraryElement.FBNetwork;
 import org.eclipse.fordiac.ide.model.libraryElement.FBNetworkElement;
@@ -28,6 +31,7 @@ import org.eclipse.fordiac.ide.model.libraryElement.ResourceType;
 import org.eclipse.fordiac.ide.model.libraryElement.ResourceTypeFB;
 import org.eclipse.fordiac.ide.model.libraryElement.SubApp;
 import org.eclipse.fordiac.ide.model.libraryElement.SubAppType;
+import org.eclipse.fordiac.ide.model.libraryElement.VarDeclaration;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -69,9 +73,32 @@ class FBNetworkExporter {
 				CommonElementExporter.setCommentAttribute(fbElement, element);					
 				CommonElementExporter.exportXandY(element, fbElement);					
 				CommonElementExporter.addParamsConfig(dom, fbElement, element.getInterface().getInputVars());
+				for(IInterfaceElement interfaceElem : element.getInterface().getAllInterfaceElements()) {
+					if(!interfaceElem.getAttributes().isEmpty()) {
+						addInterfaceAttribute(dom, fbElement, interfaceElem);
+					}
+				}
 				fbNetwork.appendChild(fbElement);
 			}
 		}
+	}
+	
+	private void addInterfaceAttribute(final Document dom, final Element parentElement, final IInterfaceElement interfaceElem) {
+		Element iElem = null;
+		if(interfaceElem instanceof Event) {
+			iElem = dom.createElement(LibraryElementTags.EVENT_ELEMENT);
+		}
+		if(interfaceElem instanceof VarDeclaration) {
+			iElem = dom.createElement(LibraryElementTags.VAR_DECLARATION_ELEMENT);
+		}
+		if(interfaceElem instanceof AdapterDeclaration) {
+			iElem = dom.createElement(LibraryElementTags.ADAPTER_DECLARATION_ELEMENT);
+		}
+		CommonElementExporter.setNameAttribute(iElem, interfaceElem.getName());
+		for(Attribute a : interfaceElem.getAttributes()) {			
+			iElem.appendChild(CommonElementExporter.createAttributeElement(dom, a.getName(), a.getType().getName(), a.getValue(), a.getComment()));
+		}
+		parentElement.appendChild(iElem);
 	}
 	
 	private Element createFNElementDomNode(FBNetworkElement element) {
