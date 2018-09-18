@@ -42,33 +42,39 @@ public final class FBInterfacePaletteFactory {
 		
 		FlyoutPreferences preferences = new FlyoutPreferences() {
 
+			@Override
 			public int getDockLocation() {
 				return Activator.getDefault().getPreferenceStore().getInt(
 						PALETTE_DOCK_LOCATION);
 			}
 
+			@Override
 			public int getPaletteState() {
 				return Activator.getDefault().getPreferenceStore()
 						.getInt(PALETTE_STATE);
 
 			}
 
+			@Override
 			public int getPaletteWidth() {
 				return Activator.getDefault().getPreferenceStore().getInt(PALETTE_SIZE);
 
 			}
 
+			@Override
 			public void setDockLocation(final int location) {
 				Activator.getDefault().getPreferenceStore().setValue(
 						PALETTE_DOCK_LOCATION, location);
 			}
 
+			@Override
 			public void setPaletteState(final int state) {
 				Activator.getDefault().getPreferenceStore().setValue(PALETTE_STATE,
 						state);
 
 			}
 
+			@Override
 			public void setPaletteWidth(final int width) {
 				Activator.getDefault().getPreferenceStore().setValue(PALETTE_SIZE,
 						width);
@@ -168,7 +174,7 @@ public final class FBInterfacePaletteFactory {
 				ImageDescriptor desc = FordiacImage.ICON_DataType.getImageDescriptor();
 				CombinedTemplateCreationEntry combined = new CombinedTemplateCreationEntry(
 						entry.getLabel(), entry.getType().getComment(), 
-						new DataTypeCreationFactory(entry.getAdapterType()), desc, desc);
+						new DataTypeCreationFactory(entry.getType()), desc, desc);
 				if (combined != null) {
 					entries.add(combined);
 				}

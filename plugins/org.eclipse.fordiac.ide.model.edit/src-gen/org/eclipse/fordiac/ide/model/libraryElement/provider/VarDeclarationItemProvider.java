@@ -22,7 +22,6 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.fordiac.ide.model.data.DataFactory;
-import org.eclipse.fordiac.ide.model.libraryElement.LibraryElementFactory;
 import org.eclipse.fordiac.ide.model.libraryElement.LibraryElementPackage;
 import org.eclipse.fordiac.ide.model.libraryElement.VarDeclaration;
 import org.eclipse.fordiac.ide.util.imageprovider.FordiacImage;
@@ -73,8 +72,8 @@ public class VarDeclarationItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_VarDeclaration_arraySize_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_VarDeclaration_arraySize_feature", "_UI_VarDeclaration_type"),
+				 getString("_UI_VarDeclaration_arraySize_feature"), //$NON-NLS-1$
+				 getString("_UI_PropertyDescriptor_description", "_UI_VarDeclaration_arraySize_feature", "_UI_VarDeclaration_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				 LibraryElementPackage.Literals.VAR_DECLARATION__ARRAY_SIZE,
 				 true,
 				 false,
@@ -95,8 +94,8 @@ public class VarDeclarationItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_VarDeclaration_withs_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_VarDeclaration_withs_feature", "_UI_VarDeclaration_type"),
+				 getString("_UI_VarDeclaration_withs_feature"), //$NON-NLS-1$
+				 getString("_UI_PropertyDescriptor_description", "_UI_VarDeclaration_withs_feature", "_UI_VarDeclaration_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				 LibraryElementPackage.Literals.VAR_DECLARATION__WITHS,
 				 true,
 				 false,
@@ -202,3 +201,4 @@ public class VarDeclarationItemProvider
 	}
 	
 }
+

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -81,32 +82,44 @@ import org.xml.sax.SAXException;
 public class FBTImporter implements LibraryElementTags {
 
 	/** The variables. */
-	public HashMap<String, VarDeclaration> variables = new HashMap<String, VarDeclaration>();
+	private Map<String, VarDeclaration> variables = new HashMap<>();
 
 	/** The internal variables. */
-	public HashMap<String, VarDeclaration> internalVariables = new HashMap<String, VarDeclaration>();
+	private Map<String, VarDeclaration> internalVariables = new HashMap<>();
 
 	/** The input events. */
-	public HashMap<String, Event> inputEvents = new HashMap<String, Event>();
+	private Map<String, Event> inputEvents = new HashMap<>();
 	
 	/** The output events. */
-	public HashMap<String, Event> outputEvents = new HashMap<String, Event>();
+	private Map<String, Event> outputEvents = new HashMap<>();
 
 	/** The adapters. */
-	public HashMap<String, AdapterDeclaration> adapters = new HashMap<String, AdapterDeclaration>();
-	public HashMap<String, PositionableElement> adapterPositions = new HashMap<>();
+	private Map<String, AdapterDeclaration> adapters = new HashMap<>();
+	private Map<String, PositionableElement> adapterPositions = new HashMap<>();
 
 	/** The algorithm name ec action mapping. */
-	public HashMap<String, ArrayList<ECAction>> algorithmNameECActionMapping = new HashMap<String, ArrayList<ECAction>>();
+	private Map<String, ArrayList<ECAction>> algorithmNameECActionMapping = new HashMap<>();
 
 	/** The ec states. */
-	public HashMap<String, ECState> ecStates = new HashMap<String, ECState>();
+	private Map<String, ECState> ecStates = new HashMap<>();
 	
-	protected FBType type;
+	private FBType type;
 
 	private IFile file;
 	
-	protected Palette palette;
+	private Palette palette;
+	
+	protected FBType getType() {
+		return type;
+	}
+	
+	protected Palette getPalette() {
+		return palette; 
+	}
+	
+	protected void setPalette(Palette palette) {
+		this.palette = palette;
+	}
 
 	/**
 	 * Import fb type.
@@ -183,8 +196,7 @@ public class FBTImporter implements LibraryElementTags {
 							"http://apache.org/xml/features/nonvalidating/load-external-dtd", //$NON-NLS-1$
 							Boolean.FALSE);
 			db = dbf.newDocumentBuilder();
-			Document document = db.parse(file.getContents());
-			return document;
+			return db.parse(file.getContents());
 		}
 		return null;
 	}
@@ -219,9 +231,7 @@ public class FBTImporter implements LibraryElementTags {
 							CommonElementImporter.parseVersionInfo(type, n));
 				}
 				if (n.getNodeName().equals(COMPILER_INFO_ELEMENT)) {
-					type.setCompilerInfo(CompilableElementImporter
-							.parseCompilerInfo(type, n));
-					// parseCompilerInfo(type, n);
+					type.setCompilerInfo(CompilableElementImporter.parseCompilerInfo(type, n));
 				}
 				if (n.getNodeName().equals(INTERFACE_LIST_ELEMENT)) {
 					type.setInterfaceList(parseInterfaceList(n));
@@ -470,14 +480,14 @@ public class FBTImporter implements LibraryElementTags {
 	 * 
 	 * @return - A FBType that is converted
 	 */
-	private FBType convertToServiceInterfaceType(final FBType type) {
+	private static FBType convertToServiceInterfaceType(final FBType type) {
 		ServiceInterfaceFBType serviceType = LibraryElementFactory.eINSTANCE
 				.createServiceInterfaceFBType();
 		copyBasicTypeInformation(serviceType, type);
 		return serviceType;
 	}
 
-	private void copyBasicTypeInformation(FBType dstType, FBType srcType) {
+	private static void copyBasicTypeInformation(FBType dstType, FBType srcType) {
 		dstType.setName(srcType.getName());
 		dstType.setComment(srcType.getComment());
 		dstType.setCompilerInfo(srcType.getCompilerInfo());
@@ -509,14 +519,8 @@ public class FBTImporter implements LibraryElementTags {
 		
 		if (adapters.size() > 0) {
 			for (AdapterDeclaration adapter : adapters.values()) {
-				if (!adapter.isIsInput()) {
-					if (adapter.getType() instanceof AdapterType) {
-						addAdapterFB(fbNetwork, adapter, palette);
-					}
-				} else {
-					if (adapter.getType() instanceof AdapterType) {
-						addAdapterFB(fbNetwork, adapter, palette);
-					}
+				if (adapter.getType() instanceof AdapterType) {
+					addAdapterFB(fbNetwork, adapter, palette);
 				}
 			}
 		}
@@ -543,7 +547,7 @@ public class FBTImporter implements LibraryElementTags {
 		fbNetwork.getNetworkElements().add(aFB);
 	}
 
-	private AdapterTypePaletteEntry getAdapterPaletEntry(String name, Palette palette) {
+	private static AdapterTypePaletteEntry getAdapterPaletEntry(String name, Palette palette) {
 		PaletteEntry entry = palette.getTypeEntry(name);
 		return (entry instanceof AdapterTypePaletteEntry) ? (AdapterTypePaletteEntry)entry : null;
 	}
@@ -556,7 +560,7 @@ public class FBTImporter implements LibraryElementTags {
 	 * 
 	 * @return - A FBType that is converted
 	 */
-	private FBType convertToCompositeType(final FBType type) {
+	private static FBType convertToCompositeType(final FBType type) {
 		CompositeFBType compositeType = LibraryElementFactory.eINSTANCE
 				.createCompositeFBType();
 		copyBasicTypeInformation(compositeType, type);
@@ -590,7 +594,7 @@ public class FBTImporter implements LibraryElementTags {
 				parseECC(type, n);
 			}
 			if (n.getNodeName().equals(ALGORITHM_ELEMENT)) {
-				parseAlgorithm(type, n, palette);
+				parseAlgorithm(type, n);
 			}
 		}
 	}
@@ -610,8 +614,7 @@ public class FBTImporter implements LibraryElementTags {
 	 * @throws ReferencedTypeNotFoundException
 	 *             the referenced type not found exception
 	 */
-	private void parseAlgorithm(final BasicFBType type, final Node n,
-			final Palette palette) throws TypeImportException,
+	private void parseAlgorithm(final BasicFBType type, final Node n) throws TypeImportException,
 			ReferencedTypeNotFoundException {
 		NamedNodeMap map = n.getAttributes();
 		Node nameNode = map.getNamedItem(NAME_ATTRIBUTE);
@@ -682,8 +685,7 @@ public class FBTImporter implements LibraryElementTags {
 	 * @throws TypeImportException
 	 *             the FBT import exception
 	 */
-	private void parseOtherAlg(final OtherAlgorithm other, final Node node)
-			throws TypeImportException {
+	private static void parseOtherAlg(final OtherAlgorithm other, final Node node) throws TypeImportException {
 		NamedNodeMap map = node.getAttributes();
 		Node language = map.getNamedItem(LANGUAGE_ATTRIBUTE);
 		if (language != null) {
@@ -714,8 +716,7 @@ public class FBTImporter implements LibraryElementTags {
 	 * @throws TypeImportException
 	 *             the FBT import exception
 	 */
-	private void parseST(final STAlgorithm st, final Node node)
-			throws TypeImportException {
+	private static void parseST(final STAlgorithm st, final Node node) throws TypeImportException {
 		NamedNodeMap map = node.getAttributes();
 		Node text = map.getNamedItem(TEXT_ATTRIBUTE);
 		if (text != null) {
@@ -827,12 +828,12 @@ public class FBTImporter implements LibraryElementTags {
 			event = inputEvents.get(split[0].trim());
 			if(event != null) {
 				// remainder is expression (except trailing ']')
-				expression = split.length > 1 ? split[1].substring(0, split[1].lastIndexOf("]")).trim() : ""; //$NON-NLS-1$ //$NON-NLS-2$
+				expression = split.length > 1 ? split[1].substring(0, split[1].lastIndexOf(']')).trim() : ""; //$NON-NLS-1$ 
 			}
 			else {
 				// no match (all is expression)
 				if(condition.startsWith("[")){ //$NON-NLS-1$
-					expression = condition.substring(1, condition.lastIndexOf("]"));  //$NON-NLS-1$
+					expression = condition.substring(1, condition.lastIndexOf(']')); 
 				}else{
 					expression = condition;
 				}
@@ -857,7 +858,7 @@ public class FBTImporter implements LibraryElementTags {
 	 *             the FBT import exception
 	 */
 	private void parseECState(final ECC ecc, final Node node,
-			final Boolean initialState) throws TypeImportException {
+			final boolean initialState) throws TypeImportException {
 		NodeList childNodes = node.getChildNodes();
 		ECState state = LibraryElementFactory.eINSTANCE.createECState();
 		ecc.getECState().add(state);
@@ -947,7 +948,7 @@ public class FBTImporter implements LibraryElementTags {
 	 * 
 	 * @return the basicFBType
 	 */
-	private FBType convertoToBasicType(final FBType type) {
+	private static FBType convertoToBasicType(final FBType type) {
 		BasicFBType basicType = LibraryElementFactory.eINSTANCE
 				.createBasicFBType();
 		copyBasicTypeInformation(basicType, type);
@@ -1033,7 +1034,6 @@ public class FBTImporter implements LibraryElementTags {
 				a.setIsInput(false);
 				adapters.put(a.getName(), a);
 				interfaceList.getPlugs().add(a);
-				//type.getInterfaceList().getOutputVars().add(a);
 				if (a.getType() instanceof AdapterType) {
 					addAdapterEventInputs(((AdapterType)a.getType()).getInterfaceList().getEventInputs(), a);
 					addAdapterEventOutputs(((AdapterType)a.getType()).getInterfaceList().getEventOutputs(), a);
@@ -1082,7 +1082,6 @@ public class FBTImporter implements LibraryElementTags {
 				a.setIsInput(true);
 				adapters.put(a.getName(), a);
 				interfaceList.getSockets().add(a);
-				//type.getInterfaceList().getInputVars().add(a);
 				if ((AdapterType)a.getType() != null && ((AdapterType)a.getType()).getInterfaceList() != null) {
 					addAdapterEventInputs(((AdapterType)a.getType()).getInterfaceList().getEventOutputs(), a);	
 				}
@@ -1121,15 +1120,15 @@ public class FBTImporter implements LibraryElementTags {
 		}
 		NamedNodeMap map = node.getAttributes();
 		CommonElementImporter.readNameCommentAttributes(a, map);
-		Node type = map.getNamedItem(LibraryElementTags.TYPE_ATTRIBUTE);
-		if (type != null) {
-			AdapterTypePaletteEntry entry = getAdapterPaletEntry(type.getNodeValue(), palette);
+		Node typeName = map.getNamedItem(LibraryElementTags.TYPE_ATTRIBUTE);
+		if (typeName != null) {
+			AdapterTypePaletteEntry entry = getAdapterPaletEntry(typeName.getNodeValue(), palette);
 			a.setPaletteEntry(entry);
 			AdapterType dataType = null;
 			if (entry != null) {
-				dataType = entry.getAdapterType();
+				dataType = entry.getType();
 			}
-			a.setTypeName(type.getNodeValue());
+			a.setTypeName(typeName.getNodeValue());
 			if (dataType != null) {
 				a.setType(dataType);
 			}
@@ -1156,15 +1155,15 @@ public class FBTImporter implements LibraryElementTags {
 	}
 
 	public void parseWithConstructs(final NodeList childNodes,
-			HashMap<String, Event> eventInputs,
-			HashMap<String, Event> eventOutputs,
-			HashMap<String, VarDeclaration> variables) {
+			Map<String, Event> eventInputs,
+			Map<String, Event> eventOutputs,
+			Map<String, VarDeclaration> variables) {
 		for (int i = 0; i < childNodes.getLength(); i++) {
 			Node n = childNodes.item(i);
 			if (n.getNodeName().equals(getEventInputElement())) {
-				NodeList inputEvents = n.getChildNodes();
-				for (int j = 0; j < inputEvents.getLength(); j++) {
-					Node eventNode = inputEvents.item(j);
+				NodeList inputEventNodes = n.getChildNodes();
+				for (int j = 0; j < inputEventNodes.getLength(); j++) {
+					Node eventNode = inputEventNodes.item(j);
 					if (eventNode.getNodeName().equals(getEventElement())) {
 						NamedNodeMap map = eventNode.getAttributes();
 						Node name = map.getNamedItem(NAME_ATTRIBUTE);
@@ -1191,9 +1190,9 @@ public class FBTImporter implements LibraryElementTags {
 				}
 			}
 			if (n.getNodeName().equals(getEventOutputElement())) {
-				NodeList outputEvents = n.getChildNodes();
-				for (int j = 0; j < outputEvents.getLength(); j++) {
-					Node eventNode = outputEvents.item(j);
+				NodeList outputEventNodes = n.getChildNodes();
+				for (int j = 0; j < outputEventNodes.getLength(); j++) {
+					Node eventNode = outputEventNodes.item(j);
 					if (eventNode.getNodeName().equals(getEventElement())) {
 						NamedNodeMap map = eventNode.getAttributes();
 						Node name = map.getNamedItem(NAME_ATTRIBUTE);

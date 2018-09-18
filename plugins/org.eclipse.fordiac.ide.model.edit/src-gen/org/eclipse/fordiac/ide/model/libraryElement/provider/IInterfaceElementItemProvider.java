@@ -82,8 +82,8 @@ public class IInterfaceElementItemProvider extends I4DIACElementItemProvider {
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_INamedElement_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_INamedElement_name_feature", "_UI_INamedElement_type"),
+				 getString("_UI_INamedElement_name_feature"), //$NON-NLS-1$
+				 getString("_UI_PropertyDescriptor_description", "_UI_INamedElement_name_feature", "_UI_INamedElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				 LibraryElementPackage.Literals.INAMED_ELEMENT__NAME,
 				 true,
 				 false,
@@ -104,8 +104,8 @@ public class IInterfaceElementItemProvider extends I4DIACElementItemProvider {
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_INamedElement_comment_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_INamedElement_comment_feature", "_UI_INamedElement_type"),
+				 getString("_UI_INamedElement_comment_feature"), //$NON-NLS-1$
+				 getString("_UI_PropertyDescriptor_description", "_UI_INamedElement_comment_feature", "_UI_INamedElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				 LibraryElementPackage.Literals.INAMED_ELEMENT__COMMENT,
 				 true,
 				 false,
@@ -126,8 +126,8 @@ public class IInterfaceElementItemProvider extends I4DIACElementItemProvider {
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_IInterfaceElement_isInput_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_IInterfaceElement_isInput_feature", "_UI_IInterfaceElement_type"),
+				 getString("_UI_IInterfaceElement_isInput_feature"), //$NON-NLS-1$
+				 getString("_UI_PropertyDescriptor_description", "_UI_IInterfaceElement_isInput_feature", "_UI_IInterfaceElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				 LibraryElementPackage.Literals.IINTERFACE_ELEMENT__IS_INPUT,
 				 true,
 				 false,
@@ -148,8 +148,8 @@ public class IInterfaceElementItemProvider extends I4DIACElementItemProvider {
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_IInterfaceElement_inputConnections_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_IInterfaceElement_inputConnections_feature", "_UI_IInterfaceElement_type"),
+				 getString("_UI_IInterfaceElement_inputConnections_feature"), //$NON-NLS-1$
+				 getString("_UI_PropertyDescriptor_description", "_UI_IInterfaceElement_inputConnections_feature", "_UI_IInterfaceElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				 LibraryElementPackage.Literals.IINTERFACE_ELEMENT__INPUT_CONNECTIONS,
 				 true,
 				 false,
@@ -170,8 +170,8 @@ public class IInterfaceElementItemProvider extends I4DIACElementItemProvider {
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_IInterfaceElement_outputConnections_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_IInterfaceElement_outputConnections_feature", "_UI_IInterfaceElement_type"),
+				 getString("_UI_IInterfaceElement_outputConnections_feature"), //$NON-NLS-1$
+				 getString("_UI_PropertyDescriptor_description", "_UI_IInterfaceElement_outputConnections_feature", "_UI_IInterfaceElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				 LibraryElementPackage.Literals.IINTERFACE_ELEMENT__OUTPUT_CONNECTIONS,
 				 true,
 				 false,
@@ -192,8 +192,8 @@ public class IInterfaceElementItemProvider extends I4DIACElementItemProvider {
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_IInterfaceElement_type_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_IInterfaceElement_type_feature", "_UI_IInterfaceElement_type"),
+				 getString("_UI_IInterfaceElement_type_feature"), //$NON-NLS-1$
+				 getString("_UI_PropertyDescriptor_description", "_UI_IInterfaceElement_type_feature", "_UI_IInterfaceElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				 LibraryElementPackage.Literals.IINTERFACE_ELEMENT__TYPE,
 				 true,
 				 false,
@@ -214,8 +214,8 @@ public class IInterfaceElementItemProvider extends I4DIACElementItemProvider {
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_IInterfaceElement_typeName_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_IInterfaceElement_typeName_feature", "_UI_IInterfaceElement_type"),
+				 getString("_UI_IInterfaceElement_typeName_feature"), //$NON-NLS-1$
+				 getString("_UI_PropertyDescriptor_description", "_UI_IInterfaceElement_typeName_feature", "_UI_IInterfaceElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				 LibraryElementPackage.Literals.IINTERFACE_ELEMENT__TYPE_NAME,
 				 true,
 				 false,
@@ -267,8 +267,8 @@ public class IInterfaceElementItemProvider extends I4DIACElementItemProvider {
 	public String getText(Object object) {
 		String label = ((IInterfaceElement)object).getName();
 		return label == null || label.length() == 0 ?
-			getString("_UI_IInterfaceElement_type") :
-			getString("_UI_IInterfaceElement_type") + " " + label;
+			getString("_UI_IInterfaceElement_type") : //$NON-NLS-1$
+			getString("_UI_IInterfaceElement_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 

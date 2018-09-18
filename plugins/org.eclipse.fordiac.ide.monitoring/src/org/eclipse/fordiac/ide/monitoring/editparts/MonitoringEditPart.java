@@ -25,7 +25,7 @@ import org.eclipse.fordiac.ide.model.libraryElement.VarDeclaration;
 import org.eclipse.fordiac.ide.model.monitoring.MonitoringElement;
 import org.eclipse.fordiac.ide.monitoring.Activator;
 import org.eclipse.fordiac.ide.monitoring.MonitoringManager;
-import org.eclipse.fordiac.ide.util.imageprovider.FordiacImage;
+import org.eclipse.fordiac.ide.monitoring.preferences.PreferenceConstants;
 import org.eclipse.fordiac.ide.util.preferences.PreferenceGetter;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -33,10 +33,39 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.DirectEditPolicy;
 import org.eclipse.gef.requests.DirectEditRequest;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.widgets.Display;
 
 
 public class MonitoringEditPart extends AbstractMonitoringBaseEditPart  {
+	
+	/** The property change listener. */
+	private final IPropertyChangeListener propertyChangeListener = new IPropertyChangeListener() {
+		@Override
+		public void propertyChange(PropertyChangeEvent event) {
+			if (event.getProperty().equals(PreferenceConstants.P_MONITORING_TRANSPARENCY)) {
+				((SetableAlphaLabel)getFigure()).setAlpha(PreferenceConstants.getMonitoringTransparency());
+			}
+		}
+	};
+	
+	@Override
+	public void activate() {
+		if (!isActive()) {
+			super.activate();
+			Activator.getDefault().getPreferenceStore().addPropertyChangeListener(propertyChangeListener);
+		}
+	}
+		
+
+	@Override
+	public void deactivate() {
+		if (isActive()) {
+			super.deactivate();
+			Activator.getDefault().getPreferenceStore().removePropertyChangeListener(propertyChangeListener);
+		}
+	}
 
 
 	public boolean isEvent() {
@@ -56,9 +85,7 @@ public class MonitoringEditPart extends AbstractMonitoringBaseEditPart  {
 	protected void createEditPolicies() {
 		if(!isEvent()) {
 			//only allow direct edit if it is not an event, see Bug 510735 for details.
-			installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
-					new DirectEditPolicy(){
-	
+			installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new DirectEditPolicy(){	
 						@Override
 						protected Command getDirectEditCommand(DirectEditRequest request) {
 							String value = (String) request.getCellEditor().getValue();
@@ -73,10 +100,8 @@ public class MonitoringEditPart extends AbstractMonitoringBaseEditPart  {
 							MonitoringEditPart editPart = (MonitoringEditPart)getHost();
 							if (null != editPart) {
 								editPart.getNameLabel().setText(value);
-							}
-							
-						}
-										
+							}							
+						}										
 			});
 		}
 	}
@@ -108,34 +133,28 @@ public class MonitoringEditPart extends AbstractMonitoringBaseEditPart  {
 		l.setBorder(new MarginBorder(0, 5, 0, 5));
 		l.setText("N/A");
 		l.setMinimumSize(new Dimension(50, 1));
-		l.setAlpha(190);
+		l.setAlpha(PreferenceConstants.getMonitoringTransparency());
 		return l;
 	}
 
-	private EContentAdapter adapter;
-
 	@Override
-	protected EContentAdapter getContentAdapter() {
-		if (adapter == null) {
-			adapter = new EContentAdapter() {
+	protected EContentAdapter createContentAdapter() {
+		return new EContentAdapter() {
+			@Override
+			public void notifyChanged(final Notification notification) {
+				super.notifyChanged(notification);
+				Display.getDefault().asyncExec(new Runnable() {
 
-				@Override
-				public void notifyChanged(final Notification notification) {
-					super.notifyChanged(notification);
-					Display.getDefault().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+						setValue(getModel().getCurrentValue());
+						refreshVisuals();
 
-						@Override
-						public void run() {
-							setValue(getModel().getCurrentValue());
-							refreshVisuals();
+					}
+				});
+			}
 
-						}
-					});
-				}
-
-			};
-		}
-		return adapter;
+		};
 	}
 	
 	@Override
@@ -162,39 +181,15 @@ public class MonitoringEditPart extends AbstractMonitoringBaseEditPart  {
 	}	
 
 	public void setValue(String string) {
-		if (isActive()) {
-			if (getFigure() != null) {
-				if (getModel().isForce() && getModel().getForceValue() != null) {
-					((Label) getFigure()).setText(getModel().getForceValue() + " (" + string + ")");  //$NON-NLS-1$//$NON-NLS-2$
-				} else {
-					((Label) getFigure()).setText(string);
-				}
-				refreshVisuals();
+		if (isActive() && getFigure() != null) {
+			if (getModel().isForce() && getModel().getForceValue() != null) {
+				((Label) getFigure()).setText(getModel().getForceValue() + " (" + string + ")");  //$NON-NLS-1$//$NON-NLS-2$
+			} else {
+				((Label) getFigure()).setText(string);
 			}
+			refreshVisuals();
 		}
 	}
 
-	@Override
-	protected void refreshVisuals() {
-		super.refreshVisuals();
-		updateBreakpoint();
-	}
-
-	public void updateBreakpoint() {
-		if (getModel().isBreakpoint()) {
-			if ((((Label) getFigure()).getIcon() == null)) {
-				((Label) getFigure()).setIcon(FordiacImage.ICON_BreakPoint.getImage());
-			}
-		} else {
-			((Label) getFigure()).setIcon(null);
-		}
-
-		if (getModel().isBreakpointActive()) {
-			//getFigure().setForegroundColor(org.eclipse.draw2d.ColorConstants.red);
-			getFigure().setBackgroundColor(org.eclipse.draw2d.ColorConstants.red);
-		} else {
-			setBackgroundColor(getFigure());
-		}
-	}
 	
 }

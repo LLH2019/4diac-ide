@@ -1,5 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2012 - 2016 Profactor GmbH, AIT, fortiss GmbH
+ * Copyright (c) 2012 - 2018 Profactor GmbH, AIT, fortiss GmbH
+ * 							 Johannes Kepler University
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,24 +10,25 @@
  * Contributors:
  *   Gerhard Ebenhofer, Filip Andren, Alois Zoitl, Gerd Kainz
  *     - initial API and implementation and/or initial documentation
+ *   Alois Zoitl - Harmonized deployment and monitoring
  *******************************************************************************/
 package org.eclipse.fordiac.ide.monitoring;
 
 import java.util.ArrayList;
 
 import org.eclipse.fordiac.ide.application.editparts.FBEditPart;
+import org.eclipse.fordiac.ide.deployment.monitoringbase.MonitoringBaseFactory;
+import org.eclipse.fordiac.ide.deployment.monitoringbase.PortElement;
 import org.eclipse.fordiac.ide.fbtypeeditor.network.viewer.CompositeNetworkViewerEditPart;
 import org.eclipse.fordiac.ide.gef.editparts.InterfaceEditPart;
 import org.eclipse.fordiac.ide.model.libraryElement.AdapterDeclaration;
-import org.eclipse.fordiac.ide.model.libraryElement.AutomationSystem;
-import org.eclipse.fordiac.ide.model.libraryElement.Device;
 import org.eclipse.fordiac.ide.model.libraryElement.FB;
 import org.eclipse.fordiac.ide.model.libraryElement.FBNetworkElement;
 import org.eclipse.fordiac.ide.model.libraryElement.Resource;
+import org.eclipse.fordiac.ide.model.libraryElement.SubApp;
 import org.eclipse.fordiac.ide.model.monitoring.MonitoringFactory;
-import org.eclipse.fordiac.ide.model.monitoring.PortElement;
 
-public class MonitoringManagerUtils {
+public final class MonitoringManagerUtils {
 	
 	private MonitoringManagerUtils() {
 		throw new AssertionError();  //class should not be instantiated
@@ -65,26 +67,19 @@ public class MonitoringManagerUtils {
 
 	private static PortElement createPortElement(FB fb,
 			org.eclipse.fordiac.ide.gef.editparts.InterfaceEditPart ep) {
-		Resource res = findResourceForFB(fb);
-		if (res == null) {
-			return null;
-		}
-		Device dev = (Device) res.eContainer();
-		if (dev == null) {
-			return null;
-		}
-		
-		AutomationSystem system = dev.getAutomationSystem();
-
 		PortElement p;
 		if (ep.getModel() instanceof AdapterDeclaration){
 			p = MonitoringFactory.eINSTANCE.createAdapterPortElement(); 
 		}
 		else{
-			p = MonitoringFactory.eINSTANCE.createPortElement();
+			p = MonitoringBaseFactory.eINSTANCE.createPortElement();
 		}
-		p.setSystem(system);
-		p.setDevice(dev);
+
+		Resource res = findResourceForFB(fb, p);
+		if (res == null) {
+			return null;
+		}
+		
 		p.setResource(res);
 		p.setFb(fb);
 		p.setInterfaceElement(ep.getModel());
@@ -121,27 +116,19 @@ public class MonitoringManagerUtils {
 		return null;
 	}
 
-	private static Resource findResourceForFB(FB fb) {
-// TODO  model refacoring - reimplement when subapp mapping model is finished and if needed	
-//		EObject container = fb.eContainer();		
-//		if(container instanceof ResourceFBNetwork){
-//			//we have a resource FB
-//			return (ResourceFBNetwork)container;
-//		}
-//
-//		while (!(container instanceof FBNetwork)) {
-//			if (container instanceof SubAppNetwork) {
-//				ResourceFBNetwork resourceNetwork = ((SubAppNetwork) container)
-//						.getParentSubApp().getResource();
-//				if (resourceNetwork != null) {
-//					return resourceNetwork;
-//				}
-//				container = ((SubAppNetwork) container).getParentSubApp()
-//						.eContainer();
-//			}
-//		}
+	private static Resource findResourceForFB(FBNetworkElement element, PortElement p) {
+		Resource retVal = element.getResource();
 		
-		return fb.getResource();
+		if(null == retVal && element.getFbNetwork().eContainer() instanceof SubApp) {
+			//if we are in a subapp check if we can find it in the hierarchy we are in a resource
+			SubApp subApp = (SubApp)element.getFbNetwork().eContainer();
+			retVal = findResourceForFB(subApp, p);
+			if(null != retVal) {
+				//if we found a resource add the the name recursively to the hierarchy as prefix  
+				p.getHierarchy().add(subApp.getName());
+			}
+		}		
+		return retVal;
 	}
 
 	

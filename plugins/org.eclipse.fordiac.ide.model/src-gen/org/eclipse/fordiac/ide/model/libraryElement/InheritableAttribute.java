@@ -55,7 +55,7 @@ public interface InheritableAttribute extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model nameDataType="org.eclipse.emf.ecore.xml.type.String" typeDataType="org.eclipse.emf.ecore.xml.type.String" initialValueDataType="org.eclipse.emf.ecore.xml.type.String" commentDataType="org.eclipse.emf.ecore.xml.type.String"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='org.eclipse.fordiac.ide.model.Annotations.GEN.setAttributeDeclaration((InheritableAttribute)this, name, type, initialValue, comment);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='org.eclipse.fordiac.ide.model.Annotations.setAttributeDeclaration((InheritableAttribute)this, name, type, initialValue, comment);'"
 	 * @generated
 	 */
 	void setAttributeDeclaration(String name, String type, String initialValue, String comment);
@@ -64,7 +64,7 @@ public interface InheritableAttribute extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model nameDataType="org.eclipse.emf.ecore.xml.type.String"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='return org.eclipse.fordiac.ide.model.Annotations.GEN.getAttributeDeclaration((InheritableAttribute)this, name);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='return org.eclipse.fordiac.ide.model.Annotations.getAttributeDeclaration((InheritableAttribute)this, name);'"
 	 * @generated
 	 */
 	AttributeDeclaration getAttributeDeclaration(String name);

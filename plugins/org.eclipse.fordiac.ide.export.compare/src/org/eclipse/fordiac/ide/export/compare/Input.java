@@ -33,7 +33,7 @@ class Input implements IEditableContent, ITypedElement, IStreamContentAccessor,
 		ISaveablesSource {
 
 	/** The content. */
-	File fContent;
+	private File fContent;
 
 	/**
 	 * Instantiates a new input.
@@ -47,6 +47,7 @@ class Input implements IEditableContent, ITypedElement, IStreamContentAccessor,
 	/* (non-Javadoc)
 	 * @see org.eclipse.compare.ITypedElement#getName()
 	 */
+	@Override
 	public String getName() {
 		return fContent != null ? fContent.getName() : ""; //$NON-NLS-1$
 	}
@@ -54,6 +55,7 @@ class Input implements IEditableContent, ITypedElement, IStreamContentAccessor,
 	/* (non-Javadoc)
 	 * @see org.eclipse.compare.ITypedElement#getImage()
 	 */
+	@Override
 	public Image getImage() {
 		return null;
 	}
@@ -61,6 +63,7 @@ class Input implements IEditableContent, ITypedElement, IStreamContentAccessor,
 	/* (non-Javadoc)
 	 * @see org.eclipse.compare.ITypedElement#getType()
 	 */
+	@Override
 	public String getType() {
 		return "cpp"; //$NON-NLS-1$
 	}
@@ -68,6 +71,7 @@ class Input implements IEditableContent, ITypedElement, IStreamContentAccessor,
 	/* (non-Javadoc)
 	 * @see org.eclipse.compare.IStreamContentAccessor#getContents()
 	 */
+	@Override
 	public InputStream getContents() throws CoreException {
 		try {
 			return new FileInputStream(fContent);
@@ -98,10 +102,8 @@ class Input implements IEditableContent, ITypedElement, IStreamContentAccessor,
 	 */
 	@Override
 	public void setContent(byte[] newContent) {
-		try {
-			FileOutputStream fo = new FileOutputStream(fContent);
+		try (FileOutputStream fo = new FileOutputStream(fContent);){			
 			fo.write(newContent);
-			fo.close();
 		} catch (Exception e) {
 			Activator.getDefault().logError(e.getMessage(), e);
 		}

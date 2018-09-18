@@ -56,12 +56,13 @@ public abstract class AbstractInterfaceSection extends AbstractSection {
 	protected Text nameText;
 	protected Text commentText;
 	private TableViewer inputViewer;
-	private final String NAME_PROPERTY = "name"; //$NON-NLS-1$
-	private final String VALUE_PROPERTY = "value"; //$NON-NLS-1$
-	private final String COMMENT_PROPERTY = "comment"; //$NON-NLS-1$
+	private static final String NAME_PROPERTY = "name"; //$NON-NLS-1$
+	private static final String VALUE_PROPERTY = "value"; //$NON-NLS-1$
+	private static final String COMMENT_PROPERTY = "comment"; //$NON-NLS-1$
 	
 	public AbstractInterfaceSection() {}
 	
+	@Override
 	protected INamedElement getType(){
 		if(type instanceof FBNetworkElement){
 			return (FBNetworkElement) type;
@@ -92,6 +93,7 @@ public abstract class AbstractInterfaceSection extends AbstractSection {
 		getWidgetFactory().createCLabel(composite, "Instance Name:"); 
 		nameText = createGroupText(composite, true);
 		nameText.addModifyListener(new ModifyListener() {
+			@Override
 			public void modifyText(final ModifyEvent e) {
 				removeContentAdapter();
 				executeCommand(getRenameCommand(nameText.getText()));
@@ -101,6 +103,7 @@ public abstract class AbstractInterfaceSection extends AbstractSection {
 		getWidgetFactory().createCLabel(composite, "Instance Comment:"); 
 		commentText = createGroupText(composite, true);
 		commentText.addModifyListener(new ModifyListener() {
+			@Override
 			public void modifyText(final ModifyEvent e) {
 				removeContentAdapter();
 				executeCommand(new ChangeCommentCommand(getType(), commentText.getText()));
@@ -139,12 +142,14 @@ public abstract class AbstractInterfaceSection extends AbstractSection {
 		inputViewer.setColumnProperties(new String[] {NAME_PROPERTY, VALUE_PROPERTY, COMMENT_PROPERTY});
 		
 		inputViewer.setCellModifier(new ICellModifier() {
+			@Override
 			public boolean canModify(final Object element, final String property) {
 				if (VALUE_PROPERTY.equals(property) || COMMENT_PROPERTY.equals(property)) {
 					return true;
 				}
 				return false;
 			}
+			@Override
 			public Object getValue(final Object element, final String property) {
 				if(VALUE_PROPERTY.equals(property)) {
 					return getVarDeclarationValue((VarDeclaration) element);
@@ -154,6 +159,7 @@ public abstract class AbstractInterfaceSection extends AbstractSection {
 				}
 				return null;
 			}
+			@Override
 			public void modify(final Object element, final String property, final Object value) {
 				TableItem tableItem = (TableItem) element;
 				Object data =  tableItem.getData();
@@ -166,7 +172,7 @@ public abstract class AbstractInterfaceSection extends AbstractSection {
 					}
 				}
 				if((null != cmd) && (null != commandStack)){
-					commandStack.execute(cmd);
+					executeCommand(cmd);
 					inputViewer.refresh(data);
 				}
 				

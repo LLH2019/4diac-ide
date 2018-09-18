@@ -287,6 +287,7 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Annotation> getAnnotations() {
 		if (annotations == null) {
 			annotations = new EObjectResolvingEList<Annotation>(Annotation.class, this, MonitoringPackage.ADAPTER_MONITORING_VAR_DECLARATION__ANNOTATIONS);
@@ -299,6 +300,7 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -308,6 +310,7 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -320,6 +323,7 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getComment() {
 		return comment;
 	}
@@ -329,6 +333,7 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setComment(String newComment) {
 		String oldComment = comment;
 		comment = newComment;
@@ -341,6 +346,7 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Attribute> getAttributes() {
 		if (attributes == null) {
 			attributes = new EObjectContainmentEList.Resolving<Attribute>(Attribute.class, this, MonitoringPackage.ADAPTER_MONITORING_VAR_DECLARATION__ATTRIBUTES);
@@ -353,6 +359,20 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public EList<AttributeDeclaration> getAttributeDeclarations() {
+		if (attributeDeclarations == null) {
+			attributeDeclarations = new EObjectContainmentEList.Resolving<AttributeDeclaration>(AttributeDeclaration.class, this, MonitoringPackage.ADAPTER_MONITORING_VAR_DECLARATION__ATTRIBUTE_DECLARATIONS);
+		}
+		return attributeDeclarations;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public boolean isIsInput() {
 		return isInput;
 	}
@@ -362,6 +382,7 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsInput(boolean newIsInput) {
 		boolean oldIsInput = isInput;
 		isInput = newIsInput;
@@ -374,6 +395,7 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Value getValue() {
 		if (value != null && value.eIsProxy()) {
 			InternalEObject oldValue = (InternalEObject)value;
@@ -421,6 +443,7 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(Value newValue) {
 		if (newValue != value) {
 			NotificationChain msgs = null;
@@ -440,6 +463,7 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Connection> getInputConnections() {
 		if (inputConnections == null) {
 			inputConnections = new EObjectWithInverseResolvingEList<Connection>(Connection.class, this, MonitoringPackage.ADAPTER_MONITORING_VAR_DECLARATION__INPUT_CONNECTIONS, LibraryElementPackage.CONNECTION__DESTINATION);
@@ -452,6 +476,7 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Connection> getOutputConnections() {
 		if (outputConnections == null) {
 			outputConnections = new EObjectWithInverseResolvingEList<Connection>(Connection.class, this, MonitoringPackage.ADAPTER_MONITORING_VAR_DECLARATION__OUTPUT_CONNECTIONS, LibraryElementPackage.CONNECTION__SOURCE);
@@ -464,6 +489,7 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getArraySize() {
 		return arraySize;
 	}
@@ -473,6 +499,7 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setArraySize(int newArraySize) {
 		int oldArraySize = arraySize;
 		arraySize = newArraySize;
@@ -485,6 +512,7 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public DataType getType() {
 		if (type != null && type.eIsProxy()) {
 			InternalEObject oldType = (InternalEObject)type;
@@ -511,6 +539,7 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(DataType newType) {
 		DataType oldType = type;
 		type = newType;
@@ -523,6 +552,7 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public VarInitialization getVarInitialization() {
 		if (varInitialization != null && varInitialization.eIsProxy()) {
 			InternalEObject oldVarInitialization = (InternalEObject)varInitialization;
@@ -570,6 +600,7 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setVarInitialization(VarInitialization newVarInitialization) {
 		if (newVarInitialization != varInitialization) {
 			NotificationChain msgs = null;
@@ -589,6 +620,7 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getTypeName() {
 		return typeName;
 	}
@@ -598,6 +630,7 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTypeName(String newTypeName) {
 		String oldTypeName = typeName;
 		typeName = newTypeName;
@@ -610,18 +643,7 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<AttributeDeclaration> getAttributeDeclarations() {
-		if (attributeDeclarations == null) {
-			attributeDeclarations = new EObjectContainmentEList.Resolving<AttributeDeclaration>(AttributeDeclaration.class, this, MonitoringPackage.ADAPTER_MONITORING_VAR_DECLARATION__ATTRIBUTE_DECLARATIONS);
-		}
-		return attributeDeclarations;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+	@Override
 	public EList<With> getWiths() {
 		if (withs == null) {
 			withs = new EObjectWithInverseResolvingEList<With>(With.class, this, MonitoringPackage.ADAPTER_MONITORING_VAR_DECLARATION__WITHS, LibraryElementPackage.WITH__VARIABLES);
@@ -634,8 +656,9 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isArray() {
-		return org.eclipse.fordiac.ide.model.Annotations.GEN.isArray(this);
+		return org.eclipse.fordiac.ide.model.Annotations.isArray(this);
 	}
 
 	/**
@@ -643,8 +666,9 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public FBNetworkElement getFBNetworkElement() {
-		return org.eclipse.fordiac.ide.model.Annotations.GEN.getFBNetworkElement(this);
+		return org.eclipse.fordiac.ide.model.Annotations.getFBNetworkElement(this);
 	}
 
 	/**
@@ -652,8 +676,9 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAttributeDeclaration(final String name, final String type, final String initialValue, final String comment) {
-		org.eclipse.fordiac.ide.model.Annotations.GEN.setAttributeDeclaration((InheritableAttribute)this, name, type, initialValue, comment);
+		org.eclipse.fordiac.ide.model.Annotations.setAttributeDeclaration(this, name, type, initialValue, comment);
 	}
 
 	/**
@@ -661,8 +686,9 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AttributeDeclaration getAttributeDeclaration(final String name) {
-		return org.eclipse.fordiac.ide.model.Annotations.GEN.getAttributeDeclaration((InheritableAttribute)this, name);
+		return org.eclipse.fordiac.ide.model.Annotations.getAttributeDeclaration(this, name);
 	}
 
 	/**
@@ -670,8 +696,9 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAttribute(final String attributeName, final String type, final String value, final String comment) {
-		org.eclipse.fordiac.ide.model.Annotations.GEN.setAttribute(this, attributeName, type, value, comment);
+		org.eclipse.fordiac.ide.model.Annotations.setAttribute(this, attributeName, type, value, comment);
 	}
 
 	/**
@@ -679,8 +706,9 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Attribute getAttribute(final String attributeName) {
-		return org.eclipse.fordiac.ide.model.Annotations.GEN.getAttribute(this, attributeName);
+		return org.eclipse.fordiac.ide.model.Annotations.getAttribute(this, attributeName);
 	}
 
 	/**
@@ -688,8 +716,9 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getAttributeValue(final String attributeName) {
-		return org.eclipse.fordiac.ide.model.Annotations.GEN.getAttributeValue(this, attributeName);
+		return org.eclipse.fordiac.ide.model.Annotations.getAttributeValue(this, attributeName);
 	}
 
 	/**
@@ -697,8 +726,9 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Annotation createAnnotation(final String name) {
-		return org.eclipse.fordiac.ide.model.Annotations.GEN.createAnnotation(this, name);
+		return org.eclipse.fordiac.ide.model.Annotations.createAnnotation(this, name);
 	}
 
 	/**
@@ -706,8 +736,9 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void removeAnnotation(final Annotation annotation) {
-		org.eclipse.fordiac.ide.model.Annotations.GEN.removeAnnotation(this, annotation);
+		org.eclipse.fordiac.ide.model.Annotations.removeAnnotation(this, annotation);
 	}
 
 	/**
@@ -1070,16 +1101,16 @@ public class AdapterMonitoringVarDeclarationImpl extends EObjectImpl implements 
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
+		StringBuilder result = new StringBuilder(super.toString());
+		result.append(" (name: "); //$NON-NLS-1$
 		result.append(name);
-		result.append(", comment: ");
+		result.append(", comment: "); //$NON-NLS-1$
 		result.append(comment);
-		result.append(", isInput: ");
+		result.append(", isInput: "); //$NON-NLS-1$
 		result.append(isInput);
-		result.append(", typeName: ");
+		result.append(", typeName: "); //$NON-NLS-1$
 		result.append(typeName);
-		result.append(", arraySize: ");
+		result.append(", arraySize: "); //$NON-NLS-1$
 		result.append(arraySize);
 		result.append(')');
 		return result.toString();

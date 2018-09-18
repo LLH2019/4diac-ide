@@ -15,8 +15,9 @@ package org.eclipse.fordiac.ide.runtime.views;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -28,7 +29,6 @@ import org.eclipse.fordiac.ide.runtime.LaunchParameter;
 import org.eclipse.fordiac.ide.runtime.LaunchRuntimeException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -46,13 +46,13 @@ import org.eclipse.ui.part.ViewPart;
  */
 public class RuntimeLauncherView extends ViewPart {
 
-	private static final String VALUES = "values";
+	private static final String VALUES = "values"; //$NON-NLS-1$
 
 	private IMemento memento;
 
-	private final ArrayList<IRuntimeLauncher> launchers = new ArrayList<IRuntimeLauncher>();
+	private final List<IRuntimeLauncher> launchers = new ArrayList<>();
 
-	private final Hashtable<String, Combo> comboTable = new Hashtable<String, Combo>();
+	private final Map<String, Combo> comboTable = new HashMap<>();
 
 	/**
 	 * Instantiates a new runtime launcher view.
@@ -79,8 +79,8 @@ public class RuntimeLauncherView extends ViewPart {
 		Arrays.sort(elems, new Comparator<IConfigurationElement>() {
 			@Override
 			public int compare(IConfigurationElement element1, IConfigurationElement element2) {
-				String order1 = element1.getAttribute("order");
-				String order2 = element2.getAttribute("order");
+				String order1 = element1.getAttribute("order"); //$NON-NLS-1$
+				String order2 = element2.getAttribute("order"); //$NON-NLS-1$
 				
 				if (null == order1) {
 					return (null == order2) ?  0 : 1;
@@ -110,8 +110,7 @@ public class RuntimeLauncherView extends ViewPart {
 					launcherGroup.setLayoutData(launcherGroupData);
 
 					// Get the parameters for the launcher
-					List<LaunchParameter> params = new ArrayList<LaunchParameter>();
-					params = launcher.getParams();
+					List<LaunchParameter> params = launcher.getParams();
 
 					boolean firstButton = true;
 					for (int j = 0; j < launcher.getNumParameters(); j++) {
@@ -130,7 +129,6 @@ public class RuntimeLauncherView extends ViewPart {
 								paramValue.add(deviceString);
 							}
 						} else {
-							// paramValue.setText(params.get(j).getValue());
 							paramValue.add(params.get(j).getValue());
 						}
 						GridData textAreaData = new GridData();
@@ -153,81 +151,29 @@ public class RuntimeLauncherView extends ViewPart {
 							// create the launch button
 							Button launchButton = new Button(launcherGroup,
 									SWT.WRAP);
-							launchButton
-									.setText("Launch " + launcher.getName());
+							launchButton.setText("Launch " + launcher.getName());
 							GridData launchButtonData = new GridData();
-							launchButtonData.verticalSpan = launcher
-									.getNumParameters();
+							launchButtonData.verticalSpan = launcher.getNumParameters();
 							launchButtonData.verticalAlignment = GridData.FILL;
 							launchButtonData.horizontalAlignment = GridData.FILL;
 							launchButton.setLayoutData(launchButtonData);
-							launchButton
-									.addSelectionListener(new RuntimeSelectionListener(
-											launcher) {
-
-										@Override
-										public void widgetSelected(
-												SelectionEvent e) {
+							launchButton.addListener( SWT.Selection, event -> {
 											try {
 												launcher.launch();
-												getViewSite().getActionBars()
-														.getStatusLineManager()
-														.setErrorMessage(null);
+												getViewSite().getActionBars().getStatusLineManager().setErrorMessage(null);
 												
 												for (LaunchParameter param : launcher.getParams()) {
-													if (!Arrays
-															.asList(
-																	comboTable
-																			.get(
-																					launcher
-																							.getName()
-																							+ "." //$NON-NLS-1$
-																							+ param
-																									.getName())
-																			.getItems())
-															.contains(
-																	comboTable
-																			.get(
-																					launcher
-																							.getName()
-																							+ "." //$NON-NLS-1$
-																							+ param
-																									.getName())
-																			.getText())) {
-														comboTable
-																.get(
-																		launcher
-																				.getName()
-																				+ "."
-																				+ param
-																						.getName())
-																.add(
-																		comboTable
-																				.get(
-																						launcher
-																								.getName()
-																								+ "." //$NON-NLS-1$
-																								+ param
-																										.getName())
-																				.getText(),
-																		0);
+													if (!Arrays.asList(comboTable.get(launcher.getName() + "." + param.getName()).getItems()) //$NON-NLS-1$
+															.contains(comboTable.get(launcher.getName() + "." + param.getName()).getText())) { //$NON-NLS-1$
+														comboTable.get(launcher.getName() + "." + param.getName()) //$NON-NLS-1$
+																.add(comboTable.get(launcher.getName() + "." + param.getName()).getText(), 0); //$NON-NLS-1$
 													}
 												}
 											} catch (LaunchRuntimeException e1) {
 												Activator.getDefault().logError(e1.getMessage(), e1);
-												getViewSite()
-														.getActionBars()
-														.getStatusLineManager()
-														.setErrorMessage(
-																e1.getMessage());
+												getViewSite().getActionBars().getStatusLineManager().setErrorMessage(e1.getMessage());
 											}
-										}
-
-										@Override
-										public void widgetDefaultSelected(
-												SelectionEvent e) {
-										}
-									});
+										});
 							firstButton = false;
 						}
 					}
@@ -317,7 +263,7 @@ public class RuntimeLauncherView extends ViewPart {
 				if (!param.isFixedValues()) {
 					IMemento mem = memento.createChild(VALUES, launcher
 							.getName()
-							+ "." + param.getName());
+							+ "." + param.getName()); //$NON-NLS-1$
 					mem.putTextData(Arrays.deepToString(comboTable.get(
 							launcher.getName() + "." + param.getName()) //$NON-NLS-1$
 							.getItems()));

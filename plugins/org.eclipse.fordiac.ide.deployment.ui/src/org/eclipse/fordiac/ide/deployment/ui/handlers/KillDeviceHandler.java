@@ -12,7 +12,8 @@
  *******************************************************************************/
 package org.eclipse.fordiac.ide.deployment.ui.handlers;
 
-import org.eclipse.fordiac.ide.deployment.IDeploymentExecutor;
+import org.eclipse.fordiac.ide.deployment.exceptions.DeploymentException;
+import org.eclipse.fordiac.ide.deployment.interactors.IDeviceManagementInteractor;
 import org.eclipse.fordiac.ide.model.libraryElement.Device;
 import org.eclipse.fordiac.ide.systemconfiguration.editparts.DeviceEditPart;
 
@@ -35,12 +36,8 @@ public class KillDeviceHandler extends AbstractDeploymentCommand {
 	}
 
 	@Override
-	public void executeCommand(IDeploymentExecutor executor) throws Exception {
-		try {
-			executor.killDevice(device);
-		} catch (Exception e) {
-			throw e;
-		}
+	public void executeCommand(IDeviceManagementInteractor executor) throws DeploymentException {
+		executor.killDevice(device);
 	}
 	
 	@Override

@@ -32,7 +32,6 @@ import org.eclipse.gef.editparts.ZoomManager;
 
 //TODO model refactoring - consder inheriting from fbeditpart when model refatoring is finished
 public class SubAppForFBNetworkEditPart extends AbstractFBNElementEditPart {
-	private EContentAdapter adapter = null;
 		
 	public SubAppForFBNetworkEditPart(final ZoomManager zoomManager) {
 		super(zoomManager);
@@ -49,34 +48,30 @@ public class SubAppForFBNetworkEditPart extends AbstractFBNElementEditPart {
 	}
 
 	@Override
-	public EContentAdapter getContentAdapter() {
-		if (adapter == null) {
-			adapter = new EContentAdapter() {
-				@Override
-				public void notifyChanged(final Notification notification) {
-					super.notifyChanged(notification);
-					Object feature = notification.getFeature();
-					if (LibraryElementPackage.eINSTANCE.getFBNetworkElement_Interface().equals(feature) ||
-							LibraryElementPackage.eINSTANCE.getInterfaceList_EventInputs().equals(feature)||
-							LibraryElementPackage.eINSTANCE.getInterfaceList_EventOutputs().equals(feature)||
-							LibraryElementPackage.eINSTANCE.getInterfaceList_InputVars().equals(feature)||
-							LibraryElementPackage.eINSTANCE.getInterfaceList_OutputVars().equals(feature)||
-							LibraryElementPackage.eINSTANCE.getInterfaceList_Plugs().equals(feature)||
-							LibraryElementPackage.eINSTANCE.getInterfaceList_Sockets().equals(feature)) {
-						refresh();
-					} else if (LibraryElementPackage.eINSTANCE.getINamedElement_Name().equals(feature)) {
-						refresh();
-					} else if (notification.getFeature() == LibraryElementPackage.eINSTANCE.getFBNetworkElement_Mapping()) {
-						if (notification.getNewValue() instanceof FB) {
-							updateDeviceListener();
-						}
-					}
-					refreshToolTip();
-					backgroundColorChanged(getFigure());
+	public EContentAdapter createContentAdapter() {
+		return new EContentAdapter() {
+			@Override
+			public void notifyChanged(final Notification notification) {
+				super.notifyChanged(notification);
+				Object feature = notification.getFeature();
+				if (LibraryElementPackage.eINSTANCE.getFBNetworkElement_Interface().equals(feature) ||
+						LibraryElementPackage.eINSTANCE.getInterfaceList_EventInputs().equals(feature)||
+						LibraryElementPackage.eINSTANCE.getInterfaceList_EventOutputs().equals(feature)||
+						LibraryElementPackage.eINSTANCE.getInterfaceList_InputVars().equals(feature)||
+						LibraryElementPackage.eINSTANCE.getInterfaceList_OutputVars().equals(feature)||
+						LibraryElementPackage.eINSTANCE.getInterfaceList_Plugs().equals(feature)||
+						LibraryElementPackage.eINSTANCE.getInterfaceList_Sockets().equals(feature)) {
+					refresh();
+				} else if (LibraryElementPackage.eINSTANCE.getINamedElement_Name().equals(feature)) {
+					refresh();
+				} else if (notification.getFeature() == LibraryElementPackage.eINSTANCE.getFBNetworkElement_Mapping() && 
+						notification.getNewValue() instanceof FB) {
+					updateDeviceListener();
 				}
-			};
-		}
-		return adapter;
+				refreshToolTip();
+				backgroundColorChanged(getFigure());
+			}
+		};
 	}
 
 	@Override
@@ -108,7 +103,12 @@ public class SubAppForFBNetworkEditPart extends AbstractFBNElementEditPart {
 				// we have a type open the sub-app type editor
 				AbstractFBNetworkElementFigure.openTypeInEditor(getModel());
 			} else {
-				new OpenSubApplicationEditorAction(getModel()).run();
+				SubApp subApp = getModel();
+				if(null == subApp.getSubAppNetwork() && subApp.isMapped()) {
+					//we are mapped and the subapp in the resource
+					subApp = (SubApp)subApp.getOpposite();
+				}				
+				new OpenSubApplicationEditorAction(subApp).run();
 			}					
 		} else {
 			super.performRequest(request);

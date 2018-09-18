@@ -11,8 +11,8 @@
  *******************************************************************************/
 package org.eclipse.fordiac.ide.fbtypeeditor.fbtester;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.fordiac.ide.fbtester.model.testdata.ValuedVarDecl;
 import org.eclipse.fordiac.ide.fbtypeeditor.fbtester.model.TestElement;
@@ -21,10 +21,9 @@ import org.eclipse.swt.widgets.Control;
 
 public interface IFBTestConfiguration {
 
-	public Control getControl();
+	Control getControl();
 
-	public void newTestConf(ArrayList<TestElement> variables,
-			ArrayList<String> values, ArrayList<ValuedVarDecl> resultVars,
-			Hashtable<String, Object> params);
+	void newTestConf(List<TestElement> variables, List<String> values, List<ValuedVarDecl> resultVars,
+			Map<String, Object> params);
 
 }

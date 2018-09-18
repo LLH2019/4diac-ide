@@ -19,6 +19,7 @@ import java.util.List;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.fordiac.ide.deployment.DeploymentCoordinator;
+import org.eclipse.fordiac.ide.deployment.util.DeploymentHelper;
 import org.eclipse.fordiac.ide.model.NamedElementComparator;
 import org.eclipse.fordiac.ide.model.libraryElement.AutomationSystem;
 import org.eclipse.fordiac.ide.model.libraryElement.Device;
@@ -54,9 +55,9 @@ import org.eclipse.ui.dialogs.ContainerCheckedTreeViewer;
 
 public class DownloadSelectionTree extends ContainerCheckedTreeViewer {
 	
-	private static String DOWNLOAD_DEV_SELECTION = "DOWNLOAD_DEV_SELECTION"; //$NON-NLS-1$
-	private static String DOWNLOAD_DEV_MGRID = "DOWNLOAD_DEV_MGRID"; //$NON-NLS-1$
-	private static String DOWNLOAD_DEV_PROPERTIES = "DOWNLOAD_DEV_PROPERTIES"; //$NON-NLS-1$
+	private static final String DOWNLOAD_DEV_SELECTION = "DOWNLOAD_DEV_SELECTION"; //$NON-NLS-1$
+	private static final String DOWNLOAD_DEV_MGRID = "DOWNLOAD_DEV_MGRID"; //$NON-NLS-1$
+	private static final String DOWNLOAD_DEV_PROPERTIES = "DOWNLOAD_DEV_PROPERTIES"; //$NON-NLS-1$
 
 	
 	static void initSelectedProperties(Device device) {
@@ -103,6 +104,7 @@ public class DownloadSelectionTree extends ContainerCheckedTreeViewer {
 		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface
 		 * .viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
+		@Override
 		public void inputChanged(final Viewer v, final Object oldInput,
 				final Object newInput) {
 			// not used
@@ -113,6 +115,7 @@ public class DownloadSelectionTree extends ContainerCheckedTreeViewer {
 		 * 
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
+		@Override
 		public void dispose() {
 			// TODO check whether resorces needs to be freed
 			// not used
@@ -125,6 +128,7 @@ public class DownloadSelectionTree extends ContainerCheckedTreeViewer {
 		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java
 		 * .lang.Object)
 		 */
+		@Override
 		public Object[] getElements(final Object parent) {
 			if (parent.equals(getInput())) {
 				List<AutomationSystem> systems = SystemManager.INSTANCE.getSystems();
@@ -147,6 +151,7 @@ public class DownloadSelectionTree extends ContainerCheckedTreeViewer {
 		 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object
 		 * )
 		 */
+		@Override
 		public Object getParent(final Object child) {
 			if (child instanceof Device) {
 				return ((Device) child).eContainer();
@@ -164,6 +169,7 @@ public class DownloadSelectionTree extends ContainerCheckedTreeViewer {
 		 * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.
 		 * Object)
 		 */
+		@Override
 		public Object[] getChildren(final Object parent) {
 			if (parent instanceof AutomationSystem) {
 				SystemConfiguration sysConf = ((AutomationSystem) parent).getSystemConfiguration();
@@ -194,15 +200,6 @@ public class DownloadSelectionTree extends ContainerCheckedTreeViewer {
 				}
 				return resource.toArray();
 			}
-			if (parent instanceof Resource) {
-				ArrayList<INamedElement> elements = new ArrayList<>();
-				Resource res = (Resource) parent;
-				if (res.getFBNetwork() != null) {
-					elements.addAll(res.getFBNetwork().getNetworkElements());
-				}
-				return elements.toArray();
-
-			}
 			return new Object[0];
 		}
 
@@ -213,6 +210,7 @@ public class DownloadSelectionTree extends ContainerCheckedTreeViewer {
 		 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.
 		 * Object)
 		 */
+		@Override
 		public boolean hasChildren(final Object parent) {
 			if (parent instanceof AutomationSystem) {
 				return ((AutomationSystem) parent).getSystemConfiguration().getDevices().size() > 0;
@@ -221,14 +219,6 @@ public class DownloadSelectionTree extends ContainerCheckedTreeViewer {
 				return ((Device) parent).getResource().size() > 0;
 			}
 			if (parent instanceof Resource) {
-				Resource res = (Resource) parent;
-				if (res.getFBNetwork() == null) {
-					return false;
-				}
-				// return ((Resource)
-				// parent).getFBNetwork().getMappedFBs().size() > 0
-				// || ((Resource) parent).getFBNetwork().getMappedFBs().size() >
-				// 0;
 				return false;
 			}
 			return false;
@@ -239,7 +229,7 @@ public class DownloadSelectionTree extends ContainerCheckedTreeViewer {
 	/**
 	 * The Class ViewLabelProvider.
 	 */
-	class ViewLabelProvider extends LabelProvider{
+	static class ViewLabelProvider extends LabelProvider{
 
 		/*
 		 * (non-Javadoc)
@@ -283,7 +273,7 @@ public class DownloadSelectionTree extends ContainerCheckedTreeViewer {
 
 	}
 	
-	class DownloadDecoratingLabelProvider extends DecoratingLabelProvider implements ITableLabelProvider {
+	static class DownloadDecoratingLabelProvider extends DecoratingLabelProvider implements ITableLabelProvider {
 
 		public DownloadDecoratingLabelProvider(ILabelProvider provider,
 				ILabelDecorator decorator) {
@@ -304,14 +294,14 @@ public class DownloadSelectionTree extends ContainerCheckedTreeViewer {
 				return getText(element);
 			} else if (columnIndex == 1) {
 				if (element instanceof Device) {
-					return DeploymentCoordinator.getMGR_ID((Device)element);
+					return DeploymentHelper.getMgrID((Device)element);
 				}
 			} else if (columnIndex == 2) {
 				if (element instanceof Device) {
 					return getSelectedString(element);
 				}
 			}
-			return "";
+			return ""; //$NON-NLS-1$
 		}
 		
 	}
@@ -335,57 +325,46 @@ public class DownloadSelectionTree extends ContainerCheckedTreeViewer {
 		propertiesColumn.setWidth(200);
 		
 		setContentProvider(new ViewContentProvider());
-		//setLabelProvider(new ViewLabelProvider());
 		ILabelDecorator decorator = PlatformUI.getWorkbench().getDecoratorManager().getLabelDecorator();  		
 		LabelProvider lp = new ViewLabelProvider();		
-		setLabelProvider(new DownloadDecoratingLabelProvider(lp,decorator));
+		setLabelProvider(new DownloadDecoratingLabelProvider(lp ,decorator));
 		
 		setCellModifier(new ICellModifier() {
 
+			@Override
 			public boolean canModify(final Object element, final String property) {
-				if (property.equals(DOWNLOAD_DEV_PROPERTIES)
-						&& element instanceof Device) {
+				if (property.equals(DOWNLOAD_DEV_PROPERTIES) && element instanceof Device) {
 					return true;
 				}
 				return false;
 			}
 
+			@Override
 			public Object getValue(final Object element, final String property) {
 				if (DOWNLOAD_DEV_PROPERTIES.equals(property)) {
 					return getSelectedString(element);
 				}
-				if (DOWNLOAD_DEV_SELECTION.equals(property)) {
-					// nothing to do
-				}
 				return null;
 			}
 
-			public void modify(final Object element, final String property,
-					final Object value) {
+			@Override
+			public void modify(final Object element, final String property, final Object value) {
 				// nothing to do
 			}
 		});
 		
-		setCellEditors(new CellEditor[] { new TextCellEditor(), new TextCellEditor(),
-				new DialogCellEditor(getTree()) {
-
+		setCellEditors(new CellEditor[] { new TextCellEditor(), new TextCellEditor(), new DialogCellEditor(getTree()) {
 					@Override
 					protected Object openDialogBox(Control cellEditorWindow) {
-						DeviceParametersDialog dialog = new DeviceParametersDialog(
-								cellEditorWindow.getShell());
-
+						DeviceParametersDialog dialog = new DeviceParametersDialog(cellEditorWindow.getShell());
 						if (((TreeSelection) getSelection()).getFirstElement() instanceof Device) {
-							dialog.setDevice((Device) ((TreeSelection) getSelection())
-									.getFirstElement());
-
+							dialog.setDevice((Device) ((TreeSelection) getSelection()).getFirstElement());
 							int ret = dialog.open();
 							if (ret == Window.OK) {
 								DeploymentCoordinator.getInstance().setDeviceProperties(
 										dialog.getDevice(), dialog.getSelectedProperties());
 								refresh(dialog.getDevice(), true);
-							} else {
-
-							}
+							} 
 						}
 						return null;
 					}
@@ -396,11 +375,11 @@ public class DownloadSelectionTree extends ContainerCheckedTreeViewer {
 				DOWNLOAD_DEV_PROPERTIES });
 	}
 	
-	private String getSelectedString(Object element) {
-		ArrayList<VarDeclaration> temp = DeploymentCoordinator.getInstance()
+	private static String getSelectedString(Object element) {
+		List<VarDeclaration> temp = DeploymentCoordinator.getInstance()
 				.getSelectedDeviceProperties((Device) element);
 		if (temp != null) {
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			buffer.append("["); //$NON-NLS-1$
 			boolean first = true;
 			for (VarDeclaration varDeclaration : temp) {

@@ -14,7 +14,6 @@ package org.eclipse.fordiac.ide.application.commands;
 
 import java.util.List;
 
-import org.eclipse.fordiac.ide.application.ApplicationPlugin;
 import org.eclipse.fordiac.ide.application.utilities.CreationPopupDialog;
 import org.eclipse.fordiac.ide.application.utilities.ICreationExecutor;
 import org.eclipse.fordiac.ide.model.Palette.FBTypePaletteEntry;
@@ -24,6 +23,7 @@ import org.eclipse.fordiac.ide.model.libraryElement.AutomationSystem;
 import org.eclipse.fordiac.ide.model.libraryElement.FBNetwork;
 import org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement;
 import org.eclipse.fordiac.ide.model.libraryElement.Value;
+import org.eclipse.fordiac.ide.ui.controls.Abstract4DIACUIPlugin;
 import org.eclipse.fordiac.ide.util.dnd.TransferDataSelectionFBParameter;
 import org.eclipse.fordiac.ide.util.dnd.TransferDataSelectionOfFb;
 import org.eclipse.fordiac.ide.util.imageprovider.FordiacImage;
@@ -50,7 +50,7 @@ public class ListFBCreateCommand extends FBCreateCommand {
 	public ListFBCreateCommand(final FBTypePaletteEntry[] type,
 			final FBNetwork parent, int x, int y) {
 		super(null, parent, x, y); // values will be set in execute()
-		typeList = type;
+		typeList = type.clone();
 		selectionList = null;
 		system = parent.getAutomationSystem();
 	}
@@ -59,7 +59,7 @@ public class ListFBCreateCommand extends FBCreateCommand {
 			final FBNetwork parent, int x, int y) {
 		super(null, parent, x, y); // values will be set in execute()
 		typeList = null; 
-		selectionList = fbList;
+		selectionList = fbList.clone();
 		this.system = parent.getAutomationSystem();
 	}
 
@@ -120,7 +120,7 @@ public class ListFBCreateCommand extends FBCreateCommand {
 								}
 							} else {
 								// warning/info in statusline that fbtype can not be found
-								ApplicationPlugin.statusLineErrorMessage("FBType not found!");
+								Abstract4DIACUIPlugin.statusLineErrorMessage("FBType not found!");
 							}
 						}
 

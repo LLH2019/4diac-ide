@@ -19,15 +19,14 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceChangeListener;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.fordiac.ide.fbtypeeditor.Activator;
@@ -68,9 +67,9 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributo
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 public class FBTypeEditor extends FormEditor implements
-		IResourceChangeListener, ISelectionListener, CommandStackEventListener, ITabbedPropertySheetPageContributor {
+		ISelectionListener, CommandStackEventListener, ITabbedPropertySheetPageContributor {
 
-	protected Collection<IFBTEditorPart> editors;
+	private Collection<IFBTEditorPart> editors;
 	private PaletteEntry paletteEntry;
 	private FBType fbType;
 	private FBTypeContentOutline contentOutline = null;	
@@ -98,11 +97,6 @@ public class FBTypeEditor extends FormEditor implements
 			}
 		}
 	};
-
-	public FBTypeEditor() {
-		super();
-		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
-	}
 
 	@Override
 	public void doSave(final IProgressMonitor monitor) {
@@ -139,7 +133,7 @@ public class FBTypeEditor extends FormEditor implements
 
 	@Override
 	public void doSaveAs() {
-
+		//TODO implement a save as new type method
 	}
 
 	/**
@@ -160,6 +154,9 @@ public class FBTypeEditor extends FormEditor implements
 
 		if (editorInput instanceof FileEditorInput) {
 			IFile fbTypeFile = ((FileEditorInput) editorInput).getFile();
+			if(!fbTypeFile.exists()) {
+				throw new PartInitException(new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Type file does not exist!"));
+			}
 
 			fbPalette = FBTypeUtils.getPalletteForFBTypeFile(fbTypeFile);
 			
@@ -176,6 +173,8 @@ public class FBTypeEditor extends FormEditor implements
 			
 			fbType = getFBType(paletteEntry);
 			if(null != fbType){ 
+				//TODO create a copy of the type here so that closing the editor without saveing is better implemented
+				//Attention adapters need for saveing then beeing treated special
 				fbType.eAdapters().add(adapter);
 			}
 		}
@@ -191,7 +190,7 @@ public class FBTypeEditor extends FormEditor implements
 		if(paletteEntry instanceof FBTypePaletteEntry){
 			return ((FBTypePaletteEntry)paletteEntry).getFBType();
 		} else if(paletteEntry instanceof AdapterTypePaletteEntry){
-			return ((AdapterTypePaletteEntry)paletteEntry).getAdapterType().getAdapterFBType();
+			return ((AdapterTypePaletteEntry)paletteEntry).getType().getAdapterFBType();
 		}
 		return null;
 	}
@@ -213,7 +212,6 @@ public class FBTypeEditor extends FormEditor implements
 		if(null != getSite()){
 			getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(this);
 		}
-		ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
 
 		super.dispose();
 
@@ -231,32 +229,6 @@ public class FBTypeEditor extends FormEditor implements
 	@Override
 	public boolean isSaveAsAllowed() {
 		return false;
-	}
-
-	/**
-	 * Closes all project files on project close.
-	 * 
-	 * @param event
-	 *            the event
-	 */
-	public void resourceChanged(final IResourceChangeEvent event) {
-		// if (event.getType() == IResourceChangeEvent.PRE_CLOSE) {
-		// Display.getDefault().asyncExec(new Runnable() {
-		// public void run() {
-		// IWorkbenchPage[] pages = getSite().getWorkbenchWindow()
-		// .getPages();
-		// for (int i = 0; i < pages.length; i++) {
-		// if (((FileEditorInput) editor.getEditorInput())
-		// .getFile().getProject().equals(
-		// event.getResource())) {
-		// IEditorPart editorPart = pages[i].findEditor(editor
-		// .getEditorInput());
-		// pages[i].closeEditor(editorPart, true);
-		// }
-		// }
-		// }
-		// });
-		// }
 	}
 
 	@Override
@@ -335,6 +307,7 @@ public class FBTypeEditor extends FormEditor implements
 	 * @see org.eclipse.ui.ISelectionListener#selectionChanged(org.eclipse.ui.
 	 * IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
 	 */
+	@Override
 	public void selectionChanged(final IWorkbenchPart part,
 			final ISelection selection) {
 		if (this.equals(getSite().getPage().getActiveEditor())) {
@@ -342,6 +315,7 @@ public class FBTypeEditor extends FormEditor implements
 		}
 	}
 
+	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Object getAdapter(Class required) {
 		if (IContentOutlinePage.class.equals(required)) {

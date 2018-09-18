@@ -144,6 +144,7 @@ public class DeviceTypeImpl extends CompilableTypeImpl implements DeviceType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<VarDeclaration> getVarDeclaration() {
 		if (varDeclaration == null) {
 			varDeclaration = new EObjectContainmentEList<VarDeclaration>(VarDeclaration.class, this, LibraryElementPackage.DEVICE_TYPE__VAR_DECLARATION);
@@ -156,6 +157,7 @@ public class DeviceTypeImpl extends CompilableTypeImpl implements DeviceType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ResourceTypeName> getResourceTypeName() {
 		if (resourceTypeName == null) {
 			resourceTypeName = new EObjectContainmentEList<ResourceTypeName>(ResourceTypeName.class, this, LibraryElementPackage.DEVICE_TYPE__RESOURCE_TYPE_NAME);
@@ -168,6 +170,7 @@ public class DeviceTypeImpl extends CompilableTypeImpl implements DeviceType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Resource> getResource() {
 		if (resource == null) {
 			resource = new EObjectContainmentEList<Resource>(Resource.class, this, LibraryElementPackage.DEVICE_TYPE__RESOURCE);
@@ -180,6 +183,7 @@ public class DeviceTypeImpl extends CompilableTypeImpl implements DeviceType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public FBNetwork getFBNetwork() {
 		return fBNetwork;
 	}
@@ -204,6 +208,7 @@ public class DeviceTypeImpl extends CompilableTypeImpl implements DeviceType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFBNetwork(FBNetwork newFBNetwork) {
 		if (newFBNetwork != fBNetwork) {
 			NotificationChain msgs = null;
@@ -223,6 +228,7 @@ public class DeviceTypeImpl extends CompilableTypeImpl implements DeviceType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getProfile() {
 		return profile;
 	}
@@ -232,6 +238,7 @@ public class DeviceTypeImpl extends CompilableTypeImpl implements DeviceType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setProfile(String newProfile) {
 		String oldProfile = profile;
 		profile = newProfile;
@@ -239,13 +246,15 @@ public class DeviceTypeImpl extends CompilableTypeImpl implements DeviceType {
 			eNotify(new ENotificationImpl(this, Notification.SET, LibraryElementPackage.DEVICE_TYPE__PROFILE, oldProfile, profile));
 	}
 
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAttributeDeclaration(final String name, final String type, final String initialValue, final String comment) {
-		org.eclipse.fordiac.ide.model.Annotations.GEN.setAttributeDeclaration((InheritableAttribute)this, name, type, initialValue, comment);
+		org.eclipse.fordiac.ide.model.Annotations.setAttributeDeclaration(this, name, type, initialValue, comment);
 	}
 
 	/**
@@ -253,8 +262,9 @@ public class DeviceTypeImpl extends CompilableTypeImpl implements DeviceType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AttributeDeclaration getAttributeDeclaration(final String name) {
-		return org.eclipse.fordiac.ide.model.Annotations.GEN.getAttributeDeclaration((InheritableAttribute)this, name);
+		return org.eclipse.fordiac.ide.model.Annotations.getAttributeDeclaration(this, name);
 	}
 
 	/**
@@ -262,6 +272,7 @@ public class DeviceTypeImpl extends CompilableTypeImpl implements DeviceType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<AttributeDeclaration> getAttributeDeclarations() {
 		if (attributeDeclarations == null) {
 			attributeDeclarations = new EObjectContainmentEList.Resolving<AttributeDeclaration>(AttributeDeclaration.class, this, LibraryElementPackage.DEVICE_TYPE__ATTRIBUTE_DECLARATIONS);
@@ -445,8 +456,8 @@ public class DeviceTypeImpl extends CompilableTypeImpl implements DeviceType {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (profile: ");
+		StringBuilder result = new StringBuilder(super.toString());
+		result.append(" (profile: "); //$NON-NLS-1$
 		result.append(profile);
 		result.append(')');
 		return result.toString();

@@ -25,6 +25,8 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -65,6 +67,7 @@ public class FBPaletteViewer extends PaletteViewer {
 
 		text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		text.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				if (e.detail == SWT.CANCEL) {
 					setSearchFilter(""); //$NON-NLS-1$
@@ -75,6 +78,7 @@ public class FBPaletteViewer extends PaletteViewer {
 
 		});
 		text.addModifyListener(new ModifyListener() {
+			@Override
 			public void modifyText(final ModifyEvent e) {
 				setSearchFilter(text.getText());
 			}
@@ -106,10 +110,29 @@ public class FBPaletteViewer extends PaletteViewer {
 
 		commonViewer.setSorter(new CommonViewerSorter());
 		commonViewer.addFilter(new TypeListPatternFilter());
+		
+		commonViewer.getControl().addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseUp(MouseEvent e) {
+				// currently nothing todo here				
+			}
+			
+			@Override
+			public void mouseDown(MouseEvent e) {
+				// set the focus on this part on any mouse click, fixes issue in drag and drop
+				commonViewer.getControl().forceFocus();
+			}
+			
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				// currently nothing todo here				
+			}
+		});
 
 		
 		if(project.getName().equals(TypeLibraryTags.TOOL_LIBRARY_PROJECT_NAME)){
-			commonViewer.setInput(TypeLibrary.getInstance().getToolLibFolder());
+			commonViewer.setInput(TypeLibrary.getToolLibFolder());
 		}else{
 			commonViewer.setInput(project);			
 		}
@@ -140,12 +163,14 @@ public class FBPaletteViewer extends PaletteViewer {
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(new IResourceChangeListener() {			
 			@Override
 			public void resourceChanged(IResourceChangeEvent event) {
-				if (event.getType() != IResourceChangeEvent.POST_CHANGE)
+				if (event.getType() != IResourceChangeEvent.POST_CHANGE) {
 		            return;
+				}
 				IResourceDelta rootDelta = event.getDelta();
 				IResourceDelta docDelta = rootDelta.findMember(project.getFullPath());
-				if (docDelta == null)
+				if (docDelta == null) {
 		            return;
+				}
 				Display.getDefault().asyncExec(new Runnable() {
 					@Override
 					public void run() {

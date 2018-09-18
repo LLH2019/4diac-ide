@@ -229,6 +229,7 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -238,6 +239,7 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -250,6 +252,7 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getComment() {
 		return comment;
 	}
@@ -259,6 +262,7 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setComment(String newComment) {
 		String oldComment = comment;
 		comment = newComment;
@@ -271,6 +275,7 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Attribute> getAttributes() {
 		if (attributes == null) {
 			attributes = new EObjectContainmentEList.Resolving<Attribute>(Attribute.class, this, LibraryElementPackage.IINTERFACE_ELEMENT__ATTRIBUTES);
@@ -283,6 +288,7 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isIsInput() {
 		return isInput;
 	}
@@ -292,6 +298,7 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsInput(boolean newIsInput) {
 		boolean oldIsInput = isInput;
 		isInput = newIsInput;
@@ -304,6 +311,7 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Connection> getInputConnections() {
 		if (inputConnections == null) {
 			inputConnections = new EObjectWithInverseResolvingEList<Connection>(Connection.class, this, LibraryElementPackage.IINTERFACE_ELEMENT__INPUT_CONNECTIONS, LibraryElementPackage.CONNECTION__DESTINATION);
@@ -316,6 +324,7 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Connection> getOutputConnections() {
 		if (outputConnections == null) {
 			outputConnections = new EObjectWithInverseResolvingEList<Connection>(Connection.class, this, LibraryElementPackage.IINTERFACE_ELEMENT__OUTPUT_CONNECTIONS, LibraryElementPackage.CONNECTION__SOURCE);
@@ -328,6 +337,7 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public DataType getType() {
 		if (type != null && type.eIsProxy()) {
 			InternalEObject oldType = (InternalEObject)type;
@@ -354,6 +364,7 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(DataType newType) {
 		DataType oldType = type;
 		type = newType;
@@ -366,6 +377,7 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Value getValue() {
 		if (value != null && value.eIsProxy()) {
 			InternalEObject oldValue = (InternalEObject)value;
@@ -413,6 +425,7 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(Value newValue) {
 		if (newValue != value) {
 			NotificationChain msgs = null;
@@ -432,6 +445,7 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getTypeName() {
 		return typeName;
 	}
@@ -441,6 +455,7 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTypeName(String newTypeName) {
 		String oldTypeName = typeName;
 		typeName = newTypeName;
@@ -453,6 +468,7 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<AttributeDeclaration> getAttributeDeclarations() {
 		if (attributeDeclarations == null) {
 			attributeDeclarations = new EObjectContainmentEList.Resolving<AttributeDeclaration>(AttributeDeclaration.class, this, LibraryElementPackage.IINTERFACE_ELEMENT__ATTRIBUTE_DECLARATIONS);
@@ -465,17 +481,20 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public FBNetworkElement getFBNetworkElement() {
-		return org.eclipse.fordiac.ide.model.Annotations.GEN.getFBNetworkElement(this);
+		return org.eclipse.fordiac.ide.model.Annotations.getFBNetworkElement(this);
 	}
+
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAttributeDeclaration(final String name, final String type, final String initialValue, final String comment) {
-		org.eclipse.fordiac.ide.model.Annotations.GEN.setAttributeDeclaration((InheritableAttribute)this, name, type, initialValue, comment);
+		org.eclipse.fordiac.ide.model.Annotations.setAttributeDeclaration(this, name, type, initialValue, comment);
 	}
 
 	/**
@@ -483,8 +502,9 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AttributeDeclaration getAttributeDeclaration(final String name) {
-		return org.eclipse.fordiac.ide.model.Annotations.GEN.getAttributeDeclaration((InheritableAttribute)this, name);
+		return org.eclipse.fordiac.ide.model.Annotations.getAttributeDeclaration(this, name);
 	}
 
 	/**
@@ -492,8 +512,9 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAttribute(final String attributeName, final String type, final String value, final String comment) {
-		org.eclipse.fordiac.ide.model.Annotations.GEN.setAttribute(this, attributeName, type, value, comment);
+		org.eclipse.fordiac.ide.model.Annotations.setAttribute(this, attributeName, type, value, comment);
 	}
 
 	/**
@@ -501,8 +522,9 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Attribute getAttribute(final String attributeName) {
-		return org.eclipse.fordiac.ide.model.Annotations.GEN.getAttribute(this, attributeName);
+		return org.eclipse.fordiac.ide.model.Annotations.getAttribute(this, attributeName);
 	}
 
 	/**
@@ -510,8 +532,9 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getAttributeValue(final String attributeName) {
-		return org.eclipse.fordiac.ide.model.Annotations.GEN.getAttributeValue(this, attributeName);
+		return org.eclipse.fordiac.ide.model.Annotations.getAttributeValue(this, attributeName);
 	}
 
 	/**
@@ -761,14 +784,14 @@ public class IInterfaceElementImpl extends I4DIACElementImpl implements IInterfa
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
+		StringBuilder result = new StringBuilder(super.toString());
+		result.append(" (name: "); //$NON-NLS-1$
 		result.append(name);
-		result.append(", comment: ");
+		result.append(", comment: "); //$NON-NLS-1$
 		result.append(comment);
-		result.append(", isInput: ");
+		result.append(", isInput: "); //$NON-NLS-1$
 		result.append(isInput);
-		result.append(", typeName: ");
+		result.append(", typeName: "); //$NON-NLS-1$
 		result.append(typeName);
 		result.append(')');
 		return result.toString();

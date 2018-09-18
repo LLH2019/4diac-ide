@@ -1,5 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2011 - 2017 TU Wien ACIN, Profactor GmbH, fortiss GmbH
+ * Copyright (c) 2011 - 2018 TU Wien ACIN, Profactor GmbH, fortiss GmbH, 
+ * 								Johannes Kepler University Linz (JKU) 
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -12,7 +13,6 @@
  *******************************************************************************/
 package org.eclipse.fordiac.ide.fbtypeeditor.ecc.editparts;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.FigureUtilities;
@@ -65,7 +65,6 @@ public class ECActionOutputEventEditPart extends AbstractDirectEditableEditPart{
 		public void notifyChanged(Notification notification) {
 			super.notifyChanged(notification);
 			refreshEventLabel();
-
 		}
 	};
 
@@ -74,31 +73,24 @@ public class ECActionOutputEventEditPart extends AbstractDirectEditableEditPart{
 
 		@Override
 		public void notifyChanged(Notification notification) {
+			super.notifyChanged(notification);
 			if (notification.getEventType() == Notification.REMOVE) {
-				if ((notification.getOldValue() == getAction().getOutput())
-						|| ((getAction().getOutput() instanceof AdapterEvent)
-								&& (notification.getOldValue() instanceof AdapterDeclaration) && (((AdapterEvent) getAction()
-								.getOutput()).getAdapterDeclaration() == notification
-								.getOldValue()))) {
+				if ((notification.getOldValue() == getAction().getOutput()) || 
+						((getAction().getOutput() instanceof AdapterEvent) && 
+								(notification.getOldValue() instanceof AdapterDeclaration) &&
+								(((AdapterEvent) getAction().getOutput()).getAdapterDeclaration() == notification.getOldValue()))) {
 					executeCommand(new ChangeOutputCommand(getAction(), null));
 				}
 			} else if (notification.getEventType() == Notification.SET) {
-				if (null != getAction().getOutput()) {
-					if (notification.getNewValue() instanceof String) {
-						if (getAction().getOutput().getName().equals(notification.getNewValue())) {
-							super.notifyChanged(notification);
-							refreshEventLabel();
-						} else if ((getAction().getOutput() instanceof AdapterEvent)
-								&& (((AdapterEvent) getAction().getOutput())
-										.getAdapterDeclaration().getName()
-										.equals(notification.getNewValue()))) {
-							super.notifyChanged(notification);
-							refreshEventLabel();
-						}
+				if (null != getAction().getOutput() && notification.getNewValue() instanceof String) {
+					if (getAction().getOutput().getName().equals(notification.getNewValue())) {
+						refreshEventLabel();
+					} else if ((getAction().getOutput() instanceof AdapterEvent)
+							&& (((AdapterEvent) getAction().getOutput()).getAdapterDeclaration().getName().equals(notification.getNewValue()))) {
+						refreshEventLabel();
 					}
 				}
 			}
-
 		}
 	};
 
@@ -152,7 +144,6 @@ public class ECActionOutputEventEditPart extends AbstractDirectEditableEditPart{
 	public void deactivate() {
 		if (isActive()) {
 			super.deactivate();
-			// getCastedModel().getPosition().eAdapters().remove(adapter);
 			getAction().eAdapters().remove(adapter);
 
 			FBType fbType = ECActionHelpers.getFBType(getAction());
@@ -181,27 +172,24 @@ public class ECActionOutputEventEditPart extends AbstractDirectEditableEditPart{
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
 				new INamedElementRenameEditPolicy() {
 					@Override
-					protected Command getDirectEditCommand(
-							final DirectEditRequest request) {
+					protected Command getDirectEditCommand(final DirectEditRequest request) {
 						if (getHost() instanceof AbstractDirectEditableEditPart) {
-							List<Event> events = ECActionHelpers
-									.getOutputEvents(ECActionHelpers
-											.getFBType(getAction()));
-
-							int selected = ((Integer) request.getCellEditor()
-									.getValue()).intValue();
-							Event ev = null;
-							if (selected < events.size()) {
-								ev = events.get(selected);
+							Integer value = (Integer)request.getCellEditor().getValue();
+							if(null != value) {
+								int selected = value.intValue(); 
+								List<Event> events = ECActionHelpers.getOutputEvents(ECActionHelpers.getFBType(getAction()));							
+								Event ev = null;
+								if (0 <= selected && selected < events.size()) {
+									ev = events.get(selected);
+								}
+								return new ChangeOutputCommand(getAction(), ev);
 							}
-							return new ChangeOutputCommand(getAction(), ev);
 						}
 						return null;
 					}
 
 					@Override
-					protected void showCurrentEditValue(
-							final DirectEditRequest request) {
+					protected void showCurrentEditValue( final DirectEditRequest request) {
 						// handled by the direct edit manager
 					}
 				});
@@ -231,6 +219,7 @@ public class ECActionOutputEventEditPart extends AbstractDirectEditableEditPart{
 	 * 
 	 * @return the manager
 	 */
+	@Override
 	public DirectEditManager getManager() {
 		if (manager == null) {
 			manager = new ComboDirectEditManager(this,
@@ -244,18 +233,11 @@ public class ECActionOutputEventEditPart extends AbstractDirectEditableEditPart{
 	/**
 	 * performs the directEdit.
 	 */
+	@Override
 	public void performDirectEdit() {
-		ArrayList<String> eventNames = new ArrayList<String>();
-		List<Event> events = ECActionHelpers.getOutputEvents(ECActionHelpers
-				.getFBType(getAction()));
+		List<String> eventNames = ECActionHelpers.getOutputEventNames(ECActionHelpers.getFBType(getAction()));
 
-		for (Event ev : events) {
-			eventNames.add(ev.getName());
-		}
-		eventNames.add(" "); //$NON-NLS-1$
-
-		int selected = (getAction().getOutput() != null) ? eventNames
-				.indexOf(getAction().getOutput().getName())
+		int selected = (getAction().getOutput() != null) ? eventNames.indexOf(getAction().getOutput().getName())
 				: eventNames.size() - 1;
 
 		((ComboDirectEditManager) getManager()).updateComboData(eventNames);
@@ -285,16 +267,14 @@ public class ECActionOutputEventEditPart extends AbstractDirectEditableEditPart{
 	protected IFigure createFigure() {
 		Label eventLabel = new Label(){
 			
+		@Override
 		protected void paintFigure(Graphics graphics) {	
 				Display display = Display.getCurrent();	
 				Rectangle boundingRect = getBounds();
-
 				Point topLeft = boundingRect.getTopLeft();	
-				Point bottomRight = boundingRect.getBottomRight();
-				
+				Point bottomRight = boundingRect.getBottomRight();				
 				Color first = FigureUtilities.lighter(getBackgroundColor());
-				Pattern pattern = new Pattern(display, topLeft.x, topLeft.y, bottomRight.x, bottomRight.y, 
-						first, getBackgroundColor());	
+				Pattern pattern = new Pattern(display, topLeft.x, topLeft.y, bottomRight.x, bottomRight.y, first, getBackgroundColor());	
 				graphics.setBackgroundPattern(pattern);	
 				graphics.fillRectangle(boundingRect);	
 				graphics.setBackgroundPattern(null);	

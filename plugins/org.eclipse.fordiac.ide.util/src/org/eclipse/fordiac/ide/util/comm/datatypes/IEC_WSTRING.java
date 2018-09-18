@@ -39,17 +39,17 @@ public class IEC_WSTRING extends IEC_ANY {
 	
 	@Override
 	public void decodeValueFrom(DataInputStream in) {
-		String result = "";
+		StringBuilder result = new StringBuilder();
 		int size;
 		try {
 			size = in.readShort();
 			for (int i = 0; i < size; i++) {
-				result += in.readChar();
+				result.append(in.readChar());
 			}
 		} catch (IOException e) {
 			Activator.getDefault().logError(e.getMessage(), e);
 		}
-		value = result;
+		value = result.toString();
 
 	}
 
@@ -62,12 +62,12 @@ public class IEC_WSTRING extends IEC_ANY {
 
 	@Override
 	public byte[] encodeValue() {
-		ByteArrayOutputStream myOut=new ByteArrayOutputStream();
-		DataOutputStream DOS=new DataOutputStream(myOut);
+		ByteArrayOutputStream myOut = new ByteArrayOutputStream();
+		DataOutputStream outputStream = new DataOutputStream(myOut);
 		
 		try {
-			DOS.writeShort(value.length());
-			DOS.writeChars(value);
+			outputStream.writeShort(value.length());
+			outputStream.writeChars(value);
 		} catch (IOException e) {
 			Activator.getDefault().logError(e.getMessage(), e);
 		}
@@ -78,6 +78,7 @@ public class IEC_WSTRING extends IEC_ANY {
 	/**
 	 * @see java.lang.String#toString()
 	 */
+	@Override
 	public String toString() {
 		return value;
 	}
@@ -92,6 +93,7 @@ public class IEC_WSTRING extends IEC_ANY {
 	/**
 	 * @param value the value to set
 	 */
+	@Override
 	public boolean setValue(String value) {
 		this.value = value;
 		return true;

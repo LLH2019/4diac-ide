@@ -23,12 +23,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.fordiac.ide.model.NameRepository;
-import org.eclipse.fordiac.ide.model.data.DataType;
 import org.eclipse.fordiac.ide.model.data.VarInitialization;
-import org.eclipse.fordiac.ide.model.libraryElement.Connection;
-import org.eclipse.fordiac.ide.model.libraryElement.FBNetworkElement;
 import org.eclipse.fordiac.ide.model.libraryElement.LibraryElementPackage;
-import org.eclipse.fordiac.ide.model.libraryElement.Value;
 import org.eclipse.fordiac.ide.model.libraryElement.VarDeclaration;
 import org.eclipse.fordiac.ide.model.libraryElement.With;
 
@@ -112,6 +108,7 @@ public class VarDeclarationImpl extends IInterfaceElementImpl implements VarDecl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getArraySize() {
 		return arraySize;
 	}
@@ -121,6 +118,7 @@ public class VarDeclarationImpl extends IInterfaceElementImpl implements VarDecl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setArraySize(int newArraySize) {
 		int oldArraySize = arraySize;
 		arraySize = newArraySize;
@@ -133,6 +131,7 @@ public class VarDeclarationImpl extends IInterfaceElementImpl implements VarDecl
 	 * <!-- end-user-doc -->
 	 * @generated not
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -146,6 +145,7 @@ public class VarDeclarationImpl extends IInterfaceElementImpl implements VarDecl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public VarInitialization getVarInitialization() {
 		if (varInitialization != null && varInitialization.eIsProxy()) {
 			InternalEObject oldVarInitialization = (InternalEObject)varInitialization;
@@ -193,6 +193,7 @@ public class VarDeclarationImpl extends IInterfaceElementImpl implements VarDecl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setVarInitialization(VarInitialization newVarInitialization) {
 		if (newVarInitialization != varInitialization) {
 			NotificationChain msgs = null;
@@ -212,6 +213,7 @@ public class VarDeclarationImpl extends IInterfaceElementImpl implements VarDecl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<With> getWiths() {
 		if (withs == null) {
 			withs = new EObjectWithInverseResolvingEList<With>(With.class, this, LibraryElementPackage.VAR_DECLARATION__WITHS, LibraryElementPackage.WITH__VARIABLES);
@@ -224,8 +226,9 @@ public class VarDeclarationImpl extends IInterfaceElementImpl implements VarDecl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isArray() {
-		return org.eclipse.fordiac.ide.model.Annotations.GEN.isArray(this);
+		return org.eclipse.fordiac.ide.model.Annotations.isArray(this);
 	}
 
 	/**
@@ -349,8 +352,8 @@ public class VarDeclarationImpl extends IInterfaceElementImpl implements VarDecl
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (arraySize: ");
+		StringBuilder result = new StringBuilder(super.toString());
+		result.append(" (arraySize: "); //$NON-NLS-1$
 		result.append(arraySize);
 		result.append(')');
 		return result.toString();

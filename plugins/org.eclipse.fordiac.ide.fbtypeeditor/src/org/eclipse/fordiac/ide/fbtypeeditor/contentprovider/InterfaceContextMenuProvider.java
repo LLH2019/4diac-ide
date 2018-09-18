@@ -27,6 +27,7 @@ import org.eclipse.fordiac.ide.model.Palette.AdapterTypePaletteEntry;
 import org.eclipse.fordiac.ide.model.Palette.Palette;
 import org.eclipse.fordiac.ide.model.Palette.PaletteGroup;
 import org.eclipse.fordiac.ide.model.data.DataType;
+import org.eclipse.fordiac.ide.model.libraryElement.AdapterFBType;
 import org.eclipse.fordiac.ide.model.libraryElement.FBType;
 import org.eclipse.fordiac.ide.model.typelibrary.DataTypeLibrary;
 import org.eclipse.fordiac.ide.typemanagement.FBTypeEditorInput;
@@ -38,6 +39,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.part.EditorPart;
@@ -69,16 +71,16 @@ public class InterfaceContextMenuProvider extends
 		IAction action;
 		
 		action = registry.getAction(CreateInputEventAction.ID);
-		menu.appendToGroup(GEFActionConstants.GROUP_ADD, action);
+		menu.appendToGroup(IWorkbenchActionConstants.GROUP_ADD, action);
 		
 		IWorkbenchPart part = ((CreateInputEventAction)action).getWorkbenchPart();
 		FBType fbType = ((CreateInputEventAction)action).getFbType();
 		
 		action = registry.getAction(CreateOutputEventAction.ID);
-		menu.appendToGroup(GEFActionConstants.GROUP_ADD, action);
+		menu.appendToGroup(IWorkbenchActionConstants.GROUP_ADD, action);
 		
 		MenuManager submenu = new MenuManager("Create Data Input");
-		menu.appendToGroup(GEFActionConstants.GROUP_ADD, submenu);
+		menu.appendToGroup(IWorkbenchActionConstants.GROUP_ADD, submenu);
 		
 		for (DataType dataType : DataTypeLibrary.getInstance().getDataTypesSorted()) {
 			action = registry.getAction(CreateInputVariableAction.getID(dataType.getName()));
@@ -90,7 +92,7 @@ public class InterfaceContextMenuProvider extends
 		}
 		
 		submenu = new MenuManager("Create Data Output");
-		menu.appendToGroup(GEFActionConstants.GROUP_ADD, submenu);
+		menu.appendToGroup(IWorkbenchActionConstants.GROUP_ADD, submenu);
 		
 		for (DataType dataType : DataTypeLibrary.getInstance().getDataTypesSorted()) {
 			action = registry.getAction(CreateOutputVariableAction.getID(dataType.getName()));
@@ -100,8 +102,9 @@ public class InterfaceContextMenuProvider extends
 			}
 			submenu.add(action);
 		} 
-		
-		buildAdapterMenuEntries(menu, registry, part, fbType);
+		if(!(fbType instanceof AdapterFBType)) {
+			buildAdapterMenuEntries(menu, registry, part, fbType);
+		}
 	}
 
 	private static void buildAdapterMenuEntries(IMenuManager menu,
@@ -112,10 +115,10 @@ public class InterfaceContextMenuProvider extends
 			Palette palette = untypedInput.getPaletteEntry().getGroup().getPallete();
 			if(null != palette){			
 				MenuManager socketEntry = new MenuManager(CREATE_SOCKET);		
-				menu.appendToGroup(GEFActionConstants.GROUP_ADD, socketEntry);
+				menu.appendToGroup(IWorkbenchActionConstants.GROUP_ADD, socketEntry);
 				
 				MenuManager plugEntry = new MenuManager(CREATE_PLUG);		
-				menu.appendToGroup(GEFActionConstants.GROUP_ADD, plugEntry);
+				menu.appendToGroup(IWorkbenchActionConstants.GROUP_ADD, plugEntry);
 				
 				Action action = (Action) registry.getAction(CreateNewPlugAction.ID);
 				if(null != action){
@@ -184,11 +187,13 @@ public class InterfaceContextMenuProvider extends
 		action = new CreateOutputEventAction(workBenchPart, fbType);
 		registry.registerAction(action);
 		
-		action = new CreateNewPlugAction(workBenchPart, fbType);
-		registry.registerAction(action);
-		
-		action = new CreateNewSocketAction(workBenchPart, fbType);
-		registry.registerAction(action);
+		if(!(fbType instanceof AdapterFBType)) {
+			action = new CreateNewPlugAction(workBenchPart, fbType);
+			registry.registerAction(action);
+			
+			action = new CreateNewSocketAction(workBenchPart, fbType);
+			registry.registerAction(action);
+		}
 	}
 
 }

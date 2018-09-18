@@ -31,8 +31,7 @@ import org.eclipse.gef.requests.CreateRequest;
 /**
  * The Class ECStateLayoutEditPolicy.
  */
-public class ECStateLayoutEditPolicy extends XYLayoutEditPolicy implements
-		EditPolicy {
+public class ECStateLayoutEditPolicy extends XYLayoutEditPolicy {
 	
 	@Override
 	protected Command getResizeChildrenCommand(ChangeBoundsRequest request) {
@@ -42,30 +41,27 @@ public class ECStateLayoutEditPolicy extends XYLayoutEditPolicy implements
 				//actions should not be moved or resized
 				return null;
 			}
-		}
-		
+		}	
 		
 		return super.getResizeChildrenCommand(request);
 	}
 
 
+	@Override
 	public Command getCommand(Request request) {
 		Object type = request.getType();
 
-		if (REQ_ALIGN.equals(type))
+		if (REQ_ALIGN.equals(type) && request instanceof AlignmentRequest) {
 			return getAlignCommand((AlignmentRequest) request);
-
-		//return null;
+		}
 		return super.getCommand(request);
 	}
 
 	protected Command getAlignCommand(AlignmentRequest request) {
-		AlignmentRequest req = new AlignmentRequest(
-				REQ_ALIGN_CHILDREN);
+		AlignmentRequest req = new AlignmentRequest(REQ_ALIGN_CHILDREN);
 		req.setEditParts(getHost());
 		req.setAlignment(request.getAlignment());
-		req.setAlignmentRectangle(request
-				.getAlignmentRectangle());
+		req.setAlignmentRectangle(request.getAlignmentRectangle());
 		return getHost().getParent().getCommand(req);
 	}
 
@@ -82,18 +78,6 @@ public class ECStateLayoutEditPolicy extends XYLayoutEditPolicy implements
 		editPolicy.setDragAllowed(false);
 		return editPolicy;
 
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#
-	 * createChangeConstraintCommand(org.eclipse.gef.EditPart, java.lang.Object)
-	 */
-	@Override
-	protected Command createChangeConstraintCommand(final EditPart child,
-			final Object constraint) {
-		return null;
 	}
 
 	/*

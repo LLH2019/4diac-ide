@@ -11,13 +11,15 @@ package org.eclipse.fordiac.ide.application.properties;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.fordiac.ide.application.editparts.FBNetworkEditPart;
-import org.eclipse.fordiac.ide.application.editparts.InterfaceEditPart;
+import org.eclipse.fordiac.ide.gef.editparts.InterfaceEditPart;
 import org.eclipse.fordiac.ide.gef.properties.AbstractAttributeSection;
 import org.eclipse.fordiac.ide.model.libraryElement.Application;
 import org.eclipse.fordiac.ide.model.libraryElement.ConfigurableObject;
 import org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement;
 
 public class AttributeSection extends AbstractAttributeSection {
+
+	@Override
 	protected ConfigurableObject getInputType(Object input) {
 		if(input instanceof FBNetworkEditPart){
 			return ((FBNetworkEditPart) input).getModel().getApplication();

@@ -49,24 +49,32 @@ public class FBImpl extends FBNetworkElementImpl implements FB {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public FBType getFBType() {
-		return org.eclipse.fordiac.ide.model.Annotations.GEN.getFBType(this);
+	@Override
+	public FBType getType() {
+		//this cannot be moved to the annotation class because there we don't have the super access!!!
+		org.eclipse.fordiac.ide.model.libraryElement.LibraryElement type = super.getType();
+		if(type instanceof FBType){
+			return (FBType) type; 
+		}
+		return null;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isResourceTypeFB() {
-		return org.eclipse.fordiac.ide.model.Annotations.GEN.isResourceTypeFB(this);
+		return org.eclipse.fordiac.ide.model.Annotations.isResourceTypeFB(this);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isResourceFB() {
-		return org.eclipse.fordiac.ide.model.Annotations.GEN.isResourceFB(this);
+		return org.eclipse.fordiac.ide.model.Annotations.isResourceFB(this);
 	}
 
 	@Override

@@ -1,18 +1,22 @@
 /*******************************************************************************
- * Copyright (c) 2017 fortiss GmbH
+ * Copyright (c) 2017, 2018 fortiss GmbH, Johannes Kepler University
+ * 	
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Monika Wenger - initial implementation
+ * Monika Wenger, Alois Zoitl - initial implementation
  *******************************************************************************/
 package org.eclipse.fordiac.ide.application.properties;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
+import org.eclipse.fordiac.ide.application.commands.ChangeSubAppInterfaceOrderCommand;
 import org.eclipse.fordiac.ide.application.commands.CreateSubAppInterfaceElementCommand;
+import org.eclipse.fordiac.ide.application.commands.DeleteSubAppInterfaceElementCommand;
 import org.eclipse.fordiac.ide.application.editparts.SubAppForFBNetworkEditPart;
 import org.eclipse.fordiac.ide.application.editparts.UISubAppNetworkEditPart;
 import org.eclipse.fordiac.ide.gef.DiagramEditorWithFlyoutPalette;
@@ -22,11 +26,9 @@ import org.eclipse.fordiac.ide.model.Palette.Palette;
 import org.eclipse.fordiac.ide.model.Palette.PaletteEntry;
 import org.eclipse.fordiac.ide.model.Palette.PaletteGroup;
 import org.eclipse.fordiac.ide.model.commands.change.ChangeCommentCommand;
-import org.eclipse.fordiac.ide.model.commands.change.ChangeInterfaceOrderCommand;
-import org.eclipse.fordiac.ide.model.commands.change.ChangeNameCommand;
+import org.eclipse.fordiac.ide.model.commands.change.ChangeSubAppIENameCommand;
 import org.eclipse.fordiac.ide.model.commands.change.ChangeTypeCommand;
 import org.eclipse.fordiac.ide.model.commands.create.CreateInterfaceElementCommand;
-import org.eclipse.fordiac.ide.model.commands.delete.DeleteInterfaceCommand;
 import org.eclipse.fordiac.ide.model.data.DataType;
 import org.eclipse.fordiac.ide.model.libraryElement.AdapterDeclaration;
 import org.eclipse.fordiac.ide.model.libraryElement.Event;
@@ -73,9 +75,9 @@ public abstract class AbstractEditInterfaceSection extends AbstractSection {
 	protected TableViewer outputsViewer;
 	protected Table inputsTable;
 	protected Table outputsTable;
-	private final String NAME = "name"; //$NON-NLS-1$
-	private final String TYPE = "type"; //$NON-NLS-1$
-	private final String COMMENT = "comment"; //$NON-NLS-1$
+	private static final String NAME = "name"; //$NON-NLS-1$
+	private static final String TYPE = "type"; //$NON-NLS-1$
+	private static final String COMMENT = "comment"; //$NON-NLS-1$
 	private Button inputUp;
 	private Button inputDown;
 	private Group outputsGroup;
@@ -102,7 +104,7 @@ public abstract class AbstractEditInterfaceSection extends AbstractSection {
 		createOutputEdit(parent);
 	}
 	
-	private void createTableLayout(Table table){
+	private static void createTableLayout(Table table){
 		TableColumn column1 = new TableColumn(table, SWT.LEFT);
 		column1.setText(NAME);
 		TableColumn column2 = new TableColumn(table, SWT.LEFT);
@@ -131,10 +133,11 @@ public abstract class AbstractEditInterfaceSection extends AbstractSection {
 		inputsViewer.setLabelProvider(new InterfaceLabelProvider());
 		Composite composite = new Composite(inputsGroup, SWT.NONE);
 		composite.setLayout(new FillLayout(SWT.VERTICAL));
-		createInput = getWidgetFactory().createButton(composite, "", SWT.PUSH);
+		createInput = getWidgetFactory().createButton(composite, "", SWT.PUSH); //$NON-NLS-1$
 		createInput.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ADD));
 		createInput.setToolTipText("Create interface element");
 		createInput.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				CreateInterfaceElementCommand cmd = newCommand(true);
 				executeCommand(cmd);
@@ -144,10 +147,11 @@ public abstract class AbstractEditInterfaceSection extends AbstractSection {
 		inputUp = getWidgetFactory().createButton(composite, "", SWT.ARROW | SWT.UP); //$NON-NLS-1$
 		inputUp.setToolTipText("Move interface element up");	
 		inputUp.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				Object selection = ((StructuredSelection)inputsViewer.getSelection()).getFirstElement();
-				if(selection instanceof Event || selection instanceof VarDeclaration || selection instanceof AdapterDeclaration){
-					executeCommand(new ChangeInterfaceOrderCommand((IInterfaceElement) selection, true, true));
+				if(selection instanceof IInterfaceElement){
+					executeCommand(new ChangeSubAppInterfaceOrderCommand((IInterfaceElement) selection, true, true));
 					inputsViewer.refresh();
 				}
 			}
@@ -155,10 +159,11 @@ public abstract class AbstractEditInterfaceSection extends AbstractSection {
 		inputDown = getWidgetFactory().createButton(composite, "", SWT.ARROW | SWT.DOWN); //$NON-NLS-1$
 		inputDown.setToolTipText("Move interface element down");	
 		inputDown.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				Object selection = ((StructuredSelection)inputsViewer.getSelection()).getFirstElement();
-				if(selection instanceof Event || selection instanceof VarDeclaration || selection instanceof AdapterDeclaration){
-					executeCommand(new ChangeInterfaceOrderCommand((IInterfaceElement) selection, true, false));
+				if(selection instanceof IInterfaceElement){
+					executeCommand(new ChangeSubAppInterfaceOrderCommand((IInterfaceElement) selection, true, false));
 					inputsViewer.refresh();
 				}
 			}
@@ -167,10 +172,11 @@ public abstract class AbstractEditInterfaceSection extends AbstractSection {
 		deleteInput.setToolTipText("Delete selected interface element");	
 		deleteInput.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_DELETE));
 		deleteInput.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				Object selection = ((StructuredSelection)inputsViewer.getSelection()).getFirstElement();
-				if(selection instanceof Event || selection instanceof VarDeclaration || selection instanceof AdapterDeclaration){
-					executeCommand(new DeleteInterfaceCommand((IInterfaceElement) selection));
+				if(selection instanceof IInterfaceElement){
+					executeCommand(new DeleteSubAppInterfaceElementCommand((IInterfaceElement) selection));
 					inputsViewer.refresh();
 				}
 			}
@@ -201,10 +207,11 @@ public abstract class AbstractEditInterfaceSection extends AbstractSection {
 		outputsViewer.setLabelProvider(new InterfaceLabelProvider());
 		Composite composite = new Composite(outputsGroup, SWT.NONE);
 		composite.setLayout(new FillLayout(SWT.VERTICAL));
-		createOutput = getWidgetFactory().createButton(composite, "", SWT.PUSH);
+		createOutput = getWidgetFactory().createButton(composite, "", SWT.PUSH); //$NON-NLS-1$
 		createOutput.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ADD));
 		createOutput.setToolTipText("Create interface element");
 		createOutput.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				CreateInterfaceElementCommand cmd = newCommand(false);
 				executeCommand(cmd);
@@ -214,10 +221,11 @@ public abstract class AbstractEditInterfaceSection extends AbstractSection {
 		outputUp = getWidgetFactory().createButton(composite, "", SWT.ARROW | SWT.UP); //$NON-NLS-1$
 		outputUp.setToolTipText("Move interface element up");	
 		outputUp.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				Object selection = ((StructuredSelection)outputsViewer.getSelection()).getFirstElement();
-				if(selection instanceof Event || selection instanceof VarDeclaration || selection instanceof AdapterDeclaration){
-					executeCommand(new ChangeInterfaceOrderCommand((IInterfaceElement) selection, false, true));
+				if(selection instanceof IInterfaceElement){
+					executeCommand(new ChangeSubAppInterfaceOrderCommand((IInterfaceElement) selection, false, true));
 					outputsViewer.refresh();
 				}
 			}
@@ -225,10 +233,11 @@ public abstract class AbstractEditInterfaceSection extends AbstractSection {
 		outputDown = getWidgetFactory().createButton(composite, "", SWT.ARROW | SWT.DOWN); //$NON-NLS-1$
 		outputDown.setToolTipText("Move interface element down");	
 		outputDown.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				Object selection = ((StructuredSelection)outputsViewer.getSelection()).getFirstElement();
-				if(selection instanceof Event || selection instanceof VarDeclaration || selection instanceof AdapterDeclaration){
-					executeCommand(new ChangeInterfaceOrderCommand((IInterfaceElement) selection, false, false));
+				if(selection instanceof IInterfaceElement){
+					executeCommand(new ChangeSubAppInterfaceOrderCommand((IInterfaceElement) selection, false, false));
 					outputsViewer.refresh();
 				}
 			}
@@ -237,10 +246,11 @@ public abstract class AbstractEditInterfaceSection extends AbstractSection {
 		deleteOutput.setToolTipText("Delete selected interface element");	
 		deleteOutput.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_DELETE));
 		deleteOutput.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				Object selection = ((StructuredSelection)outputsViewer.getSelection()).getFirstElement();
-				if(selection instanceof Event || selection instanceof VarDeclaration || selection instanceof AdapterDeclaration){
-					executeCommand(new DeleteInterfaceCommand((IInterfaceElement) selection));
+				if(selection instanceof IInterfaceElement){
+					executeCommand(new DeleteSubAppInterfaceElementCommand((IInterfaceElement) selection));
 					outputsViewer.refresh();
 				}
 			}
@@ -370,6 +380,7 @@ public abstract class AbstractEditInterfaceSection extends AbstractSection {
 			this.viewer = viewer;
 		}
 		
+		@Override
 		public boolean canModify(final Object element, final String property) {
 			if(TYPE.equals(property)) {
 				if(element instanceof IInterfaceElement &&
@@ -381,6 +392,7 @@ public abstract class AbstractEditInterfaceSection extends AbstractSection {
 			return true;
 		}
 		
+		@Override
 		public Object getValue(final Object element, final String property) {
 			if(NAME.equals(property)) {
 				return ((INamedElement) element).getName();
@@ -402,19 +414,20 @@ public abstract class AbstractEditInterfaceSection extends AbstractSection {
 		
 		private DataType getTypeForSelection(String text) {
 			for (AdapterTypePaletteEntry adaptertype : getAdapterTypes(getType().getFbNetwork().getApplication().getAutomationSystem().getPalette())){
-				if(adaptertype.getAdapterType().getName().equals(text)) {
-					return adaptertype.getAdapterType();
+				if(adaptertype.getType().getName().equals(text)) {
+					return adaptertype.getType();
 				}
 			}
 			return null;
 		}
 		
+		@Override
 		public void modify(final Object element, final String property, final Object value) {
 			TableItem tableItem = (TableItem) element;
 			Object data =  tableItem.getData();
 			Command cmd = null;
 			if(NAME.equals(property)){				
-				cmd = new ChangeNameCommand((IInterfaceElement) data, value.toString());
+				cmd = new ChangeSubAppIENameCommand((IInterfaceElement) data, value.toString());
 			}else{
 				if(COMMENT.equals(property)){
 					cmd = new ChangeCommentCommand((INamedElement) data, value.toString());
@@ -433,16 +446,16 @@ public abstract class AbstractEditInterfaceSection extends AbstractSection {
 					}
 				}
 			}
-			if((null != cmd) && (null != commandStack)){
-				commandStack.execute(cmd);
+			if(null != cmd){
+				executeCommand(cmd);
 				viewer.refresh(data);
 			}
 			
 		}
 	}
 
-	protected static ArrayList<AdapterTypePaletteEntry> getAdapterTypes(final Palette systemPalette){
-		ArrayList<AdapterTypePaletteEntry> retVal = new ArrayList<AdapterTypePaletteEntry>();		
+	protected static List<AdapterTypePaletteEntry> getAdapterTypes(final Palette systemPalette){
+		List<AdapterTypePaletteEntry> retVal = new ArrayList<>();		
 		Palette pal = systemPalette;
 		if(null == pal){
 			pal = TypeLibrary.getInstance().getPalette();
@@ -451,8 +464,8 @@ public abstract class AbstractEditInterfaceSection extends AbstractSection {
 		return retVal;
 	}
 	
-	protected static ArrayList<AdapterTypePaletteEntry> getAdapterGroup(final org.eclipse.fordiac.ide.model.Palette.PaletteGroup group){
-		ArrayList<AdapterTypePaletteEntry> retVal = new ArrayList<AdapterTypePaletteEntry>();	
+	protected static List<AdapterTypePaletteEntry> getAdapterGroup(final org.eclipse.fordiac.ide.model.Palette.PaletteGroup group){
+		List<AdapterTypePaletteEntry> retVal = new ArrayList<>();	
 		for (Iterator<PaletteGroup> iterator = group.getSubGroups().iterator(); iterator.hasNext();) {
 			PaletteGroup paletteGroup = iterator.next();
 			retVal.addAll(getAdapterGroup(paletteGroup));		
@@ -461,8 +474,8 @@ public abstract class AbstractEditInterfaceSection extends AbstractSection {
 		return retVal;
 	}
 	
-	protected static ArrayList<AdapterTypePaletteEntry> getAdapterGroupEntries(final org.eclipse.fordiac.ide.model.Palette.PaletteGroup group){
-		ArrayList<AdapterTypePaletteEntry> retVal = new ArrayList<AdapterTypePaletteEntry>();	
+	protected static List<AdapterTypePaletteEntry> getAdapterGroupEntries(final org.eclipse.fordiac.ide.model.Palette.PaletteGroup group){
+		List<AdapterTypePaletteEntry> retVal = new ArrayList<>();	
 		for (PaletteEntry entry : group.getEntries()) {
 			if(entry instanceof AdapterTypePaletteEntry){
 				retVal.add((AdapterTypePaletteEntry) entry);				

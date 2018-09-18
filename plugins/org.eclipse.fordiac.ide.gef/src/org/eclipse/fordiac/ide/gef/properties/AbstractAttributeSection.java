@@ -335,3 +335,4 @@ public abstract class AbstractAttributeSection extends AbstractSection {
 		}
 	}
 }
+

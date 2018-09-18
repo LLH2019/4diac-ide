@@ -21,6 +21,7 @@ import org.w3c.dom.Element;
 
 class AdapterExporter extends CommonElementExporter {
 
+	@Override
 	protected void addType(final Document dom, final FBType fbType){
 		Element rootElement = createRootElement(dom, fbType, LibraryElementTags.ADAPTER_TYPE);
 		addCompileAbleTypeData(dom, rootElement, fbType);
@@ -29,7 +30,8 @@ class AdapterExporter extends CommonElementExporter {
 		addService(dom, rootElement, fbType);
 	}
 	
+	@Override
 	protected FBType getType(PaletteEntry entry){
-		return ((AdapterTypePaletteEntry)entry).getAdapterType().getAdapterFBType();
+		return ((AdapterTypePaletteEntry)entry).getType().getAdapterFBType();
 	}
 }

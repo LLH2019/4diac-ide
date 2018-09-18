@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 fortiss GmbH
+ * Copyright (c) 2016, 2018 fortiss GmbH, Johannes Kepler Universtiy
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -12,9 +12,9 @@
  *******************************************************************************/
 package org.eclipse.fordiac.ide.application.policies;
 
-import org.eclipse.fordiac.ide.application.commands.AbstractConnectionCreateCommand;
 import org.eclipse.fordiac.ide.gef.editparts.AbstractFBNetworkEditPart;
 import org.eclipse.fordiac.ide.gef.editparts.InterfaceEditPart;
+import org.eclipse.fordiac.ide.model.commands.create.AbstractConnectionCreateCommand;
 import org.eclipse.fordiac.ide.model.libraryElement.FBNetwork;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
@@ -23,25 +23,12 @@ import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
 
 public abstract class InterfaceElementEditPolicy extends GraphicalNodeEditPolicy {
-	
-	@SuppressWarnings("rawtypes")
-	private Class cmdRef;
-
-	@SuppressWarnings("rawtypes")
-	public InterfaceElementEditPolicy(Class cmdRef) {
-		super();
-		this.cmdRef = cmdRef;
-	}
-	
+		
 	@Override
-	protected Command getConnectionCompleteCommand(
-			final CreateConnectionRequest request) {
-		if (request.getStartCommand().getClass().equals(cmdRef)) {
-			AbstractConnectionCreateCommand command = (AbstractConnectionCreateCommand) request.getStartCommand();
-			command.setDestination((InterfaceEditPart) getHost());
-			return command;
-		}
-		return null;
+	protected Command getConnectionCompleteCommand(final CreateConnectionRequest request) {
+		AbstractConnectionCreateCommand command = (AbstractConnectionCreateCommand) request.getStartCommand();
+		command.setDestination(((InterfaceEditPart) getHost()).getModel());
+		return command;
 	}
 
 
@@ -60,7 +47,7 @@ public abstract class InterfaceElementEditPolicy extends GraphicalNodeEditPolicy
 		while (parent != null && !(parent instanceof AbstractFBNetworkEditPart)) {
 			parent = parent.getParent();
 		}
-		if (parent instanceof AbstractFBNetworkEditPart) { // also means that parent != null
+		if (null != parent) { // if none null it is an AbstractFBNetworkEditPart
 			return ((AbstractFBNetworkEditPart) parent).getModel();
 		}
 		return null;

@@ -27,10 +27,11 @@ public interface FB extends FBNetworkElement {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" required="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='return org.eclipse.fordiac.ide.model.Annotations.GEN.getFBType(this);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='//this cannot be moved to the annotation class because there we don\'t have the super access!!!\r\norg.eclipse.fordiac.ide.model.libraryElement.LibraryElement type = super.getType();\r\nif(type instanceof FBType){\r\n\treturn (FBType) type; \r\n}\r\nreturn null;'"
 	 * @generated
 	 */
-	FBType getFBType();
+	@Override
+	FBType getType();
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -40,7 +41,7 @@ public interface FB extends FBNetworkElement {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" required="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='return org.eclipse.fordiac.ide.model.Annotations.GEN.isResourceTypeFB(this);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='return org.eclipse.fordiac.ide.model.Annotations.isResourceTypeFB(this);'"
 	 * @generated
 	 */
 	boolean isResourceTypeFB();
@@ -53,7 +54,7 @@ public interface FB extends FBNetworkElement {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" required="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='return org.eclipse.fordiac.ide.model.Annotations.GEN.isResourceFB(this);'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='return org.eclipse.fordiac.ide.model.Annotations.isResourceFB(this);'"
 	 * @generated
 	 */
 	boolean isResourceFB();

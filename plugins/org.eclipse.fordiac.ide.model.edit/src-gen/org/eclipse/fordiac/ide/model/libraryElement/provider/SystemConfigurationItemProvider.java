@@ -70,6 +70,7 @@ public class SystemConfigurationItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(LibraryElementPackage.Literals.SYSTEM_CONFIGURATION__DEVICES);
+			childrenFeatures.add(LibraryElementPackage.Literals.SYSTEM_CONFIGURATION__SEGMENTS);
 		}
 		return childrenFeatures;
 	}
@@ -106,7 +107,7 @@ public class SystemConfigurationItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_SystemConfiguration_type");
+		return getString("_UI_SystemConfiguration_type"); //$NON-NLS-1$
 	}
 
 	/**
@@ -121,11 +122,11 @@ public class SystemConfigurationItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(SystemConfiguration.class)) {
-			case LibraryElementPackage.SYSTEM_CONFIGURATION__SEGMENTS:
 			case LibraryElementPackage.SYSTEM_CONFIGURATION__LINKS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case LibraryElementPackage.SYSTEM_CONFIGURATION__DEVICES:
+			case LibraryElementPackage.SYSTEM_CONFIGURATION__SEGMENTS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}

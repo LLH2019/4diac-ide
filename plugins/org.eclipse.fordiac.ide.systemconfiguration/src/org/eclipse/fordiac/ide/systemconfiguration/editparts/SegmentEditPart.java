@@ -1,5 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2011 - 2017 Profactor GbmH, TU Wien ACIN, fortiss GmbH
+ * Copyright (c) 2008, 2011 - 2017 Profactor GbmH, TU Wien ACIN, fortiss GmbH, 
+ * 				 2018 Johannes Kepler University
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -36,6 +37,7 @@ import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.fordiac.ide.gef.editparts.AbstractViewEditPart;
 import org.eclipse.fordiac.ide.gef.figures.InteractionStyleFigure;
 import org.eclipse.fordiac.ide.model.libraryElement.INamedElement;
+import org.eclipse.fordiac.ide.model.libraryElement.LibraryElement;
 import org.eclipse.fordiac.ide.model.libraryElement.LibraryElementPackage;
 import org.eclipse.fordiac.ide.model.libraryElement.Segment;
 import org.eclipse.fordiac.ide.systemconfiguration.policies.DeleteSegmentEditPolicy;
@@ -72,27 +74,25 @@ public class SegmentEditPart extends AbstractViewEditPart implements NodeEditPar
 		return new SegmentFigure();
 	}
 
-	private final EContentAdapter adapter = new EContentAdapter() {
-		@Override
-		public void notifyChanged(Notification notification) {
-			Object feature = notification.getFeature();
-			if (LibraryElementPackage.eINSTANCE.getColorizableElement_Color().equals(feature)){
-				backgroundColorChanged(getFigure());
-			} 
-			if (LibraryElementPackage.eINSTANCE.getPositionableElement_X().equals(feature) ||
-					LibraryElementPackage.eINSTANCE.getPositionableElement_Y().equals(feature) ||
-					LibraryElementPackage.eINSTANCE.getSegment_Width().equals(feature)) {
-				refreshVisuals();
-			}
-			super.notifyChanged(notification);
-			refreshSourceConnections();
-		}
-
-	};
-
 	@Override
-	protected EContentAdapter getContentAdapter() {
-		return adapter;
+	protected EContentAdapter createContentAdapter() {
+		return new EContentAdapter() {
+			@Override
+			public void notifyChanged(Notification notification) {
+				Object feature = notification.getFeature();
+				if (LibraryElementPackage.eINSTANCE.getColorizableElement_Color().equals(feature)){
+					backgroundColorChanged(getFigure());
+				} 
+				if (LibraryElementPackage.eINSTANCE.getPositionableElement_X().equals(feature) ||
+						LibraryElementPackage.eINSTANCE.getPositionableElement_Y().equals(feature) ||
+						LibraryElementPackage.eINSTANCE.getSegment_Width().equals(feature)) {
+					refreshVisuals();
+				}
+				super.notifyChanged(notification);
+				refreshSourceConnections();
+			}
+
+		};
 	}
 
 	@Override
@@ -109,6 +109,7 @@ public class SegmentEditPart extends AbstractViewEditPart implements NodeEditPar
 		return (SegmentFigure) getFigure();
 	}
 
+	@Override
 	protected void backgroundColorChanged(IFigure figure) {
 		// TODO model refactoring - default value for colors if not persisted
 		org.eclipse.fordiac.ide.model.libraryElement.Color fordiacColor = getModel().getColor();
@@ -133,10 +134,12 @@ public class SegmentEditPart extends AbstractViewEditPart implements NodeEditPar
 	protected void createEditPolicies() {
 		super.createEditPolicies();
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new XYLayoutEditPolicy() {
+			@Override
 			public Command getCommand(Request request) {
 				Object type = request.getType();
-				if (REQ_ALIGN.equals(type))
+				if (REQ_ALIGN.equals(type) && request instanceof AlignmentRequest) {
 					return getAlignCommand((AlignmentRequest) request);
+				}
 				return null;
 			}
 
@@ -155,9 +158,6 @@ public class SegmentEditPart extends AbstractViewEditPart implements NodeEditPar
 		});
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new SegmentNodeEditPolicy());
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new DeleteSegmentEditPolicy());
-		// installEditPolicy(EditPolicyRoles.CONNECTION_HANDLES_ROLE,
-		// new TopBottomConnectionHandleEditPolicy());
-
 	}
 	
 	@Override
@@ -178,7 +178,7 @@ public class SegmentEditPart extends AbstractViewEditPart implements NodeEditPar
 		private final RoundedRectangle rect = new RoundedRectangle() {
 			@Override
 			protected void outlineShape(Graphics graphics) {
-
+				//nothing to do here right now
 			}
 
 			@Override
@@ -272,7 +272,9 @@ public class SegmentEditPart extends AbstractViewEditPart implements NodeEditPar
 			rect.setLayoutManager(rectLayout);
 			rect.setConstraint(instanceNameLabel, instanceNameLayout);
 			rect.add(new Label(":"));  //$NON-NLS-1$
-			Label typeLabel =  new Label(getModel().getSegmentType().getName());
+			LibraryElement type = getModel().getType();
+			String typeName = (null != type) ? type.getName() : "Type not set!";
+			Label typeLabel =  new Label(typeName);
 			rect.add(typeLabel);
 			typeLabel.setFont(JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT));
 			rect.setConstraint(typeLabel, new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING | GridData.GRAB_HORIZONTAL));
@@ -280,7 +282,6 @@ public class SegmentEditPart extends AbstractViewEditPart implements NodeEditPar
 			typeLabel.setLabelAlignment(PositionConstants.LEFT);
 			typeLabel.setBackgroundColor(ColorConstants.blue);
 			typeLabel.setOpaque(false);
-
 		}
 
 		public Label getName() {
@@ -289,10 +290,12 @@ public class SegmentEditPart extends AbstractViewEditPart implements NodeEditPar
 
 		@Override
 		protected void fillShape(final Graphics graphics) {
+			//nothing to do here right now			
 		}
 
 		@Override
 		protected void outlineShape(final Graphics graphics) {
+			//nothing to do here right now			
 		}
 
 		@Override

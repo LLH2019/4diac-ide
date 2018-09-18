@@ -1,5 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2008 - 2017 Profactor GbmH, TU Wien ACIN, fortiss GmbH
+ * Copyright (c) 2008 - 2017 Profactor GbmH, TU Wien ACIN, fortiss GmbH,
+ * 				 2018 Johannes Kepler University
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -33,7 +34,6 @@ import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.fordiac.ide.gef.Activator;
 import org.eclipse.fordiac.ide.gef.draw2d.FordiacFigureUtilities;
@@ -42,6 +42,7 @@ import org.eclipse.fordiac.ide.gef.figures.InteractionStyleFigure;
 import org.eclipse.fordiac.ide.gef.preferences.DiagramPreferences;
 import org.eclipse.fordiac.ide.model.libraryElement.Device;
 import org.eclipse.fordiac.ide.model.libraryElement.INamedElement;
+import org.eclipse.fordiac.ide.model.libraryElement.LibraryElement;
 import org.eclipse.fordiac.ide.model.libraryElement.LibraryElementPackage;
 import org.eclipse.fordiac.ide.model.libraryElement.PositionableElement;
 import org.eclipse.fordiac.ide.systemconfiguration.policies.DeleteDeviceEditPolicy;
@@ -74,43 +75,25 @@ public class DeviceEditPart extends AbstractPositionableElementEditPart implemen
 	}
 
 	@Override
-	public void activate() {
-		if (!isActive()) {
-			super.activate();
-			((Notifier) getModel()).eAdapters().add(getContentAdapter());
-		}
-	}
-
-	@Override
-	public void deactivate() {
-		if (isActive()) {
-			super.deactivate();
-			((Notifier) getModel()).eAdapters().remove(getContentAdapter());
-		}
-	}
-	
-	private EContentAdapter contentAdapter=new EContentAdapter(){
-		@Override 
-		public void notifyChanged(Notification notification) { 
-			Object feature = notification.getFeature();
-			if (LibraryElementPackage.eINSTANCE.getColorizableElement_Color().equals(feature)){
-				backgroundColorChanged(getFigure());
-			} else {			
-				super.notifyChanged(notification);
-				refreshChildren();
-				refreshTargetConnections();
-			} 
-		}
-	};
-
-	@Override
 	public Device getModel() {
 		return (Device) super.getModel();
 	}
 	
 	@Override
-	protected EContentAdapter getContentAdapter() {
-		return contentAdapter;
+	protected EContentAdapter createContentAdapter() {
+		return new EContentAdapter(){
+			@Override 
+			public void notifyChanged(Notification notification) { 
+				Object feature = notification.getFeature();
+				if (LibraryElementPackage.eINSTANCE.getColorizableElement_Color().equals(feature)){
+					backgroundColorChanged(getFigure());
+				} else {			
+					super.notifyChanged(notification);
+					refreshChildren();
+					refreshTargetConnections();
+				} 
+			}
+		};
 	}
 
 	@Override
@@ -190,6 +173,7 @@ public class DeviceEditPart extends AbstractPositionableElementEditPart implemen
 		return new DeviceFigure();
 	}
 
+	@Override
 	protected void backgroundColorChanged(IFigure figure) {
 		// TODO model refactoring - default value for colors if not persisted
 		org.eclipse.fordiac.ide.model.libraryElement.Color fordiacColor = getModel().getColor();
@@ -223,10 +207,10 @@ public class DeviceEditPart extends AbstractPositionableElementEditPart implemen
 
 	private class DeviceFigure extends Shape implements InteractionStyleFigure {
 		private final Label instanceNameLabel = new Label();
-		//private Figure main = new Figure();
 		private Figure dataInputs = new Figure();
 		private Figure contentPane;
 
+		@Override
 		public int getIntersectionStyle(Point location) {
 			if (instanceNameLabel.intersects(new Rectangle(location, new Dimension(1, 1)))) {
 				return InteractionStyleFigure.REGION_DRAG; // move/drag
@@ -235,19 +219,22 @@ public class DeviceEditPart extends AbstractPositionableElementEditPart implemen
 		}
 
 		private RoundedRectangle bottom = new RoundedRectangle(){
-				protected void fillShape(Graphics graphics){
-					Display display=Display.getCurrent();
-					Rectangle boundingRect = getBounds().getCopy();
-					boundingRect.scale(zoomManager.getZoom());
-					Point topLeft = boundingRect.getTopLeft();
-					Point bottomRight = boundingRect.getBottomRight();
-					Color first=ColorHelper.lighter(getBackgroundColor());
-					Pattern pattern = new Pattern(display,topLeft.x,topLeft.y,bottomRight.x,bottomRight.y,first,getBackgroundColor());
-					graphics.setBackgroundPattern(pattern);
-					graphics.fillRoundRectangle(getBounds(),getCornerDimensions().width,getCornerDimensions().height);
-					graphics.setBackgroundPattern(null);pattern.dispose();first.dispose();
-				}
-			};
+			@Override	
+			protected void fillShape(Graphics graphics){
+				Display display=Display.getCurrent();
+				Rectangle boundingRect = getBounds().getCopy();
+				boundingRect.scale(zoomManager.getZoom());
+				Point topLeft = boundingRect.getTopLeft();
+				Point bottomRight = boundingRect.getBottomRight();
+				Color first=ColorHelper.lighter(getBackgroundColor());
+				Pattern pattern = new Pattern(display,topLeft.x,topLeft.y,bottomRight.x,bottomRight.y,first,getBackgroundColor());
+				graphics.setBackgroundPattern(pattern);
+				graphics.fillRoundRectangle(getBounds(),getCornerDimensions().width,getCornerDimensions().height);
+				graphics.setBackgroundPattern(null);
+				pattern.dispose();
+				first.dispose();
+			}
+		};
 
 			public DeviceFigure() {
 				setBackgroundColor(ColorConstants.white);
@@ -289,7 +276,9 @@ public class DeviceEditPart extends AbstractPositionableElementEditPart implemen
 				
 				Figure deviceInfo = new Figure();
 				deviceInfo.setLayoutManager(deviceInfoLayout);
-				Label l = new Label(getModel().getType().getName());
+				LibraryElement type = getModel().getType();
+				String typeName = (null != type) ? type.getName() : "Type not set!";
+				Label l = new Label(typeName);
 				deviceInfo.add(l);
 				l.setTextAlignment(PositionConstants.CENTER);
 				l.setFont(JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT));
@@ -343,10 +332,12 @@ public class DeviceEditPart extends AbstractPositionableElementEditPart implemen
 	
 			@Override
 			protected void fillShape(final Graphics graphics) {
+				//Nothing to do here right now
 			}
 	
 			@Override
 			protected void outlineShape(final Graphics graphics) {
+				//Nothing to do here right now
 			}
 
 			public Figure getDataInputs() {
@@ -381,7 +372,7 @@ public class DeviceEditPart extends AbstractPositionableElementEditPart implemen
 	@SuppressWarnings("unchecked")
 	@Override
 	protected List<?> getModelTargetConnections() {
-		ArrayList<Object> connections = new ArrayList<Object>();
+		List<Object> connections = new ArrayList<>();
 		connections.addAll(getModel().getInConnections());
 		connections.addAll(super.getModelTargetConnections());
 		return connections;

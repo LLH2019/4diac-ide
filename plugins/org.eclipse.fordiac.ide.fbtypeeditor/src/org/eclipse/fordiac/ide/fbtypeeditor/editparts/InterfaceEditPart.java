@@ -57,6 +57,7 @@ import org.eclipse.jface.viewers.TextCellEditor;
 public class InterfaceEditPart extends AbstractInterfaceElementEditPart implements NodeEditPart {
 
 	public InterfaceEditPart() {
+		super();
 		setConnectable(true);
 	}
 
@@ -117,6 +118,7 @@ public class InterfaceEditPart extends AbstractInterfaceElementEditPart implemen
 		return fig;
 	}
 
+	@Override
 	protected void update() {
 		EditPart parent = getParent();
 		while (parent != null && !(parent instanceof FBTypeRootEditPart)) {
@@ -155,6 +157,7 @@ public class InterfaceEditPart extends AbstractInterfaceElementEditPart implemen
 		updateWiths();
 	}
 
+	@Override
 	public IInterfaceElement getCastedModel() {
 		return (IInterfaceElement) getModel();
 	}
