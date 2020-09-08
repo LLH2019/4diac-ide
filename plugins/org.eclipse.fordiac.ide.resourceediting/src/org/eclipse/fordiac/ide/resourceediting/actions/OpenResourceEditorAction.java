@@ -1,5 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2008 - 2016 Profactor GmbH, fortiss GmbH
+ *               2020 TU Wien/ACIN
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -10,6 +11,7 @@
  * Contributors:
  *   Gerhard Ebenhofer, Alois Zoitl
  *     - initial API and implementation and/or initial documentation
+ *   Martin Melik Merkumians - added case for PLC resource editor
  *******************************************************************************/
 package org.eclipse.fordiac.ide.resourceediting.actions;
 
@@ -39,7 +41,11 @@ public class OpenResourceEditorAction extends OpenListener {
 	public void run(final IAction action) {
 		if (null != res) {
 			ResourceEditorInput input = new ResourceEditorInput(res);
-			openEditor(input, ResourceDiagramEditor.class.getName());
+			if ("EMB_PLC_RES".equalsIgnoreCase(res.getType().getName())) {
+				openEditor(input, "org.eclipse.fordiac.ide.program.editors.PLCRessourceEditor");
+			} else {
+				openEditor(input, ResourceDiagramEditor.class.getName());
+			}
 		}
 	}
 

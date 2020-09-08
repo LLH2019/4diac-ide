@@ -1,5 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2017, 2018 fortiss GmbH
+ *               2020 TU Wien/ACIN
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * http://www.eclipse.org/legal/epl-2.0.
@@ -8,6 +9,7 @@
  *
  * Contributors:
  *   Alois Zoitl - initial API and implementation and/or initial documentation
+ *   Martin Melik Merkumians - refactored for loops into methods
  *******************************************************************************/
 package org.eclipse.fordiac.ide.deployment.data;
 
@@ -29,7 +31,7 @@ import org.eclipse.fordiac.ide.model.libraryElement.VarDeclaration;
 
 /**
  * Class for storing the information for deplyoing a resources
- * 
+ *
  * This is the FBs collected from the resource and the mapped subapps as well as
  * the connections and the subapp interface crossing connections
  */
@@ -60,9 +62,9 @@ public class ResourceDeploymentData {
 		}
 	}
 
-	private final Resource res;
+	protected final Resource res;
 
-	private List<FBDeploymentData> fbs = new ArrayList<>();
+	protected List<FBDeploymentData> fbs = new ArrayList<>();
 
 	private List<ConnectionDeploymentData> connections = new ArrayList<>();
 
@@ -86,10 +88,10 @@ public class ResourceDeploymentData {
 
 	public ResourceDeploymentData(final Resource res) {
 		this.res = res;
-		addFBNetworkElements(new ArrayDeque<SubApp>(), res.getFBNetwork(), ""); //$NON-NLS-1$
+		addFBNetworkElements(new ArrayDeque<>(), res.getFBNetwork(), ""); //$NON-NLS-1$
 	}
 
-	private void addFBNetworkElements(Deque<SubApp> subAppHierarchy, FBNetwork fbNetwork, String prefix) {
+	protected void addFBNetworkElements(Deque<SubApp> subAppHierarchy, FBNetwork fbNetwork, String prefix) {
 		for (FBNetworkElement fbnElement : fbNetwork.getNetworkElements()) {
 			if (fbnElement instanceof FB) {
 				fbs.add(new FBDeploymentData(prefix, (FB) fbnElement));
@@ -104,16 +106,28 @@ public class ResourceDeploymentData {
 				}
 			}
 		}
-		for (Connection con : fbNetwork.getEventConnections()) {
-			addConnection(subAppHierarchy, con, prefix);
-		}
-		for (Connection con : fbNetwork.getDataConnections()) {
-			addConnection(subAppHierarchy, con, prefix);
-		}
+		addEventConnections(subAppHierarchy, fbNetwork, prefix);
+		addDataConnections(subAppHierarchy, fbNetwork, prefix);
+		addAdapterConnections(subAppHierarchy, fbNetwork, prefix);
+
+	}
+
+	protected void addAdapterConnections(Deque<SubApp> subAppHierarchy, FBNetwork fbNetwork, String prefix) {
 		for (Connection con : fbNetwork.getAdapterConnections()) {
 			addConnection(subAppHierarchy, con, prefix);
 		}
+	}
 
+	protected void addDataConnections(Deque<SubApp> subAppHierarchy, FBNetwork fbNetwork, String prefix) {
+		for (Connection con : fbNetwork.getDataConnections()) {
+			addConnection(subAppHierarchy, con, prefix);
+		}
+	}
+
+	protected void addEventConnections(Deque<SubApp> subAppHierarchy, FBNetwork fbNetwork, String prefix) {
+		for (Connection con : fbNetwork.getEventConnections()) {
+			addConnection(subAppHierarchy, con, prefix);
+		}
 	}
 
 	private void addSubAppParams(SubApp subApp, Deque<SubApp> subAppHierarchy, String prefix) {

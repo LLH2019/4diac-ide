@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2008 - 2017 Profactor GmbH, TU Wien ACIN, fortiss GmbH
  * 				 2019 - 2020 Johannes Kepler University Linz
+ *               2020 TU Wien/ACIN
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -17,6 +18,7 @@
  *                 direct editing of instance names
  *               - extracted common FB shape for interface and fbn editors
  *   Bianca Wiesmayr - edited appearance of FBs
+ *   Martin Melik Merkumians - interface changes to support IEC 61131-3 FB shapes
  *******************************************************************************/
 package org.eclipse.fordiac.ide.gef.figures;
 
@@ -140,12 +142,20 @@ public class FBShape extends Shape implements IFontUpdateListener {
 		return top;
 	}
 
+	protected void setTop(RoundedRectangle top) {
+		this.top = top;
+	}
+
 	public AdvancedRoundedRectangle getMiddle() {
 		return middle;
 	}
 
 	protected AdvancedRoundedRectangle getBottom() {
 		return bottom;
+	}
+
+	protected void setBottom(AdvancedRoundedRectangle bottom) {
+		this.bottom = bottom;
 	}
 
 	@Override
@@ -203,7 +213,7 @@ public class FBShape extends Shape implements IFontUpdateListener {
 		createFBBottom(fbFigureContainer, DiagramPreferences.CORNER_DIM, borderColor);
 	}
 
-	private void createFBBottom(Figure fbFigureContainer, int cornerDim, Color borderColor) {
+	protected void createFBBottom(Figure fbFigureContainer, int cornerDim, Color borderColor) {
 		bottom = new AdvancedRoundedRectangle(PositionConstants.SOUTH | PositionConstants.EAST | PositionConstants.WEST,
 				borderColor);
 		bottom.setCornerDimensions(new Dimension(cornerDim, cornerDim));
@@ -224,7 +234,7 @@ public class FBShape extends Shape implements IFontUpdateListener {
 		setBottomIOs(bottom);
 	}
 
-	private void configureFBMiddle(final FBType fbType, Figure fbFigureContainer, Color borderColor) {
+	protected void configureFBMiddle(final FBType fbType, Figure fbFigureContainer, Color borderColor) {
 		Figure middleContainer = new Figure();
 		BorderLayout borderLayout = new BorderLayout();
 		middleContainer.setLayoutManager(borderLayout);
@@ -238,7 +248,7 @@ public class FBShape extends Shape implements IFontUpdateListener {
 		setupTypeNameAndVersion(fbType, middleContainer, borderColor);
 	}
 
-	private void createFBTop(Figure fbFigureContainer, int cornerDim, Color borderColor) {
+	protected void createFBTop(Figure fbFigureContainer, int cornerDim, Color borderColor) {
 		top = new AdvancedRoundedRectangle(PositionConstants.NORTH | PositionConstants.EAST | PositionConstants.WEST,
 				borderColor);
 		top.setCornerDimensions(new Dimension(cornerDim, cornerDim));
@@ -291,7 +301,7 @@ public class FBShape extends Shape implements IFontUpdateListener {
 		parent.setConstraint(eventOutputs, topOutputsLayoutData);
 	}
 
-	private void setBottomIOs(IFigure parent) {
+	protected void setBottomIOs(IFigure parent) {
 		Figure bottomInputArea = new Figure();
 		bottomInputArea.setLayoutManager(new ToolbarLayout(false));
 

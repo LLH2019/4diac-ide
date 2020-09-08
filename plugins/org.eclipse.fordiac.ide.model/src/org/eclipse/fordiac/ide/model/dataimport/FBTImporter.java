@@ -1,6 +1,6 @@
 /********************************************************************************
- * Copyright (c) 2008 - 2017  Profactor GmbH, TU Wien ACIN, fortiss GmbH
- * 				 2018 TU Wien/ACIN
+ * Copyright (c) 2008 - 2017  Profactor GmbH, fortiss GmbH
+ * 				 2008 - 2018, 2020 TU Wien/ACIN
  * 				 2020 Johannes Kepler University, Linz
  *
  * This program and the accompanying materials are made available under the
@@ -15,6 +15,7 @@
  *  Peter Gsellmann - incorporating simple fb
  *  Alois Zoitl - Changed XML parsing to Staxx cursor interface for improved
  *  			  parsing performance
+ *  Martin Melik Merkumians - cahnges for supporting IEC 61131-3 program import
  ********************************************************************************/
 package org.eclipse.fordiac.ide.model.dataimport;
 
@@ -33,6 +34,7 @@ import org.eclipse.fordiac.ide.model.Messages;
 import org.eclipse.fordiac.ide.model.Palette.AdapterTypePaletteEntry;
 import org.eclipse.fordiac.ide.model.Palette.Palette;
 import org.eclipse.fordiac.ide.model.dataimport.exceptions.TypeImportException;
+import org.eclipse.fordiac.ide.model.iec61131.Program;
 import org.eclipse.fordiac.ide.model.libraryElement.AdapterDeclaration;
 import org.eclipse.fordiac.ide.model.libraryElement.AdapterEvent;
 import org.eclipse.fordiac.ide.model.libraryElement.AdapterFB;
@@ -168,7 +170,7 @@ public class FBTImporter extends TypeImporter {
 
 		if ((newType instanceof BasicFBType) || (newType instanceof CompositeFBType)
 				|| (newType instanceof ServiceInterfaceFBType) || (newType instanceof SimpleFBType)
-				|| (newType instanceof SubAppType)) {
+				|| (newType instanceof SubAppType) || (newType instanceof Program)) {
 			return;
 		}
 		setElement(convertToServiceInterfaceType(newType));
@@ -363,7 +365,7 @@ public class FBTImporter extends TypeImporter {
 	 * @throws TypeImportException the FBT import exception
 	 * @throws XMLStreamException
 	 */
-	private void parseFBNetwork(final CompositeFBType type) throws TypeImportException, XMLStreamException {
+	protected void parseFBNetwork(final CompositeFBType type) throws TypeImportException, XMLStreamException {
 		FBNetwork fbNetwork = LibraryElementFactory.eINSTANCE.createFBNetwork();
 		adapters.values().forEach(adapter -> addAdapterFB(fbNetwork, adapter, getPalette()));
 		FBNetworkImporter fbnInmporter = new FBNetworkImporter(this, fbNetwork, type.getInterfaceList());

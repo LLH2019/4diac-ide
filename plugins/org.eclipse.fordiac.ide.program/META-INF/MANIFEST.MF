@@ -1,0 +1,26 @@
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Automatic-Module-Name: org.eclipse.fordiac.ide.program
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Program
+Bundle-SymbolicName: org.eclipse.fordiac.ide.program;singleton:=true
+Bundle-Version: 1.13.0.qualifier
+Bundle-Vendor: Eclipse 4diac
+Bundle-Activator: org.eclipse.fordiac.ide.program.Activator
+Require-Bundle: org.eclipse.emf.ecore.editor,
+ org.eclipse.fordiac.ide.model,
+ org.eclipse.fordiac.ide,
+ org.eclipse.fordiac.ide.application,
+ org.eclipse.fordiac.ide.util,
+ org.eclipse.fordiac.ide.systemmanagement,
+ org.eclipse.fordiac.ide.gef,
+ org.eclipse.fordiac.ide.ui;bundle-version="[1.11.0,2.0.0)",
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.gef,
+ org.eclipse.swt,
+ org.eclipse.jface,
+ org.eclipse.ui,
+ org.eclipse.ui.views.properties.tabbed,
+ org.eclipse.fordiac.ide.application;bundle-version="1.13.0",
+ org.eclipse.fordiac.ide.resourceediting;bundle-version="1.13.0"

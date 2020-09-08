@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>  
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="Program Editor"
+            extensions="prg"
+            contributorClass="org.eclipse.fordiac.ide.gef.ZoomUndoRedoActionBarContributor"
+            default="true"
+            class="org.eclipse.fordiac.ide.program.editors.ProgramEditor"
+            id="org.eclipse.fordiac.ide.program.editors.ProgramEditor">
+      </editor>
+      <editor
+            class="org.eclipse.fordiac.ide.program.editors.PLCRessourceEditor"
+            contributorClass="org.eclipse.fordiac.ide.gef.ZoomUndoRedoActionBarContributor"
+            default="true"
+            extensions="res"
+            id="org.eclipse.fordiac.ide.program.editors.PLCRessourceEditor"
+            name="PLC Ressource Editor">
+      </editor>
+   </extension>
+</plugin>

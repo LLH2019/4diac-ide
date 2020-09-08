@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2008 - 2018 Profactor GmbH, TU Wien ACIN, AIT, fortiss GmbH,
  * 				 2018 - 2020 Johannes Kepler University
+ *               2020 TU Wien/ACIN
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -14,12 +15,14 @@
  *   - initial API and implementation and/or initial documentation
  *   Alois Zoitl - fixed copy/paste handling
  *               - extracted FBNetworkRootEditPart from FBNetworkEditor
+ *   Martin Melik Merkumians - added getProject method
  *******************************************************************************/
 package org.eclipse.fordiac.ide.application.editors;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.fordiac.ide.application.actions.CopyEditPartsAction;
 import org.eclipse.fordiac.ide.application.actions.CutEditPartsAction;
@@ -115,7 +118,7 @@ public class FBNetworkEditor extends DiagramEditorWithFlyoutPalette implements I
 
 	@Override
 	protected TransferDropTargetListener createTransferDropTargetListener() {
-		return new ApplicationEditorTemplateTransferDropTargetListener(getGraphicalViewer(), getSystem());
+		return new ApplicationEditorTemplateTransferDropTargetListener(getGraphicalViewer(), getProject());
 	}
 
 	@Override
@@ -128,6 +131,10 @@ public class FBNetworkEditor extends DiagramEditorWithFlyoutPalette implements I
 	@Override
 	public AutomationSystem getSystem() {
 		return getModel().getAutomationSystem();
+	}
+
+	protected IProject getProject() {
+		return getSystem().getSystemFile().getProject();
 	}
 
 	@Override

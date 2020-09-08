@@ -28,3 +28,4 @@ Bundle-ManifestVersion: 2
 Bundle-SymbolicName: org.eclipse.fordiac.ide.deployment;singleton:=true
 Automatic-Module-Name: org.eclipse.fordiac.ide.deployment
 Bundle-RequiredExecutionEnvironment: JavaSE-11
+Import-Package: org.eclipse.core.resources

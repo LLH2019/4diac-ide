@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="iec61131" nsURI="org.fordiac.ide.model.iec61131-3" nsPrefix="iec61131">
+  <eClassifiers xsi:type="ecore:EClass" name="Program" eSuperTypes="lib.ecore#//FBType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fbNetwork" eType="ecore:EClass lib.ecore#//FBNetwork"
+        containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProgramInstance" eSuperTypes="lib.ecore#//FB"/>
+</ecore:EPackage>

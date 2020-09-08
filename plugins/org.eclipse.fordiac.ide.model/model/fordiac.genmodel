@@ -8,6 +8,9 @@
     containmentProxies="true" complianceLevel="11.0" copyrightFields="false" editPluginID="org.eclipse.fordiac.ide.model.edit"
     language="" importOrganizing="true" cleanup="true">
   <foreignModel>palette.ecore</foreignModel>
+  <foreignModel>data.ecore</foreignModel>
+  <foreignModel>iec61131.ecore</foreignModel>
+  <foreignModel>lib.ecore</foreignModel>
   <genPackages prefix="Palette" basePackage="org.eclipse.fordiac.ide.model" disposableProviderFactory="true"
       ecorePackage="palette.ecore#/">
     <genDataTypes ecoreDataType="palette.ecore#//IFile"/>
@@ -160,6 +163,73 @@
       <genOperations ecoreOperation="palette.ecore#//SubApplicationTypePaletteEntry/getTypeImporter"
           body="return new org.eclipse.fordiac.ide.model.dataimport.SubAppTImporter(getFile());"/>
     </genClasses>
+  </genPackages>
+  <genPackages prefix="Data" basePackage="org.eclipse.fordiac.ide.model" disposableProviderFactory="true"
+      ecorePackage="data.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="data.ecore#//BaseType1">
+      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/DATEANDTIME"/>
+      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/BYTE"/>
+      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/SINT"/>
+      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/USINT"/>
+      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/LWORD"/>
+      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/TIME"/>
+      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/WORD"/>
+      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/STRING"/>
+      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/BOOL"/>
+      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/LREAL"/>
+      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/REAL"/>
+      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/LINT"/>
+      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/ULINT"/>
+      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/UINT"/>
+      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/DATE"/>
+      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/DWORD"/>
+      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/INT"/>
+      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/TIMEOFDAY"/>
+      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/WSTRING"/>
+      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/DINT"/>
+      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/UDINT"/>
+      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/ANY"/>
+    </genEnums>
+    <genClasses ecoreClass="data.ecore#//AnyDerivedType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference data.ecore#//AnyDerivedType/compilerInfo"/>
+    </genClasses>
+    <genClasses ecoreClass="data.ecore#//ArrayType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference data.ecore#//ArrayType/subranges"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute data.ecore#//ArrayType/initialValues"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference data.ecore#//ArrayType/baseType"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="data.ecore#//DataType"/>
+    <genClasses ecoreClass="data.ecore#//DirectlyDerivedType"/>
+    <genClasses ecoreClass="data.ecore#//EnumeratedType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference data.ecore#//EnumeratedType/enumeratedValue"/>
+    </genClasses>
+    <genClasses ecoreClass="data.ecore#//EnumeratedValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute data.ecore#//EnumeratedValue/comment"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute data.ecore#//EnumeratedValue/name"/>
+    </genClasses>
+    <genClasses ecoreClass="data.ecore#//StructuredType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference data.ecore#//StructuredType/memberVariables"/>
+    </genClasses>
+    <genClasses ecoreClass="data.ecore#//Subrange">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute data.ecore#//Subrange/lowerLimit"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute data.ecore#//Subrange/upperLimit"/>
+    </genClasses>
+    <genClasses ecoreClass="data.ecore#//SubrangeType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference data.ecore#//SubrangeType/subrange"/>
+    </genClasses>
+    <genClasses ecoreClass="data.ecore#//ValueType"/>
+    <genClasses ecoreClass="data.ecore#//ElementaryType"/>
+    <genClasses ecoreClass="data.ecore#//DerivedType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference data.ecore#//DerivedType/baseType"/>
+    </genClasses>
+    <genClasses ecoreClass="data.ecore#//EventType"/>
+  </genPackages>
+  <genPackages prefix="iec61131" basePackage="org.eclipse.fordiac.ide.model" disposableProviderFactory="true"
+      ecorePackage="iec61131.ecore#/">
+    <genClasses ecoreClass="iec61131.ecore#//Program">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference iec61131.ecore#//Program/fbNetwork"/>
+    </genClasses>
+    <genClasses ecoreClass="iec61131.ecore#//ProgramInstance"/>
   </genPackages>
   <genPackages prefix="LibraryElement" basePackage="org.eclipse.fordiac.ide.model"
       disposableProviderFactory="true" fileExtensions="" ecorePackage="lib.ecore#/">
@@ -615,65 +685,5 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute lib.ecore#//LocalVariable/arrayStop"/>
       <genOperations ecoreOperation="lib.ecore#//LocalVariable/getArraySize" body="return arrayStop-arrayStart+1;"/>
     </genClasses>
-  </genPackages>
-  <genPackages prefix="Data" basePackage="org.eclipse.fordiac.ide.model" disposableProviderFactory="true"
-      ecorePackage="data.ecore#/">
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="data.ecore#//BaseType1">
-      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/DATEANDTIME"/>
-      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/BYTE"/>
-      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/SINT"/>
-      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/USINT"/>
-      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/LWORD"/>
-      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/TIME"/>
-      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/WORD"/>
-      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/STRING"/>
-      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/BOOL"/>
-      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/LREAL"/>
-      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/REAL"/>
-      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/LINT"/>
-      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/ULINT"/>
-      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/UINT"/>
-      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/DATE"/>
-      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/DWORD"/>
-      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/INT"/>
-      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/TIMEOFDAY"/>
-      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/WSTRING"/>
-      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/DINT"/>
-      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/UDINT"/>
-      <genEnumLiterals ecoreEnumLiteral="data.ecore#//BaseType1/ANY"/>
-    </genEnums>
-    <genClasses ecoreClass="data.ecore#//AnyDerivedType">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference data.ecore#//AnyDerivedType/compilerInfo"/>
-    </genClasses>
-    <genClasses ecoreClass="data.ecore#//ArrayType">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference data.ecore#//ArrayType/subranges"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute data.ecore#//ArrayType/initialValues"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference data.ecore#//ArrayType/baseType"/>
-    </genClasses>
-    <genClasses image="false" ecoreClass="data.ecore#//DataType"/>
-    <genClasses ecoreClass="data.ecore#//DirectlyDerivedType"/>
-    <genClasses ecoreClass="data.ecore#//EnumeratedType">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference data.ecore#//EnumeratedType/enumeratedValue"/>
-    </genClasses>
-    <genClasses ecoreClass="data.ecore#//EnumeratedValue">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute data.ecore#//EnumeratedValue/comment"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute data.ecore#//EnumeratedValue/name"/>
-    </genClasses>
-    <genClasses ecoreClass="data.ecore#//StructuredType">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference data.ecore#//StructuredType/memberVariables"/>
-    </genClasses>
-    <genClasses ecoreClass="data.ecore#//Subrange">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute data.ecore#//Subrange/lowerLimit"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute data.ecore#//Subrange/upperLimit"/>
-    </genClasses>
-    <genClasses ecoreClass="data.ecore#//SubrangeType">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference data.ecore#//SubrangeType/subrange"/>
-    </genClasses>
-    <genClasses ecoreClass="data.ecore#//ValueType"/>
-    <genClasses ecoreClass="data.ecore#//ElementaryType"/>
-    <genClasses ecoreClass="data.ecore#//DerivedType">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference data.ecore#//DerivedType/baseType"/>
-    </genClasses>
-    <genClasses ecoreClass="data.ecore#//EventType"/>
   </genPackages>
 </genmodel:GenModel>

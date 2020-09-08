@@ -15,6 +15,9 @@
  *   Bianca Wiesmayr - extracted TableViewer creation
  *   Daniel Lindhuber - added Data Type
  *   Lisa Sonnleithner - added duplicate check
+ *   Martin Melik Merkumians - fixed Comment regex to accept score and underscore,
+ *                         added case when description is null
+ *                         replaced magic strings with constants for file endings
  *******************************************************************************/
 package org.eclipse.fordiac.ide.typemanagement.wizards;
 
@@ -281,6 +284,7 @@ public class NewFBTypeWizardPage extends WizardNewFileCreationPage {
 		return pathname -> pathname.getName().toUpperCase().endsWith(".FBT") //$NON-NLS-1$
 				|| pathname.getName().toUpperCase().endsWith(".ADP") //$NON-NLS-1$
 				|| pathname.getName().toUpperCase().endsWith(".DTP") //$NON-NLS-1$
+				|| pathname.getName().toUpperCase().endsWith(TypeLibraryTags.PROGRAM_TYPE_FILE_ENDING_WITH_DOT)
 				|| pathname.getName().toUpperCase().endsWith(TypeLibraryTags.SUBAPP_TYPE_FILE_ENDING_WITH_DOT);
 	}
 
@@ -297,7 +301,11 @@ public class NewFBTypeWizardPage extends WizardNewFileCreationPage {
 			// we need a new scanner as name and comment may be in arbitrary order
 			scanner = new Scanner(f);
 			description = scanner.findWithinHorizon(COMMENT_PATTERN, 0);
-			description = description.substring(9, description.length() - 1);
+			if (null == description) {
+				description = "No description found!";
+			} else {
+				description = description.substring(9, description.length() - 1);
+			}
 		} catch (FileNotFoundException e) {
 			Activator.getDefault().logError(Messages.NewFBTypeWizardPage_CouldNotFindTemplateFiles, e);
 		}

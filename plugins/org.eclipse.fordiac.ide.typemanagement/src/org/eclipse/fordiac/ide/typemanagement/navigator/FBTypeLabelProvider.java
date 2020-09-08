@@ -1,6 +1,7 @@
 /*******************************************************************************
- * Copyright (c) 2011 - 2017 TU Wien ACIN, fortiss GmbH
+ * Copyright (c) 2011 - 2017 fortiss GmbH
  * 				 2019 Johannes Kepler University Linz
+ *               2011 - 2017, 2020 TU Wien/ACIN
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -13,6 +14,7 @@
  *   			 - cleaned up issues reported by sonarlint
  *   			 - made the getImageForFile public so it can be used by the
  *                 palette, some code cleanup
+ *   Martin Melik Merkumians - Adds provider for IEC 61131-3 PROGRAMs
  *******************************************************************************/
 package org.eclipse.fordiac.ide.typemanagement.navigator;
 
@@ -61,6 +63,8 @@ public class FBTypeLabelProvider extends AdapterFactoryLabelProvider implements 
 			image = FordiacImage.ICON_SUB_APP.getImage();
 		} else if (TypeLibraryTags.FB_TYPE_FILE_ENDING.equalsIgnoreCase(element.getFileExtension())) {
 			image = getImageForFBTypeFile(element);
+		} else if (TypeLibraryTags.PROGRAM_TYPE_FILE_ENDING.equalsIgnoreCase(element.getFileExtension())) {
+			image = FordiacImage.ICON_PROGRAM.getImage();
 		}
 
 		if (null != image && fileHasProblems(element)) {
@@ -134,7 +138,8 @@ public class FBTypeLabelProvider extends AdapterFactoryLabelProvider implements 
 		String text = null;
 		if (TypeLibraryTags.ADAPTER_TYPE_FILE_ENDING.equalsIgnoreCase(element.getFileExtension())
 				|| TypeLibraryTags.FB_TYPE_FILE_ENDING.equalsIgnoreCase(element.getFileExtension())
-				|| TypeLibraryTags.SUBAPP_TYPE_FILE_ENDING.equalsIgnoreCase(element.getFileExtension())) {
+				|| TypeLibraryTags.SUBAPP_TYPE_FILE_ENDING.equalsIgnoreCase(element.getFileExtension())
+				|| TypeLibraryTags.PROGRAM_TYPE_FILE_ENDING.equalsIgnoreCase(element.getFileExtension())) {
 			text = TypeLibrary.getTypeNameFromFile(element);
 		}
 		return text;

@@ -343,6 +343,11 @@
                      property="org.eclipse.core.resources.extension"
                      value="sub">
                </test>
+               <test
+               		 forcePluginActivation="true"	
+                     property="org.eclipse.core.resources.extension"
+                     value="prg">
+               </test>
                </or>
              </and>
             </or>

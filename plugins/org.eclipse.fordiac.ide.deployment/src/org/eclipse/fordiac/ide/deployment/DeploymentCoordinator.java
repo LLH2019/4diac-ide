@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2008 - 2018 Profactor GmbH, fortiss GmbH,
  * 							 Johannes Kepler University
+ *               2020 TU Wien/ACIN
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -12,6 +13,7 @@
  *   Gerhard Ebenhofer, Alois Zoitl, Monika Wenger
  *     - initial API and implementation and/or initial documentation
  *   Alois Zoitl - reworked deployment to detect if monitoring was enabled
+ *   Martin Melik Merkumians - added deployment for PLC resource
  *******************************************************************************/
 package org.eclipse.fordiac.ide.deployment;
 
@@ -24,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.fordiac.ide.deployment.data.DeviceDeploymentData;
+import org.eclipse.fordiac.ide.deployment.data.PLCResourceDeploymentData;
 import org.eclipse.fordiac.ide.deployment.data.ResourceDeploymentData;
 import org.eclipse.fordiac.ide.deployment.interactors.IDeviceManagementInteractor;
 import org.eclipse.fordiac.ide.deployment.util.IDeploymentListener;
@@ -156,7 +159,11 @@ public enum DeploymentCoordinator {
 			if (object instanceof Resource) {
 				Resource res = (Resource) object;
 				DeviceDeploymentData devData = getDevData(data, res.getDevice());
-				devData.addResourceData(new ResourceDeploymentData(res));
+				if ("EMB_PLC_RES".equalsIgnoreCase(res.getType().getName())) {
+					devData.addResourceData(new PLCResourceDeploymentData(res));
+				} else {
+					devData.addResourceData(new ResourceDeploymentData(res));
+				}
 			} else if (object instanceof Device) {
 				Device dev = (Device) object;
 				DeviceDeploymentData devData = getDevData(data, dev);

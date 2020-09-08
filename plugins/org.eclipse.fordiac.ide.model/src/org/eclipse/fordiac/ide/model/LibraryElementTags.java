@@ -1,5 +1,6 @@
 /********************************************************************************
  * Copyright (c) 2008, 2009, 2014, 2016, 2017  Profactor GmbH, fortiss GmbH
+ *               2020 TU Wien/ACIN
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -10,6 +11,7 @@
  * Contributors:
  *  Gerhard Ebenhofer, Alois Zoitl, Waldemar Eisenmenger
  *    - initial API and implementation and/or initial documentation
+ *  Martin Meli Merkumians - adds tag for IEC 61131-3 PROGRAM
  ********************************************************************************/
 package org.eclipse.fordiac.ide.model;
 
@@ -20,6 +22,8 @@ public interface LibraryElementTags {
 	String FB_TYPE = "FBType"; //$NON-NLS-1$
 	String ADAPTER_TYPE = "AdapterType"; //$NON-NLS-1$
 	String DATA_TYPE = "DataType"; //$NON-NLS-1$
+
+	String PROGRAM_TYPE = "Program"; //$NON-NLS-1$
 
 	String SERVICE_ELEMENT = "Service"; //$NON-NLS-1$
 	String RIGHT_INTERFACE_ATTRIBUTE = "RightInterface"; //$NON-NLS-1$

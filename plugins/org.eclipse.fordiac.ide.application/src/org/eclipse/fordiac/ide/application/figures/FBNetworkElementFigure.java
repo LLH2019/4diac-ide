@@ -1,6 +1,7 @@
 /*******************************************************************************
- * Copyright (c) 2008 - 2017 Profactor GmbH, TU Wien ACIN, fortiss GmbH
+ * Copyright (c) 2008 - 2017 Profactor GmbH, fortiss GmbH
  * 				 2019 Johannes Kepler University Linz
+ *               2008 - 2017, 2020 TU Wien/ACIN
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -16,6 +17,7 @@
  *   			 - separated FBNetworkElement from instance name for better
  *                 direct editing of instance names
  *               - extracted common FB shape for interface and fbn editors
+ *   Martin Melik Merkumians - added setModel method
  *******************************************************************************/
 package org.eclipse.fordiac.ide.application.figures;
 
@@ -82,6 +84,10 @@ public class FBNetworkElementFigure extends FBShape implements ITransparencyFigu
 
 	protected FBNetworkElement getModel() {
 		return model;
+	}
+
+	protected void setModel(FBNetworkElement model) {
+		this.model = model;
 	}
 
 	/**

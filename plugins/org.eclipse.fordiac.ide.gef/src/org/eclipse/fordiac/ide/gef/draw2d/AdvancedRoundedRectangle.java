@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2011 - 2016 Profactor GmbH, fortiss GmbH
  *               2020 Johannes Kepler University Linz
+ *               2020 TU Wien/ACIN
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -13,6 +14,7 @@
  *     - initial API and implementation and/or initial documentation
  *  Bianca Wiesmayr
  *     - make border color editable
+ *  Martin Melik Merkumians - added options which corners should be rounded
  *******************************************************************************/
 package org.eclipse.fordiac.ide.gef.draw2d;
 
@@ -24,7 +26,15 @@ import org.eclipse.swt.graphics.Color;
 
 public class AdvancedRoundedRectangle extends RoundedRectangle {
 
+	public final static int NO_ROUNDED_CORNERS = 0;
+	public final static int TOP_LEFT = 1;
+	public final static int TOP_RIGHT = 2;
+	public final static int BOTTOM_LEFT = 4;
+	public final static int BOTTOM_RIGHT = 8;
+	public final static int ALL_CORNERS_ROUNDED = TOP_LEFT | TOP_RIGHT | BOTTOM_LEFT | BOTTOM_RIGHT;
+
 	private int side = PositionConstants.NONE;
+	private int corners = PositionConstants.NONE;
 	private Color borderColor;
 
 	public AdvancedRoundedRectangle(int side) {
@@ -35,6 +45,14 @@ public class AdvancedRoundedRectangle extends RoundedRectangle {
 	public AdvancedRoundedRectangle(int side, Color borderColor) {
 		super();
 		this.side = side;
+		this.corners = ALL_CORNERS_ROUNDED;
+		this.borderColor = borderColor;
+	}
+
+	public AdvancedRoundedRectangle(int side, int corners, Color borderColor) {
+		super();
+		this.side = side;
+		this.corners = corners;
 		this.borderColor = borderColor;
 	}
 
@@ -129,10 +147,27 @@ public class AdvancedRoundedRectangle extends RoundedRectangle {
 			}
 		}
 		if ((arcWidth != 0) && (arcHeight != 0) && (side != PositionConstants.NONE)) {
-			graphics.drawArc(x, y, arcWidth, arcHeight, 90, 90);
-			graphics.drawArc((x + width) - arcWidth, y, arcWidth, arcHeight, 0, 90);
-			graphics.drawArc((x + width) - arcWidth, (y + height) - arcHeight, arcWidth, arcHeight, 0, -90);
-			graphics.drawArc(x, (y + height) - arcHeight, arcWidth, arcHeight, 180, 90);
+
+			if (0 != (TOP_LEFT & corners)) {
+				graphics.drawArc(x, y, arcWidth, arcHeight, 90, 90);
+			} else {
+				graphics.drawLine(r.x, r.y, r.x, r.y + arcHeight);
+			}
+			if (0 != (TOP_RIGHT & corners)) {
+				graphics.drawArc((x + width) - arcWidth, y, arcWidth, arcHeight, 0, 90);
+			} else {
+				graphics.drawLine(r.x + width, r.y, r.x + width, r.y + arcHeight);
+			}
+			if (0 != (BOTTOM_RIGHT & corners)) {
+				graphics.drawArc((x + width) - arcWidth, (y + height) - arcHeight, arcWidth, arcHeight, 0, -90);
+			} else {
+				graphics.drawLine(r.x + width, r.y + height, r.x + width, r.y + height - (arcHeight + 1) / 2);
+			}
+			if (0 != (BOTTOM_LEFT & corners)) {
+				graphics.drawArc(x, (y + height) - arcHeight, arcWidth, arcHeight, 180, 90);
+			} else {
+				graphics.drawLine(r.x, r.y + height, r.x, r.y + height - (arcHeight + 1) / 2);
+			}
 		}
 
 	}

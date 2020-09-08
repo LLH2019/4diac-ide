@@ -1,5 +1,6 @@
 /********************************************************************************
  * Copyright (c) 2014 fortiss GmbH
+ *               2020 TU Wien/ACIN
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -11,6 +12,7 @@
  *  Waldemar Eisenmenger
  *    - initial API and implementation and/or initial documentation
  *  Daniel Lindhuber - Added system type file ending
+ *  Martin Melik Merkumians - Added tags for IEC 61131-3 PROGRAM
  ********************************************************************************/
 package org.eclipse.fordiac.ide.model.typelibrary;
 
@@ -34,6 +36,10 @@ public interface TypeLibraryTags {
 	String DATA_TYPE_FILE_ENDING = "DTP"; //$NON-NLS-1$
 
 	String DATA_TYPE_FILE_ENDING_WITH_DOT = "." + DATA_TYPE_FILE_ENDING; //$NON-NLS-1$
+
+	String PROGRAM_TYPE_FILE_ENDING = "PRG"; //$NON-NLS-1$
+
+	String PROGRAM_TYPE_FILE_ENDING_WITH_DOT = "." + PROGRAM_TYPE_FILE_ENDING; //$NON-NLS-1$
 
 	String RESOURCE_TYPE_FILE_ENDING = "RES"; //$NON-NLS-1$
 
