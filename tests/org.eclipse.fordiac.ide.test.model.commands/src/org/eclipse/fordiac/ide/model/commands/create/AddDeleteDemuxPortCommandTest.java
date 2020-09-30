@@ -8,13 +8,10 @@
  * SPDX-License-Identifier: EPL-2.0
  *
  * Contributors:
- *   Bianca Wiesmayr, Ernst Blecha - initial documentation 
+ *   Bianca Wiesmayr, Ernst Blecha - initial documentation
  *******************************************************************************/
 
 package org.eclipse.fordiac.ide.model.commands.create;
-
-import static org.junit.Assume.assumeNotNull;
-import static org.junit.Assume.assumeTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,7 +34,7 @@ import org.eclipse.fordiac.ide.model.libraryElement.LibraryElementFactory;
 import org.eclipse.fordiac.ide.model.libraryElement.VarDeclaration;
 import org.eclipse.fordiac.ide.model.typelibrary.TypeLibrary;
 import org.eclipse.gef.commands.Command;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.provider.Arguments;
 
 public class AddDeleteDemuxPortCommandTest extends CommandTestBase<State> {
 	private static final TypeLibrary typeLib = TypeLibrary.getTypeLibrary(null);
@@ -147,34 +144,21 @@ public class AddDeleteDemuxPortCommandTest extends CommandTestBase<State> {
 		}
 	}
 
-	protected static State undoCommand(Object stateObj) {
-		State state = (State) stateObj;
-		assumeTrue(state.getCommand().canUndo());
-		state.getCommand().undo();
-		return (state);
-	}
 
-	protected static State redoCommand(Object stateObj) {
-		State state = (State) stateObj;
-		assumeTrue(state.getCommand().canRedo());
-		state.getCommand().redo();
-		return (state);
-	}
-
-	protected static Collection<Object[]> describeCommand(String description, StateInitializer<?> initializer,
-			StateVerifier<?> initialVerifier, List<Object> commands) {
+	protected static Collection<Arguments> describeCommand(String description, StateInitializer<?> initializer,
+			StateVerifier<?> initialVerifier, List<ExecutionDescription<?>> commands) {
 		return describeCommand(description, initializer, initialVerifier, commands,
-				AddDeleteDemuxPortCommandTest::undoCommand, AddDeleteDemuxPortCommandTest::redoCommand);
+				CommandTestBase::defaultUndoCommand, CommandTestBase::defaultRedoCommand);
 	}
 
 	protected static void verifyDefaultInitialValues(State state, State oldState, TestFunction t) {
-		t.test(null != state.getDemultiplexer());
-		t.test(state.getStruct().getMemberVariables().size() == state.getDemultiplexer().getInterface().getOutputVars()
+		t.test(state.getDemultiplexer());
+		t.test(state.getStruct().getMemberVariables().size(), state.getDemultiplexer().getInterface().getOutputVars()
 				.size());
 	}
 
 	protected static void verifyAdded(State state, State oldState, TestFunction t, String name) {
-		t.test(null != state.getDemultiplexer());
+		t.test(state.getDemultiplexer());
 		t.test(!state.getDemultiplexer().getInterface().getOutputVars().stream()
 				.filter(out -> out.getName().equals(name)).findAny().isEmpty());
 		t.test(Arrays
@@ -184,7 +168,7 @@ public class AddDeleteDemuxPortCommandTest extends CommandTestBase<State> {
 	}
 
 	protected static void verifyDeleted(State state, State oldState, TestFunction t, String name) {
-		t.test(null != state.getDemultiplexer());
+		t.test(state.getDemultiplexer());
 		t.test(state.getDemultiplexer().getInterface().getOutputVars().stream()
 				.filter(out -> out.getName().equals(name)).findAny().isEmpty());
 		t.test(!Arrays
@@ -195,38 +179,32 @@ public class AddDeleteDemuxPortCommandTest extends CommandTestBase<State> {
 
 	private static State executeDeleteCommand(State state, String name) {
 		state.setCommand(new DeleteDemuxPortCommand(state.getDemultiplexer(), name));
-		assumeNotNull(state.getCommand());
-		assumeTrue(state.getCommand().canExecute());
-		state.getCommand().execute();
-		return state;
+
+		return commandExecution(state);
 	}
 
 	private static State executeAddCommand(State state, String name) {
 		state.setCommand(new AddDemuxPortCommand(state.getDemultiplexer(), name));
-		assumeNotNull(state.getCommand());
-		assumeTrue(state.getCommand().canExecute());
-		state.getCommand().execute();
-		return state;
+
+		return commandExecution(state);
 	}
 
 	// define here the list of test sequences
 	// multiple execution descriptions are possible -> define in test class
-	protected static List<Object[]> createCommands(List<Object> executionDescriptions) {
-		List<Object[]> commands = new ArrayList<>();
+	protected static List<Arguments> createCommands(List<ExecutionDescription<?>> executionDescriptions) {
+		List<Arguments> commands = new ArrayList<>();
 		// test series 1
 		commands.addAll(describeCommand("Starting from default values", // //$NON-NLS-1$
 				State::new, //
 				(State state, State oldState, TestFunction t) -> verifyDefaultInitialValues(state, oldState, t), //
 				executionDescriptions //
-				));
+		));
 		return commands;
 	}
 
-	// parameter creation function, also contains description of how the textual
-	// description will be used
-	@Parameters(name = "{index}: {0}")
-	public static Collection<Object[]> data() {
-		final List<Object> executionDescriptions = ExecutionDescription.commandList( //
+	// parameter creation function
+	public static Collection<Arguments> data() {
+		final List<ExecutionDescription<?>> executionDescriptions = List.of( //
 				new ExecutionDescription<>("Add inner struct's variable", // //$NON-NLS-1$
 						(State s) -> executeAddCommand(s, "innerstruct1.VAR1"), //$NON-NLS-1$
 						(State s, State o, TestFunction t) -> verifyAdded(s, o, t, "innerstruct1.VAR1")), // //$NON-NLS-1$
@@ -306,7 +284,7 @@ public class AddDeleteDemuxPortCommandTest extends CommandTestBase<State> {
 				new ExecutionDescription<>("Add struct-type variable from empty", // //$NON-NLS-1$
 						(State s) -> executeAddCommand(s, "innerstruct1.VAR1"), //$NON-NLS-1$
 						(State s, State o, TestFunction t) -> verifyAdded(s, o, t, "innerstruct1.VAR1")) // //$NON-NLS-1$
-				); //
+		); //
 
 		return createCommands(executionDescriptions);
 	}

@@ -13,16 +13,13 @@
  *******************************************************************************/
 package org.eclipse.fordiac.ide.model.commands.create;
 
-import static org.junit.Assume.assumeNotNull;
-import static org.junit.Assume.assumeTrue;
-
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.fordiac.ide.model.FordiacKeywords;
 import org.eclipse.fordiac.ide.model.commands.testinfra.CreateInterfaceElementCommandTestBase;
 import org.eclipse.fordiac.ide.model.libraryElement.InterfaceList;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.provider.Arguments;
 
 //see org.eclipse.fordiac.ide.util.ColorHelperTest.java for information on implementing tests
 
@@ -31,11 +28,8 @@ public class CreateInterfaceElementCommandInputsTest extends CreateInterfaceElem
 	private static State executeCommandInputWithoutName(State state) {
 		state.setCommand(new CreateInterfaceElementCommand(getDatatypelib().getType(FordiacKeywords.BOOL),
 				state.getFbNetwork().getNetworkElements().get(0).getInterface(), /* isInput */ true, /* index */ 0));
-		assumeNotNull(state.getCommand());
-		assumeTrue(state.getCommand().canExecute());
-		state.getCommand().execute();
 
-		return state;
+		return commandExecution(state);
 	}
 
 	private static void verifyStateInputWithoutName(State state, State oldState, TestFunction t) {
@@ -43,23 +37,19 @@ public class CreateInterfaceElementCommandInputsTest extends CreateInterfaceElem
 		InterfaceList oldInterfacelist = oldState.getFbNetwork().getNetworkElements().get(0).getInterface();
 
 		t.test(!interfacelist.getInputVars().isEmpty());
-		t.test(interfacelist.getInputVars().size() == oldInterfacelist.getInputVars().size() + 1);
+		t.test(interfacelist.getInputVars().size(), oldInterfacelist.getInputVars().size() + 1);
 		t.test(interfacelist.getOutputVars().isEmpty());
 		t.test(interfacelist.getEventInputs().isEmpty());
 		t.test(interfacelist.getEventOutputs().isEmpty());
-		t.test(null != interfacelist.getInterfaceElement(FordiacKeywords.DATA_INPUT));
-		t.test(interfacelist.getInterfaceElement(FordiacKeywords.DATA_INPUT).getTypeName()
-				.equals(FordiacKeywords.BOOL));
+		t.test(interfacelist.getInterfaceElement(FordiacKeywords.DATA_INPUT));
+		t.test(interfacelist.getInterfaceElement(FordiacKeywords.DATA_INPUT).getTypeName(), FordiacKeywords.BOOL);
 	}
 
 	private static State executeCommandInputWithName(State state) {
 		state.setCommand(new CreateInterfaceElementCommand(getDatatypelib().getType(FordiacKeywords.DWORD), "MyInput", //$NON-NLS-1$
 				state.getFbNetwork().getNetworkElements().get(0).getInterface(), /* isInput */ true, /* index */ 1));
-		assumeNotNull(state.getCommand());
-		assumeTrue(state.getCommand().canExecute());
-		state.getCommand().execute();
 
-		return state;
+		return commandExecution(state);
 	}
 
 	private static void verifyStateInputWithName(State state, State oldState, TestFunction t) {
@@ -67,22 +57,19 @@ public class CreateInterfaceElementCommandInputsTest extends CreateInterfaceElem
 		InterfaceList oldInterfacelist = oldState.getFbNetwork().getNetworkElements().get(0).getInterface();
 
 		t.test(!interfacelist.getInputVars().isEmpty());
-		t.test(interfacelist.getInputVars().size() == oldInterfacelist.getInputVars().size() + 1);
+		t.test(interfacelist.getInputVars().size(), oldInterfacelist.getInputVars().size() + 1);
 		t.test(interfacelist.getOutputVars().isEmpty());
 		t.test(interfacelist.getEventInputs().isEmpty());
 		t.test(interfacelist.getEventOutputs().isEmpty());
-		t.test(null != interfacelist.getInterfaceElement("MyInput")); //$NON-NLS-1$
-		t.test(interfacelist.getInterfaceElement("MyInput").getTypeName().equals(FordiacKeywords.DWORD)); //$NON-NLS-1$
+		t.test(interfacelist.getInterfaceElement("MyInput")); //$NON-NLS-1$
+		t.test(interfacelist.getInterfaceElement("MyInput").getTypeName(), FordiacKeywords.DWORD); //$NON-NLS-1$
 	}
 
 	private static State executeCommandInputWithNameNull(State state) {
 		state.setCommand(new CreateInterfaceElementCommand(getDatatypelib().getType(FordiacKeywords.DWORD), null,
 				state.getFbNetwork().getNetworkElements().get(0).getInterface(), /* isInput */ true, /* index */ 1));
-		assumeNotNull(state.getCommand());
-		assumeTrue(state.getCommand().canExecute());
-		state.getCommand().execute();
 
-		return state;
+		return commandExecution(state);
 	}
 
 	private static void verifyStateInputWithNameNull(State state, State oldState, TestFunction t) {
@@ -90,19 +77,17 @@ public class CreateInterfaceElementCommandInputsTest extends CreateInterfaceElem
 		InterfaceList oldInterfacelist = oldState.getFbNetwork().getNetworkElements().get(0).getInterface();
 
 		t.test(!interfacelist.getInputVars().isEmpty());
-		t.test(interfacelist.getInputVars().size() == oldInterfacelist.getInputVars().size() + 1);
+		t.test(interfacelist.getInputVars().size(), oldInterfacelist.getInputVars().size() + 1);
 		t.test(interfacelist.getOutputVars().isEmpty());
 		t.test(interfacelist.getEventInputs().isEmpty());
 		t.test(interfacelist.getEventOutputs().isEmpty());
-		t.test(null != interfacelist.getInterfaceElement("DI2")); //$NON-NLS-1$
-		t.test(interfacelist.getInterfaceElement("DI2").getTypeName().equals(FordiacKeywords.DWORD)); //$NON-NLS-1$
+		t.test(interfacelist.getInterfaceElement("DI2")); //$NON-NLS-1$
+		t.test(interfacelist.getInterfaceElement("DI2").getTypeName(),FordiacKeywords.DWORD); //$NON-NLS-1$
 	}
 
-	// parameter creation function, also contains description of how the textual
-	// description will be used
-	@Parameters(name = "{index}: {0}")
-	public static Collection<Object[]> data() {
-		final List<Object> executionDescriptions = ExecutionDescription.commandList( //
+	// parameter creation function
+	public static Collection<Arguments> data() {
+		final List<ExecutionDescription<?>> executionDescriptions = List.of( //
 				new ExecutionDescription<>("Add Input without name", // //$NON-NLS-1$
 						CreateInterfaceElementCommandInputsTest::executeCommandInputWithoutName, //
 						CreateInterfaceElementCommandInputsTest::verifyStateInputWithoutName //

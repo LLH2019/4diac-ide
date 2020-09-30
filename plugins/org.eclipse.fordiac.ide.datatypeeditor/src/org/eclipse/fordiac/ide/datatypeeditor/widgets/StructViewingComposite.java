@@ -1,5 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2020 Johannes Kepler University, Linz
+ * 				 2020 Primetals Technologies Germany GmbH
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -10,16 +11,22 @@
  * Contributors:
  *   Daniel Lindhuber, Bianca Wiesmayr
  *     - initial API and implementation and/or initial documentation
+ *   Alexander Lumplecker
+ *     - changed ChangeMemberVariableOrderCommand to ChangeVariableOrderCommand
  *******************************************************************************/
 package org.eclipse.fordiac.ide.datatypeeditor.widgets;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.eclipse.fordiac.ide.datatypeeditor.Messages;
 import org.eclipse.fordiac.ide.model.commands.change.ChangeArraySizeCommand;
 import org.eclipse.fordiac.ide.model.commands.change.ChangeCommentCommand;
-import org.eclipse.fordiac.ide.model.commands.change.ChangeMemberVariableOrderCommand;
 import org.eclipse.fordiac.ide.model.commands.change.ChangeNameCommand;
 import org.eclipse.fordiac.ide.model.commands.change.ChangeTypeCommand;
 import org.eclipse.fordiac.ide.model.commands.change.ChangeValueCommand;
+import org.eclipse.fordiac.ide.model.commands.change.ChangeVariableOrderCommand;
 import org.eclipse.fordiac.ide.model.commands.create.CreateMemberVariableCommand;
 import org.eclipse.fordiac.ide.model.commands.delete.DeleteMemberVariableCommand;
 import org.eclipse.fordiac.ide.model.commands.insert.InsertVariableCommand;
@@ -96,9 +103,8 @@ public class StructViewingComposite extends Composite implements CommandExecutor
 				ref -> new CreateMemberVariableCommand(getType(), getInsertionIndex(), getVarName(), getDataType(),
 						dataTypeLibrary),
 				ref -> new DeleteMemberVariableCommand(getType(), (VarDeclaration) ref),
-				ref -> new ChangeMemberVariableOrderCommand(getType().getMemberVariables(), (VarDeclaration) ref, true),
-				ref -> new ChangeMemberVariableOrderCommand(getType().getMemberVariables(), (VarDeclaration) ref,
-						false));
+				ref -> new ChangeVariableOrderCommand(getType().getMemberVariables(), (VarDeclaration) ref, true),
+				ref -> new ChangeVariableOrderCommand(getType().getMemberVariables(), (VarDeclaration) ref, false));
 
 		part.getSite().setSelectionProvider(this);
 
@@ -155,7 +161,15 @@ public class StructViewingComposite extends Composite implements CommandExecutor
 	}
 
 	private CellEditor[] createCellEditors(final Table table) {
-		typeDropDown = new DataTypeDropdown(dataTypeLibrary, structViewer);
+		typeDropDown = new DataTypeDropdown(dataTypeLibrary, structViewer) {
+			@Override
+			protected List<DataType> getDataTypesSorted() {
+				return super.getDataTypesSorted().stream()
+						.filter(Objects::nonNull)
+						.filter(type -> !type.getName().equals(StructViewingComposite.this.getType().getName()))
+						.collect(Collectors.toList());
+			}
+		};
 		return new CellEditor[] { new TextCellEditor(table), typeDropDown, new TextCellEditor(table),
 				new TextCellEditor(table), new TextCellEditor(table) };
 	}

@@ -8,13 +8,13 @@
 	<name>Eclipse 4diac IDE Parent Project</name>
 	<modules>
 		<module>plugins</module>
-    	<module>tests</module>
-    	<module>features</module>
+		<module>tests</module>
+		<module>features</module>
 	</modules>
 
 	<properties>
 		<tycho.version>2.0.0</tycho.version>
-		<tycho-repo.url>http://download.eclipse.org/releases/2020-06</tycho-repo.url>
+		<tycho-repo.url>http://download.eclipse.org/releases/2020-09</tycho-repo.url>
 		<sonar.exclusions>**/src-gen/**/*,**/xtend-gen/**/*</sonar.exclusions>
 		<sonar.projectName>Eclipse 4diac</sonar.projectName>
 		<org.eclipse.justj.jre.repository>http://download.eclipse.org/justj/sandbox/jres/14/updates/nightly/latest</org.eclipse.justj.jre.repository>
@@ -80,12 +80,12 @@
 							<requirement>
 								<type>eclipse-feature</type>
 								<id>org.eclipse.equinox.executable</id>
-								<versionRange>3.8.800</versionRange>
+								<versionRange>3.8.900</versionRange>
 							</requirement>
 							<requirement>
 								<type>eclipse-feature</type>
 								<id>org.eclipse.platform</id>
-								<versionRange>4.16.0</versionRange>
+								<versionRange>4.17.0</versionRange>
 							</requirement>
 						</extraRequirements>
 						<profileProperties>
@@ -128,7 +128,7 @@
 							<requirement>
 								<type>eclipse-feature</type>
 								<id>org.eclipse.equinox.executable</id>
-								<versionRange>3.8.800</versionRange>
+								<versionRange>3.8.900</versionRange>
 							</requirement>
 							<requirement>
 								<type>eclipse-feature</type>
@@ -137,10 +137,74 @@
 							</requirement>
 						</extraRequirements> 
 					</dependency-resolution>
+					<dependencies>
+						<!-- avoid CNFE in Surefire when looking for JUnitPlatformProvider -->
+						<dependency>
+							<artifactId>org.junit</artifactId>
+							<type>eclipse-plugin</type>
+						</dependency>
+					</dependencies>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>3.1.1</version>
+				<configuration>
+					<logViolationsToConsole>true</logViolationsToConsole>
+					<consoleOutput>true</consoleOutput>
+					<includeTestSourceDirectory>true</includeTestSourceDirectory>
+					<includes>**\/*.java,**\/*.xtend</includes>
+					<checkstyleRules>
+						<module name="Checker">
+							<property name="severity" value="error"/>
+							<property name="fileExtensions" value="java,xtend"/>
+							<module name="BeforeExecutionExclusionFileFilter">
+								<property name="fileNamePattern" value="-gen[\\/]"/>
+							</module>
+							<module name="BeforeExecutionExclusionFileFilter">
+								<property name="fileNamePattern" value="[\\/]model[\\/]xtext[\\/]"/>
+							</module>
+							<module name="BeforeExecutionExclusionFileFilter">
+								<property name="fileNamePattern" value="[\\/]model[\\/]structuredtext[\\/]"/>
+							</module>
+							<module name="RegexpHeader">
+								<property name="header" value="^(?!package)(?! \* SPDX.*$).*\n^ \* ?SPDX-License-Identifier: EPL-2\.0.*$" />
+								<property name="multiLines" value="1"/>
+							</module>
+						</module>
+					</checkstyleRules>
+				</configuration>
+				<executions>
+					<execution>
+						<id>validate</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.opentest4j</groupId>
+			<artifactId>opentest4j</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.7.0</version>
+		</dependency>
+	</dependencies>
 
 	<profiles>
 		<profile>
@@ -160,7 +224,7 @@
 								<phase>verify</phase>
 							</execution>
 						</executions>
-					</plugin>          
+					</plugin>
 				</plugins>
 			</build>
 		</profile>

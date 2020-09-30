@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2008 - 2017 Profactor GmbH, AIT, fortiss GmbH
  * 				 2019 Johannes Kepler University Linz
+ *               2020 Primetals Technologies Germany GmbH
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -16,8 +17,12 @@
  *   Alois Zoitl - separated FBNetworkElement from instance name for better
  *                 direct editing of instance names
  *               - added update support for removing or readding subapp type
+ *   Bianca Wiesmayr, Alois Zoitl - unfolded subapp
+ *   Daniel Lindhuber - instance comment
  *******************************************************************************/
 package org.eclipse.fordiac.ide.application.editparts;
+
+import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.common.notify.Adapter;
@@ -30,11 +35,14 @@ import org.eclipse.fordiac.ide.application.figures.SubAppForFbNetworkFigure;
 import org.eclipse.fordiac.ide.application.policies.FBAddToSubAppLayoutEditPolicy;
 import org.eclipse.fordiac.ide.model.libraryElement.IInterfaceElement;
 import org.eclipse.fordiac.ide.model.libraryElement.SubApp;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 
 public class SubAppForFBNetworkEditPart extends AbstractFBNElementEditPart {
+	private UnfoldedSubappContentNetwork subappContents;
+	private InstanceComment instanceComment;
 
 	private Adapter subAppInterfaceAdapter = new EContentAdapter() {
 		@Override
@@ -53,6 +61,30 @@ public class SubAppForFBNetworkEditPart extends AbstractFBNElementEditPart {
 		}
 	};
 
+	@Override
+	protected List<Object> getModelChildren() {
+		List<Object> children = super.getModelChildren();
+		if (getModel().isUnfolded()) {
+			children.add(getSubappContents());
+			children.add(getInstanceComment());
+		}
+		return children;
+	}
+
+	private UnfoldedSubappContentNetwork getSubappContents() {
+		if (null == subappContents) {
+			subappContents = new UnfoldedSubappContentNetwork(getModel());
+		}
+		return subappContents;
+	}
+
+	private InstanceComment getInstanceComment() {
+		if (null == instanceComment) {
+			instanceComment = new InstanceComment(getModel());
+		}
+		return instanceComment;
+	}
+
 	public SubAppForFBNetworkEditPart() {
 		super();
 	}
@@ -62,6 +94,7 @@ public class SubAppForFBNetworkEditPart extends AbstractFBNElementEditPart {
 		super.activate();
 		if ((null != getModel()) && !getModel().getInterface().eAdapters().contains(subAppInterfaceAdapter)) {
 			getModel().getInterface().eAdapters().add(subAppInterfaceAdapter);
+			getModel().eAdapters().add(unfoldedAdapter);
 		}
 	}
 
@@ -120,6 +153,13 @@ public class SubAppForFBNetworkEditPart extends AbstractFBNElementEditPart {
 		};
 	}
 
+	EContentAdapter unfoldedAdapter = new EContentAdapter() {
+		@Override
+		public void notifyChanged(Notification notification) {
+			refreshChildren();
+		}
+	};
+
 	@Override
 	protected void createEditPolicies() {
 		super.createEditPolicies();
@@ -151,5 +191,27 @@ public class SubAppForFBNetworkEditPart extends AbstractFBNElementEditPart {
 	protected void refreshVisuals() {
 		super.refreshVisuals();
 		getFigure().updateTypeLabel(getModel());
+	}
+
+	@Override
+	protected void addChildVisual(EditPart childEditPart, int index) {
+		if (childEditPart instanceof UnfoldedSubappContentEditPart) {
+			getFigure().getBottom().add(((UnfoldedSubappContentEditPart) childEditPart).getFigure(), 1);
+		} else if (childEditPart instanceof InstanceCommentEditPart) {
+			getFigure().getTop().add(((InstanceCommentEditPart) childEditPart).getFigure(), 1);
+		} else {
+			super.addChildVisual(childEditPart, index);
+		}
+	}
+
+	@Override
+	protected void removeChildVisual(EditPart childEditPart) {
+		if (childEditPart instanceof UnfoldedSubappContentEditPart) {
+			getFigure().getBottom().remove(((UnfoldedSubappContentEditPart) childEditPart).getFigure());
+		} else if (childEditPart instanceof InstanceCommentEditPart) {
+			getFigure().getTop().remove(((InstanceCommentEditPart) childEditPart).getFigure());
+		} else {
+			super.removeChildVisual(childEditPart);
+		}
 	}
 }

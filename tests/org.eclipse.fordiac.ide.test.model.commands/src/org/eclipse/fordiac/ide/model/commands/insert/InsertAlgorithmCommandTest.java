@@ -13,21 +13,18 @@
  *******************************************************************************/
 package org.eclipse.fordiac.ide.model.commands.insert;
 
-import static org.junit.Assume.assumeNotNull;
-import static org.junit.Assume.assumeTrue;
-
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.fordiac.ide.model.Palette.PaletteEntry;
+import org.eclipse.fordiac.ide.model.commands.testinfra.CommandTestBase;
 import org.eclipse.fordiac.ide.model.commands.testinfra.CreateInternalVariableCommandTestBase;
 import org.eclipse.fordiac.ide.model.libraryElement.Algorithm;
 import org.eclipse.fordiac.ide.model.libraryElement.BasicFBType;
 import org.eclipse.fordiac.ide.model.libraryElement.LibraryElementFactory;
 import org.eclipse.fordiac.ide.model.libraryElement.STAlgorithm;
-import org.junit.Assume;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.provider.Arguments;
 
 //see org.eclipse.fordiac.ide.util.ColorHelperTest.java for information on implementing tests
 
@@ -40,7 +37,7 @@ public class InsertAlgorithmCommandTest extends CreateInternalVariableCommandTes
 	private static final String ALGORITHM_COMMENT = "Magic!"; //$NON-NLS-1$
 
 	private static State executeCommandWithIndex(State state, int index) {
-		getBaseFBType(state, Assume::assumeTrue);
+		getBaseFBType(state, assumption);
 
 		final STAlgorithm stAlg = LibraryElementFactory.eINSTANCE.createSTAlgorithm();
 		stAlg.setName(ALGORITHM_NAME); // Algorithm name changes based on what is already in the list
@@ -48,15 +45,12 @@ public class InsertAlgorithmCommandTest extends CreateInternalVariableCommandTes
 		stAlg.setComment(ALGORITHM_COMMENT);
 
 		final PaletteEntry pe = state.getFunctionblock();
-		assumeTrue(pe.getType() instanceof BasicFBType);
+		assumption.test(pe.getType() instanceof BasicFBType);
 		final BasicFBType fb = (BasicFBType) pe.getType();
 
 		state.setCommand(new InsertAlgorithmCommand(fb, stAlg, index));
-		assumeNotNull(state.getCommand());
-		assumeTrue(state.getCommand().canExecute());
-		state.getCommand().execute();
 
-		return state;
+		return commandExecution(state);
 	}
 
 	private static void verifyStateWithAlgorithmIndex(State state, State oldState, TestFunction t, int index,
@@ -67,9 +61,9 @@ public class InsertAlgorithmCommandTest extends CreateInternalVariableCommandTes
 		t.test(state.getFbNetwork().getNetworkElements().get(0).getType() instanceof BasicFBType);
 		t.test(!algorithmList.isEmpty());
 		t.test(algorithmList.get(index) instanceof STAlgorithm);
-		t.test(((STAlgorithm) algorithmList.get(index)).getComment().contentEquals(ALGORITHM_COMMENT));
-		t.test(((STAlgorithm) algorithmList.get(index)).getText().equals(ALGORITHM_TEXT));
-		t.test(algorithmList.get(index).getName().equals(algorithmName));
+		t.test(((STAlgorithm) algorithmList.get(index)).getComment(), ALGORITHM_COMMENT);
+		t.test(((STAlgorithm) algorithmList.get(index)).getText(), ALGORITHM_TEXT);
+		t.test(algorithmList.get(index).getName(), algorithmName);
 	}
 
 	private static State executeCommand1(State state) {
@@ -98,11 +92,9 @@ public class InsertAlgorithmCommandTest extends CreateInternalVariableCommandTes
 		verifyStateWithAlgorithmIndex(state, oldState, t, 2, ALGORITHM3_NAME);
 	}
 
-	// parameter creation function, also contains description of how the textual
-	// description will be used
-	@Parameters(name = "{index}: {0}")
-	public static Collection<Object[]> data() {
-		final List<Object> executionDescriptions = ExecutionDescription.commandList( //
+	// parameter creation function
+	public static Collection<Arguments> data() {
+		final List<ExecutionDescription<?>> executionDescriptions = List.of( //
 				new ExecutionDescription<>("Add a ST algorithm", //$NON-NLS-1$
 						InsertAlgorithmCommandTest::executeCommand1, //
 						InsertAlgorithmCommandTest::verifyState1 //

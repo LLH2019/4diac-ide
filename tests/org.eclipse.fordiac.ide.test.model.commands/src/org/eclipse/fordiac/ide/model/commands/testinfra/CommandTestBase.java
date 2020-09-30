@@ -13,21 +13,21 @@
  *******************************************************************************/
 package org.eclipse.fordiac.ide.model.commands.testinfra;
 
+import org.hamcrest.CoreMatchers;
+
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
-import org.junit.Assert;
-import org.junit.Assume;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
+import org.hamcrest.Matcher;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.opentest4j.TestAbortedException;
 
 //see org.eclipse.fordiac.ide.util.ColorHelperTest.java for information on implementing tests
 
@@ -38,9 +38,155 @@ import org.junit.runners.Parameterized.Parameter;
  * @param <T> type of the state description, has to be derived from
  *            CommandTestBase.StateBase
  */
-@RunWith(Parameterized.class)
 public abstract class CommandTestBase<T extends CommandTestBase.StateBase> {
 
+	/**
+	 * Test Function object that can be used to access assertions
+	 */
+	protected static final TestFunction assertion = CommandTestBase::assertThat;
+	/**
+	 * Test Function object that can be used to access assumptions
+	 */
+	protected static final TestFunction assumption = CommandTestBase::assumeThat;
+
+	/**
+	 * assertThat method to be used to validate the current state
+	 * @throws AssertionError
+	 *
+	 * @param reason     textual description of what is expected
+	 * @param actual     actual value to be compared
+	 * @param matcher    matcher-object that does the comparison
+	 */
+	public static <T> void assertThat(String reason, T actual, Matcher<T> matcher) {
+		org.hamcrest.MatcherAssert.assertThat(reason, actual, matcher);
+	}
+
+	/**
+	 * assumeThat method to be used to validate the current state
+	 * @throws TestAbortedException
+	 *
+	 * @param reason     textual description of what is expected
+	 * @param actual     actual value to be compared
+	 * @param matcher    matcher-object that does the comparison
+	 */
+	public static <T> void assumeThat(String reason, T actual, Matcher<T> matcher) {
+		try {
+			assertThat(reason, actual, matcher);
+		} catch (AssertionError e) {
+			throw new TestAbortedException(e.getMessage(), e.getCause());
+		}
+	}
+
+	/**
+	 * forwarding of the "is" hamcrest-core-matcher
+	 *
+	 * @param matcher    matcher-object that does the comparison
+	 * @return matcher object
+	 */
+	protected static <T> Matcher<T> is(Matcher<T> matcher)  {
+		return CoreMatchers.is(matcher);
+	}
+	
+	/**
+	 * forwarding of the "is" hamcrest-core-matcher
+	 *
+	 * @param matcher    value to compare against
+	 * @return matcher object
+	 */
+	protected static <T> Matcher<T> is(T matcher)  {
+		return CoreMatchers.is(matcher);
+	}
+
+	/**
+	 * empty verification method
+	 *
+	 * @param s    current state description
+	 * @param o    state description before the last state transition
+	 * @param t    TestFunction object that selects either assert or assume
+	 */
+	protected static <T extends StateBase> void verifyNothing(T s, T o, TestFunction t) {
+		// Nothing to do
+	}
+
+	/**
+	 * undo method that expects that undo is possible
+	 *
+	 * @param stateObj    current state description
+	 * @return            new state description
+	 */
+	protected static <T extends StateBase> T defaultUndoCommand(Object stateObj) {
+		@SuppressWarnings("unchecked")
+		final T state = (T) stateObj;
+		assumption.test(state.getCommand().canExecute() && state.getCommand().canUndo());
+		state.getCommand().undo();
+		return (state);
+	}
+
+	/**
+	 * redo method that expects that redo is possible
+	 *
+	 * @param stateObj    current state description
+	 * @return            new state description
+	 */
+	protected static <T extends StateBase> T defaultRedoCommand(Object stateObj) {
+		@SuppressWarnings("unchecked")
+		final T state = (T) stateObj;
+		assumption.test(state.getCommand().canExecute() && state.getCommand().canRedo());
+		state.getCommand().redo();
+		return (state);
+	}
+
+	/**
+	 * undo method that expects that undo is not possible
+	 *
+	 * @param stateObj    current state description
+	 * @return            new state description
+	 */
+	protected static <T extends StateBase> T disabledUndoCommand(Object stateObj) {
+		@SuppressWarnings("unchecked")
+		final T state = (T) stateObj;
+		assumption.test(!(state.getCommand().canExecute() && state.getCommand().canUndo()));
+		return (state);
+	}
+
+	/**
+	 * redo method that expects that redo is not possible
+	 *
+	 * @param stateObj    current state description
+	 * @return            new state description
+	 */
+	protected static <T extends StateBase> T disabledRedoCommand(Object stateObj) {
+		@SuppressWarnings("unchecked")
+		final T state = (T) stateObj;
+		assumption.test(!(state.getCommand().canExecute() && state.getCommand().canRedo()));
+		return (state);
+	}
+
+	/**
+	 * execution method that expects that execution is not possible
+	 *
+	 * @param stateObj    current state description
+	 * @return            new state description
+	 */
+	protected static <T extends StateBase> T disabledCommandExecution(T state) {
+		assumption.test(state.getCommand());
+		assumption.test(!state.getCommand().canExecute());
+		return state;
+	}
+
+	/**
+	 * execution method that expects that execution is possible
+	 *
+	 * @param stateObj    current state description
+	 * @return            new state description
+	 */
+	protected static <T extends StateBase> T commandExecution(T state) {
+		assumption.test(state.getCommand());
+		assumption.test(state.getCommand().canExecute());
+		state.getCommand().execute();
+		return state;
+	}
+	
 	/**
 	 * Base type for state descriptions, used to structure class hierarchy
 	 *
@@ -72,11 +218,58 @@ public abstract class CommandTestBase<T extends CommandTestBase.StateBase> {
 	}
 
 	/**
-	 * functional interface for calling either assertTrue or assumeTrue
+	 * functional interface for calling either assert* or assume*
 	 *
 	 */
 	protected interface TestFunction {
-		void test(boolean condition);
+		/**
+		 * assumeThat/assertThat method to be used to validate the current state
+		 *
+		 * @param message    textual description of what is expected
+		 * @param actual     actual value to be compared
+		 * @param matcher    matcher-object that does the comparison
+		 */
+		<T> void test(String message, T actual, Matcher<T> matcher);
+
+		/**
+		 * assumeThat/assertThat method to be used to validate the current state
+		 *
+		 * @param actual     actual value to be compared
+		 * @param matcher    matcher-object that does the comparison
+		 */
+		default <T> void test(T actual, Matcher<T> matcher) {
+			test("", actual, matcher);
+		}
+
+		/**
+		 * assumeEqual/assertEqual method to be used to validate the current state
+		 *
+		 * @param actual     actual value to be compared
+		 * @param expected   expected value for the comparision
+		 */
+		default <T> void test(T actual, T expected) {
+			test("", actual, is(expected));
+		}
+
+		/**
+		 * assumeTrue/assertTrue method to be used to validate the current state
+		 *
+		 * @param equals     boolean value which is expected to be true
+		 */
+		default void test(boolean equals) {
+			test("", equals, is(true));
+		}
+
+		/**
+		 * assumeNotNull/assertNotNull method to check for non-null references
+		 * @throws TestAbortedException
+		 *
+		 * @param notNull     reference that should not be null
+		 */
+		default void test(Object notNull) {
+			test("", notNull, org.hamcrest.CoreMatchers.notNullValue());
+		}
+
 	}
 
 	/**
@@ -150,15 +343,6 @@ public abstract class CommandTestBase<T extends CommandTestBase.StateBase> {
 			return new ExecutionDescription<>("undo", ExecutionType.UNDO, null, null); //$NON-NLS-1$
 		}
 
-		/**
-		 * Helper function to pack Objects into a Object[]
-		 *
-		 * @param vararg Objects
-		 * @return Object[] with all Objects from varargs
-		 */
-		public static List<Object> commandList(Object... a) {
-			return Arrays.asList(a);
-		}
 	}
 
 	/**
@@ -237,32 +421,6 @@ public abstract class CommandTestBase<T extends CommandTestBase.StateBase> {
 	}
 
 	/**
-	 * list of parameters for JUnit test case
-	 */
-	@Parameter(0)
-	public String description;
-	@Parameter(1)
-	public StateInitializer<T> initializer;
-	@Parameter(2)
-	public StateVerifier<T> initialVerifier;
-	@Parameter(3)
-	public Iterable<ExecutionDescription<T>> commands;
-	@Parameter(4)
-	public CommandExecutor<T> undo;
-	@Parameter(5)
-	public CommandExecutor<T> redo;
-
-	/**
-	 * Helper function to pack Objects into a Object[]
-	 *
-	 * @param vararg Objects
-	 * @return Object[] with all Objects from varargs
-	 */
-	private static Object[] convert(Object... a) {
-		return a;
-	}
-
-	/**
 	 * method to describe a command to the class
 	 *
 	 * @param description     textual description of the command
@@ -275,9 +433,10 @@ public abstract class CommandTestBase<T extends CommandTestBase.StateBase> {
 	 * @param redo            state transition that redoes a command
 	 * @return
 	 */
-	protected static Collection<Object[]> describeCommand(String description, StateInitializer<?> initializer,
-			StateVerifier<?> initialVerifier, List<Object> commands, CommandExecutor<?> undo, CommandExecutor<?> redo) {
-		final List<Object[]> descriptions = new ArrayList<>();
+	protected static Collection<Arguments> describeCommand(String description, StateInitializer<?> initializer,
+			StateVerifier<?> initialVerifier, List<ExecutionDescription<?>> commands, CommandExecutor<?> undo,
+			CommandExecutor<?> redo) {
+		final Collection<Arguments> descriptions = new ArrayList<>();
 
 		final String MESSAGE_MAIN = "{0} : {1}"; //$NON-NLS-1$
 		final String MESSAGE_NO_MAIN = "{1}"; //$NON-NLS-1$
@@ -289,13 +448,13 @@ public abstract class CommandTestBase<T extends CommandTestBase.StateBase> {
 		final String MESSAGE_EXECUTE_UNTIL_COMMAND_I_UNDO_REDO = "Execute until Command {0}: {1}, run Undo, run Redo"; //$NON-NLS-1$
 		final String MESSAGE_EXECUTE_UNTIL_COMMAND_I_UNDO_REDO_ALL = "Execute all Commands interspersed with Undo and Redo"; //$NON-NLS-1$
 
-		descriptions.add(convert(
+		descriptions.add(Arguments.of(
 				MessageFormat.format(null != description ? MESSAGE_MAIN : MESSAGE_NO_MAIN, description,
 						MESSAGE_VERIFY_INITIAL_STATE),
 				initializer, initialVerifier, Collections.emptyList(), undo, redo));
 
 		if (commands.size() > 1) {
-			descriptions.add(convert(MessageFormat.format(null != description ? MESSAGE_MAIN : MESSAGE_NO_MAIN,
+			descriptions.add(Arguments.of(MessageFormat.format(null != description ? MESSAGE_MAIN : MESSAGE_NO_MAIN,
 					description, MESSAGE_EXECUTE_ALL_COMMANDS), initializer, initialVerifier, commands, undo, redo));
 		}
 
@@ -310,21 +469,21 @@ public abstract class CommandTestBase<T extends CommandTestBase.StateBase> {
 			commandsWithUndoRedoAll.add(command);
 			commandsWithUndoRedo = new ArrayList<>();
 			commandsWithUndoRedo.addAll(commandsUntil);
-			descriptions.add(convert(
+			descriptions.add(Arguments.of(
 					MessageFormat.format(null != description ? MESSAGE_MAIN : MESSAGE_NO_MAIN, description,
 							MessageFormat.format(MESSAGE_EXECUTE_UNTIL_COMMAND_I, index, command.description)),
 					initializer, initialVerifier, commandsWithUndoRedo.clone(), undo, redo));
 			commandsWithUndoRedo.add(ExecutionDescription.undo());
 			commandsWithUndoRedoAll.add(ExecutionDescription.undo());
 			descriptions
-					.add(convert(
+					.add(Arguments.of(
 							MessageFormat.format(null != description ? MESSAGE_MAIN : MESSAGE_NO_MAIN, description,
 									MessageFormat.format(MESSAGE_EXECUTE_UNTIL_COMMAND_I_UNDO, index,
 											command.description)),
 							initializer, initialVerifier, commandsWithUndoRedo.clone(), undo, redo));
 			commandsWithUndoRedo.add(ExecutionDescription.redo());
 			commandsWithUndoRedoAll.add(ExecutionDescription.redo());
-			descriptions.add(convert(
+			descriptions.add(Arguments.of(
 					MessageFormat.format(null != description ? MESSAGE_MAIN : MESSAGE_NO_MAIN, description,
 							MessageFormat.format(MESSAGE_EXECUTE_UNTIL_COMMAND_I_UNDO_REDO, index,
 									command.description)),
@@ -332,7 +491,7 @@ public abstract class CommandTestBase<T extends CommandTestBase.StateBase> {
 		}
 
 		if (commands.size() > 1) {
-			descriptions.add(convert(
+			descriptions.add(Arguments.of(
 					MessageFormat.format(null != description ? MESSAGE_MAIN : MESSAGE_NO_MAIN, description,
 							MESSAGE_EXECUTE_UNTIL_COMMAND_I_UNDO_REDO_ALL),
 					initializer, initialVerifier, commandsWithUndoRedoAll, undo, redo));
@@ -346,8 +505,10 @@ public abstract class CommandTestBase<T extends CommandTestBase.StateBase> {
 	 *
 	 * executes commands and adds redo/undo steps and adds a meaningful description
 	 */
-	@Test
-	public void testCommand() {
+	@ParameterizedTest(name = "{index}: {0}")
+	@MethodSource("data")
+	public void testCommand(String description, StateInitializer<T> initializer, StateVerifier<T> initialVerifier,
+			Iterable<ExecutionDescription<T>> commands, CommandExecutor<T> undo, CommandExecutor<T> redo) {
 		// prepare initial state and verify
 		StateNode<T> current = new StateNode<>(initializer.initializeState(), initialVerifier, null);
 
@@ -358,9 +519,9 @@ public abstract class CommandTestBase<T extends CommandTestBase.StateBase> {
 		final Iterator<ExecutionDescription<T>> iterator = commands.iterator();
 		TestFunction t;
 		if (iterator.hasNext()) {
-			t = Assume::assumeTrue;
+			t = assumption;
 		} else {
-			t = Assert::assertTrue;
+			t = assertion;
 		}
 
 		initialVerifier.verifyState(current.getState(), current.getBefore().getState(), t);
@@ -371,9 +532,9 @@ public abstract class CommandTestBase<T extends CommandTestBase.StateBase> {
 			// if there are more commands to be executed use assume instead of assert
 			// same reason as for initial state verifier
 			if (iterator.hasNext()) {
-				t = Assume::assumeTrue;
+				t = assumption;
 			} else {
-				t = Assert::assertTrue;
+				t = assertion;
 			}
 
 			StateNode<T> clone = new StateNode<>(current);

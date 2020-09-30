@@ -1,7 +1,8 @@
 /*******************************************************************************
- * Copyright (c) 2008 - 2017 Profactor GmbH, TU Wien ACIN, fortiss GmbH
- * 				 2019 - 2020 Johannes Kepler University Linz
- *               2020 TU Wien/ACIN
+ * Copyright (c) 2008 - 2017 Profactor GmbH, fortiss GmbH
+ * 		 2019 - 2020 Johannes Kepler University Linz
+ *               2020        Primetals Technologies Germany GmbH
+ *               2008 - 2020 TU Wien/ACIN
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -18,6 +19,7 @@
  *                 direct editing of instance names
  *               - extracted common FB shape for interface and fbn editors
  *   Bianca Wiesmayr - edited appearance of FBs
+ *   Daniel Lindhuber - changed layout of top part
  *   Martin Melik Merkumians - interface changes to support IEC 61131-3 FB shapes
  *******************************************************************************/
 package org.eclipse.fordiac.ide.gef.figures;
@@ -138,7 +140,7 @@ public class FBShape extends Shape implements IFontUpdateListener {
 		return typeLabel;
 	}
 
-	protected RoundedRectangle getTop() {
+	public RoundedRectangle getTop() {
 		return top;
 	}
 
@@ -150,7 +152,7 @@ public class FBShape extends Shape implements IFontUpdateListener {
 		return middle;
 	}
 
-	protected AdvancedRoundedRectangle getBottom() {
+	public AdvancedRoundedRectangle getBottom() {
 		return bottom;
 	}
 
@@ -217,7 +219,7 @@ public class FBShape extends Shape implements IFontUpdateListener {
 		bottom = new AdvancedRoundedRectangle(PositionConstants.SOUTH | PositionConstants.EAST | PositionConstants.WEST,
 				borderColor);
 		bottom.setCornerDimensions(new Dimension(cornerDim, cornerDim));
-		GridLayout bottomLayout = new GridLayout(2, false);
+		GridLayout bottomLayout = new GridLayout(3, false);
 		bottomLayout.marginHeight = 4;
 		bottomLayout.marginWidth = 0;
 		bottomLayout.horizontalSpacing = 0;
@@ -253,7 +255,7 @@ public class FBShape extends Shape implements IFontUpdateListener {
 				borderColor);
 		top.setCornerDimensions(new Dimension(cornerDim, cornerDim));
 
-		GridLayout topLayout = new GridLayout(2, false);
+		GridLayout topLayout = new GridLayout(3, false);
 		topLayout.marginHeight = 4;
 		topLayout.marginWidth = 0;
 		topLayout.horizontalSpacing = 0;
@@ -322,18 +324,22 @@ public class FBShape extends Shape implements IFontUpdateListener {
 		bottomOutputArea.setLayoutManager(new ToolbarLayout(false));
 		((ToolbarLayout) bottomOutputArea.getLayoutManager()).setMinorAlignment(OrderedLayout.ALIGN_BOTTOMRIGHT);
 
-		GridData bottomOutputsLayoutData = new GridData(
-				GridData.HORIZONTAL_ALIGN_END | GridData.GRAB_HORIZONTAL | GridData.VERTICAL_ALIGN_FILL);
+		GridData bottomOutputsLayoutData = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL
+				| GridData.VERTICAL_ALIGN_FILL | GridData.GRAB_VERTICAL);
 		parent.add(bottomOutputArea);
-		parent.setConstraint(bottomOutputArea, bottomOutputsLayoutData);
+				parent.setConstraint(bottomOutputArea, bottomOutputsLayoutData);
 
-		dataOutputs.setLayoutManager(new ToolbarLayout(false));
-		((ToolbarLayout) dataOutputs.getLayoutManager()).setMinorAlignment(OrderedLayout.ALIGN_BOTTOMRIGHT);
-		bottomOutputArea.add(dataOutputs);
+				dataOutputs.setLayoutManager(new ToolbarLayout(false));
+				((ToolbarLayout) dataOutputs.getLayoutManager()).setMinorAlignment(OrderedLayout.ALIGN_BOTTOMRIGHT);
+				bottomOutputArea.add(dataOutputs);
 
-		plugs.setLayoutManager(new ToolbarLayout(false));
-		((ToolbarLayout) plugs.getLayoutManager()).setMinorAlignment(OrderedLayout.ALIGN_BOTTOMRIGHT);
-		bottomOutputArea.add(plugs);
+				plugs.setLayoutManager(new ToolbarLayout(false));
+				((ToolbarLayout) plugs.getLayoutManager()).setMinorAlignment(OrderedLayout.ALIGN_BOTTOMRIGHT);
+				bottomOutputArea.add(plugs);
+	}
+
+	protected void createContainedFigure(IFigure parent) {
+		// potential hook for Figure representing FB contents
 	}
 
 	protected void setupTypeNameAndVersion(final FBType type, Figure container, Color borderColor) {

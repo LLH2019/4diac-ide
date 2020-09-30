@@ -29,6 +29,7 @@ import org.eclipse.fordiac.ide.application.policies.ConnectionGraphicalNodeEditP
 import org.eclipse.fordiac.ide.application.policies.DeleteConnectionEditPolicy;
 import org.eclipse.fordiac.ide.application.policies.DisableConnectionHandleRoleEditPolicy;
 import org.eclipse.fordiac.ide.gef.figures.HideableConnection;
+import org.eclipse.fordiac.ide.gef.policies.ConnectionHoverEditPolicy;
 import org.eclipse.fordiac.ide.gef.policies.FeedbackConnectionEndpointEditPolicy;
 import org.eclipse.fordiac.ide.gef.router.BendpointPolicyRouter;
 import org.eclipse.fordiac.ide.gef.router.RouterUtil;
@@ -49,6 +50,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
 public class ConnectionEditPart extends AbstractConnectionEditPart {
+	private static final float[] BROKEN_CONNECTION_DASH_PATTERN = new float[] { 5.0f, 5.0f };
 	private static final String HIDDEN = "HIDDEN"; //$NON-NLS-1$
 	private static final String HIDEN_CON = "HIDEN_CON"; //$NON-NLS-1$
 
@@ -100,6 +102,8 @@ public class ConnectionEditPart extends AbstractConnectionEditPart {
 		}
 
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new ConnectionGraphicalNodeEditPolicy());
+
+		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new ConnectionHoverEditPolicy());
 	}
 
 	@Override
@@ -164,7 +168,8 @@ public class ConnectionEditPart extends AbstractConnectionEditPart {
 
 		if ((getConnectionFigure() instanceof PolylineConnection) && (getModel() != null)) {
 			if (getModel().isBrokenConnection()) {
-				((PolylineConnection) getConnectionFigure()).setLineStyle(SWT.LINE_DASH);
+				((PolylineConnection) getConnectionFigure()).setLineStyle(SWT.LINE_CUSTOM);
+				((PolylineConnection) getConnectionFigure()).setLineDash(BROKEN_CONNECTION_DASH_PATTERN);
 
 			} else {
 				((PolylineConnection) getConnectionFigure()).setLineStyle(SWT.LINE_SOLID);

@@ -14,8 +14,6 @@
 
 package org.eclipse.fordiac.ide.model.commands.testinfra;
 
-import static org.junit.Assume.assumeTrue;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,6 +21,7 @@ import java.util.List;
 import org.eclipse.fordiac.ide.model.libraryElement.LibraryElementFactory;
 import org.eclipse.fordiac.ide.model.libraryElement.VarDeclaration;
 import org.eclipse.gef.commands.Command;
+import org.junit.jupiter.params.provider.Arguments;
 
 public abstract class ValueCommandTestBase extends CommandTestBase<ValueCommandTestBase.State> {
 
@@ -32,7 +31,7 @@ public abstract class ValueCommandTestBase extends CommandTestBase<ValueCommandT
 	public static class State implements CommandTestBase.StateBase {
 		private final VarDeclaration var = LibraryElementFactory.eINSTANCE.createVarDeclaration();
 
-		State() {
+		public State() {
 			super();
 			var.setValue(LibraryElementFactory.eINSTANCE.createValue());
 		}
@@ -59,28 +58,14 @@ public abstract class ValueCommandTestBase extends CommandTestBase<ValueCommandT
 		}
 	}
 
-	protected static State undoCommand(Object stateObj) {
-		final State state = (State) stateObj;
-		assumeTrue(state.getCommand().canUndo());
-		state.getCommand().undo();
-		return (state);
+	protected static Collection<Arguments> describeCommand(String description, StateInitializer<?> initializer,
+			StateVerifier<?> initialVerifier, List<ExecutionDescription<?>> commands) {
+		return describeCommand(description, initializer, initialVerifier, commands, CommandTestBase::defaultUndoCommand,
+				CommandTestBase::defaultRedoCommand);
 	}
 
-	protected static State redoCommand(Object stateObj) {
-		final State state = (State) stateObj;
-		assumeTrue(state.getCommand().canRedo());
-		state.getCommand().redo();
-		return (state);
-	}
-
-	protected static Collection<Object[]> describeCommand(String description, StateInitializer<?> initializer,
-			StateVerifier<?> initialVerifier, List<Object> commands) {
-		return describeCommand(description, initializer, initialVerifier, commands, ValueCommandTestBase::undoCommand,
-				ValueCommandTestBase::redoCommand);
-	}
-
-	protected static List<Object[]> createCommands(List<Object> executionDescriptions) {
-		final List<Object[]> commands = new ArrayList<>();
+	protected static Collection<Arguments> createCommands(List<ExecutionDescription<?>> executionDescriptions) {
+		final Collection<Arguments> commands = new ArrayList<>();
 
 		commands.addAll(describeCommand("Start from default values", // //$NON-NLS-1$
 				State::new, //
@@ -103,7 +88,7 @@ public abstract class ValueCommandTestBase extends CommandTestBase<ValueCommandT
 
 		final String DEFAULT_VALUE = varDec.getValue().getValue();
 
-		t.test(state.getVar().getValue().getValue().equals(DEFAULT_VALUE));
+		t.test(state.getVar().getValue().getValue(), DEFAULT_VALUE);
 	}
 
 	protected static State setInitialValues() {
@@ -114,7 +99,7 @@ public abstract class ValueCommandTestBase extends CommandTestBase<ValueCommandT
 
 	@SuppressWarnings("unused")
 	protected static void verifySetInitialValues(State state, State oldState, TestFunction t) {
-		t.test(state.getVar().getValue().getValue().equals(SET_VALUE));
+		t.test(state.getVar().getValue().getValue(), SET_VALUE);
 
 	}
 
