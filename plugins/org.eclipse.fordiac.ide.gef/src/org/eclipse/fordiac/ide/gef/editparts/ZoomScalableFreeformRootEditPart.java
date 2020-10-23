@@ -27,6 +27,7 @@ import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.LayeredPane;
 import org.eclipse.draw2d.ScalableFigure;
+import org.eclipse.draw2d.ScalableFreeformLayeredPane;
 import org.eclipse.draw2d.Viewport;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -38,6 +39,7 @@ import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.GridLayer;
+import org.eclipse.gef.editparts.GuideLayer;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.requests.SelectionRequest;
@@ -59,6 +61,8 @@ public class ZoomScalableFreeformRootEditPart extends ScalableFreeformRootEditPa
 	 * the grid more structure
 	 */
 	private static class MajorMinorGridLayer extends GridLayer {
+		private static final double MIN_ABSOLUTE_INTERLEAVE = 5.0;
+
 		private static final int MAJOR_INTERLEAVE = 10; // draw each 10th line thicker dashed to give the grid more
 														// structure
 		private static final int MEDIUM_INTERLEAVE = 5; // draw each 5th line medium dashed to give the grid more
@@ -88,19 +92,44 @@ public class ZoomScalableFreeformRootEditPart extends ScalableFreeformRootEditPa
 		private void drawVerLines(final Graphics g, Rectangle clip) {
 			int majorInterleaveX = gridX * MAJOR_INTERLEAVE;
 			int medInterleaveX = gridX * MEDIUM_INTERLEAVE;
-			for (int i = getLineStart(origin.x, clip.x, gridX); i < clip.x + clip.width; i += gridX) {
-				setLineStyle(g, i, origin.x, majorInterleaveX, medInterleaveX);
-				g.drawLine(i, clip.y, i, clip.y + clip.height);
+			int realInterleaveX = determineInterleave(gridX, medInterleaveX, majorInterleaveX, g.getAbsoluteScale());
+
+			if (realInterleaveX > 0) {
+				for (int i = getLineStart(origin.x, clip.x, realInterleaveX); i < clip.x
+						+ clip.width; i += realInterleaveX) {
+					setLineStyle(g, i, origin.x, majorInterleaveX, medInterleaveX);
+					g.drawLine(i, clip.y, i, clip.y + clip.height);
+				}
 			}
 		}
 
 		private void drawHorLines(final Graphics g, Rectangle clip) {
 			int majorInterleaveY = gridY * MAJOR_INTERLEAVE;
 			int medInterleaveY = gridY * MEDIUM_INTERLEAVE;
-			for (int i = getLineStart(origin.y, clip.y, gridY); i < clip.y + clip.height; i += gridY) {
-				setLineStyle(g, i, origin.y, majorInterleaveY, medInterleaveY);
-				g.drawLine(clip.x, i, clip.x + clip.width, i);
+			int realInterleaveY = determineInterleave(gridY, medInterleaveY, majorInterleaveY, g.getAbsoluteScale());
+			if (realInterleaveY > 0) {
+				for (int i = getLineStart(origin.y, clip.y, realInterleaveY); i < clip.y
+						+ clip.height; i += realInterleaveY) {
+					setLineStyle(g, i, origin.y, majorInterleaveY, medInterleaveY);
+					g.drawLine(clip.x, i, clip.x + clip.width, i);
+				}
 			}
+		}
+
+		private static int determineInterleave(int interleave, int medInterleave, int majorInterleave,
+				double absoluteScale) {
+			if (interleave * absoluteScale > MIN_ABSOLUTE_INTERLEAVE) {
+				return interleave;
+			}
+
+			if (medInterleave * absoluteScale > MIN_ABSOLUTE_INTERLEAVE) {
+				return medInterleave;
+			}
+
+			if (majorInterleave * absoluteScale > MIN_ABSOLUTE_INTERLEAVE) {
+				return majorInterleave;
+			}
+			return -1;
 		}
 
 		private static int getLineStart(int origin, int clip, int distance) {
@@ -212,6 +241,28 @@ public class ZoomScalableFreeformRootEditPart extends ScalableFreeformRootEditPa
 	@Override
 	protected GridLayer createGridLayer() {
 		return new MajorMinorGridLayer();
+	}
+
+	// Duplicated and adjusted this method from base class to allow moving the
+	// handle_layer and feedback_layer to scaled layers for correct zooming
+	@Override
+	protected void createLayers(LayeredPane layeredPane) {
+		layeredPane.add(getScaledLayers(), SCALABLE_LAYERS);
+		layeredPane.add(new GuideLayer(), GUIDE_LAYER);
+	}
+
+	class FeedbackLayer extends FreeformLayer {
+		FeedbackLayer() {
+			setEnabled(false);
+		}
+	}
+
+	@Override
+	protected ScalableFreeformLayeredPane createScaledLayers() {
+		ScalableFreeformLayeredPane pane = super.createScaledLayers();
+		pane.add(new FreeformLayer(), HANDLE_LAYER);
+		pane.add(new FeedbackLayer(), FEEDBACK_LAYER);
+		return pane;
 	}
 
 	private void configureZoomManger() {

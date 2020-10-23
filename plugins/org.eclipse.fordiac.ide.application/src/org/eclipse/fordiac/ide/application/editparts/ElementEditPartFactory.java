@@ -20,8 +20,6 @@
  *******************************************************************************/
 package org.eclipse.fordiac.ide.application.editparts;
 
-import java.util.List;
-
 import org.eclipse.fordiac.ide.gef.editparts.Abstract4diacEditPartFactory;
 import org.eclipse.fordiac.ide.gef.editparts.ValueEditPart;
 import org.eclipse.fordiac.ide.model.data.StructuredType;
@@ -92,23 +90,6 @@ public class ElementEditPartFactory extends Abstract4diacEditPartFactory {
 
 	private static EditPart createInterfaceEditPart(final Object modelElement, final EditPart context) {
 		EditPart part;
-		if (context.getModel() instanceof SubApp) { // TODO check for untyped subapp
-			SubApp subapp = (SubApp) context.getModel();
-			if (subapp.isUnfolded()) {
-				return new InterfaceEditPartForFBNetwork() {
-					@Override
-					protected List<?> getModelSourceConnections() {
-						return getModel().getOutputConnections();
-					}
-
-					@Override
-					protected List<?> getModelTargetConnections() {
-						return getModel().getInputConnections();
-					}
-				};
-			}
-
-		}
 		IInterfaceElement element = (IInterfaceElement) modelElement;
 		if ((element.getFBNetworkElement() instanceof StructManipulator)
 				&& (element.getType() instanceof StructuredType)) {
